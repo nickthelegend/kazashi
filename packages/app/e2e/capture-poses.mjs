@@ -1,22 +1,26 @@
 // Pose tool (emulator): plays IWER hand recipes and records the joints in the
 // light frame. Usage: iwsdk browser run e2e/capture-poses.mjs
-// Input:  ../core/targets/candidates.json (or KAZASHI_RECIPES)
-// Output: ../core/targets/captured.json  (or KAZASHI_CAPTURE_OUT)
+// Input:  ../core/targets/candidates.json and candidates-2.json
+// Output: ../core/targets/captured.json (resumable across runs)
 import fs from 'node:fs';
 import path from 'node:path';
 
 const L = [0, 1.1, -0.3]; // capture lantern position (XR origin); wall toward -Z
 
 export default async function run({ frame, workspaceRoot }) {
-  const recipesPath = process.env.KAZASHI_RECIPES || path.join(workspaceRoot, '../core/targets/candidates.json');
-  const outPath = process.env.KAZASHI_CAPTURE_OUT || path.join(workspaceRoot, '../core/targets/captured.json');
-  const recipes = JSON.parse(fs.readFileSync(recipesPath, 'utf8'));
+  const recipesPaths = ['candidates.json', 'candidates-2.json'].map((f) => path.join(workspaceRoot, '../core/targets', f)).filter((f) => fs.existsSync(f));
+  const outPath = path.join(workspaceRoot, '../core/targets/captured.json');
+  const recipes = recipesPaths.flatMap((f) => JSON.parse(fs.readFileSync(f, 'utf8')));
   const call = (method, params) => frame.evaluate(([m, p]) => window.IWER_MCP.dispatch(m, p), [method, params]);
   const status = await call('get_session_status', {});
   if (!status.sessionActive) throw new Error('No active XR session: run `iwsdk xr enter` first');
   await call('set_input_mode', { mode: 'hand' });
-  const out = {};
+  // Resumable: each run (limited to ~110 s by the CLI) continues the last file.
+  const out = fs.existsSync(outPath) && !process.env.KAZASHI_CAPTURE_FRESH ? JSON.parse(fs.readFileSync(outPath, 'utf8')) : {};
+  const t0 = Date.now();
   for (const r of recipes) {
+    if (out[r.id]) continue;
+    if (Date.now() - t0 > 95000) break;
     const hands = [];
     for (const h of r.hands) {
       const device = `hand-${h.hand}`;
@@ -43,5 +47,5 @@ export default async function run({ frame, workspaceRoot }) {
     out[r.id] = { recipe: r, hands };
   }
   fs.writeFileSync(outPath, JSON.stringify(out));
-  return { captured: Object.keys(out).length, outPath };
+  return { captured: Object.keys(out).length, total: recipes.length, outPath };
 }

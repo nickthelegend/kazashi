@@ -163,7 +163,7 @@ export class LanternSystem extends createSystem({
     this.fwd.y = 0;
     if (this.fwd.lengthSq() < 1e-4) this.fwd.set(0, 0, -1);
     this.fwd.normalize();
-    const spot = pickLanternSpot(app.surfaces, [this.head.x, this.head.y, this.head.z], [this.fwd.x, this.fwd.y, this.fwd.z]);
+    const spot = pickLanternSpot(app.surfaces, [this.head.x, this.head.y, this.head.z], [this.fwd.x, this.fwd.y, this.fwd.z], 0.36);
     if (spot) {
       root.position.set(spot.point[0], spot.point[1], spot.point[2]);
     } else {

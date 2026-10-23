@@ -5,6 +5,7 @@
  */
 import { TARGET_POSES } from '@kazashi/core/bestiary';
 import { dirFromLightFrame, fromLightFrame } from '@kazashi/core/lightframe';
+import { Vector3 } from '@iwsdk/core';
 import { app } from './app.js';
 import { shadow } from './hand-system.js';
 
@@ -44,6 +45,23 @@ export function installDebugHook(): void {
           orientation: { fingers: dirFromLightFrame(app.frame, h.fingersDir), palm: dirFromLightFrame(app.frame, h.palmDir) },
         };
       });
+    },
+    /** World placement for an arbitrary light-frame wrist and hand directions. */
+    place(wrist: [number, number, number], fingersDir: [number, number, number], palmDir: [number, number, number]) {
+      const p = fromLightFrame(app.frame, wrist);
+      return {
+        position: { x: p[0], y: p[1], z: p[2] },
+        orientation: { fingers: dirFromLightFrame(app.frame, fingersDir), palm: dirFromLightFrame(app.frame, palmDir) },
+      };
+    },
+    /** Every authored pose id. */
+    poses: () => Object.keys(TARGET_POSES),
+    /** Target card centre (world), or null when hidden. */
+    cardPosition() {
+      const c = app.card;
+      if (!c || !c.visible) return null;
+      const v = c.getWorldPosition(new Vector3());
+      return { x: v.x, y: v.y, z: v.z };
     },
     /** World joints of a hand in the light frame (pose tool). */
     lightFrameJoints: () => app.lightHands.map((h) => Array.from(h)),

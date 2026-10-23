@@ -43,6 +43,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     this.entity = this.world.createEntity();
     this.entity.addComponent(Puzzle, { mode: app.progress.onboarded ? Modes.act : Modes.onboarding, act: 1, index: 0 });
     this.scene.add(this.card.mesh, this.ring.mesh, this.ghost.root);
+    app.card = this.card.mesh;
     this.cleanupFuncs.push(
       app.events.on('button', (a) => this.onButton(a)),
       app.events.on('wall', () => this.refreshCard()),
@@ -120,9 +121,16 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
   private sizeNote(): string {
     const s = this.def?.size;
     if (!s || !shadow.valid) return '';
-    if (shadow.size < s.min) return 'Bigger: lantern closer';
-    if (shadow.size > s.max) return 'Smaller: lantern back';
+    const r = this.sizeRatio();
+    if (r < s.min) return 'Bigger: hands nearer the lantern';
+    if (r > s.max) return 'Smaller: lantern farther back';
     return '';
+  }
+
+  /** Live shadow size relative to the authored pose (hand 30 cm from the lantern). */
+  private sizeRatio(): number {
+    const t = this.def ? app.targets.get(this.def.id) : undefined;
+    return t && shadow.valid ? shadow.imageSize / Math.sqrt(t.measure.area) : 1;
   }
 
   private refreshCard(): void {
@@ -356,7 +364,10 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
       return;
     }
     let sizeOk = true;
-    if (def.size && shadow.valid) sizeOk = shadow.size >= def.size.min && shadow.size <= def.size.max;
+    if (def.size && shadow.valid) {
+      const r = this.sizeRatio();
+      sizeOk = r >= def.size.min && r <= def.size.max;
+    }
     const state = this.tracker.push(score === null ? null : sizeOk ? score : Math.min(score, this.tracker.opts.threshold - 0.01), time);
     this.ring.material.uniforms.uProgress.value = this.tracker.progress;
     this.ring.material.uniforms.uClose.value = Math.min(1, (score ?? 0) / this.tracker.opts.threshold);

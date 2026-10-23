@@ -7,6 +7,7 @@ import { BESTIARY, type CreatureDef } from '@kazashi/core/bestiary';
 import { type LightFrame, makeLightFrame, type Vec3 } from '@kazashi/core/lightframe';
 import type { Surface } from '@kazashi/core/room';
 import { SilhouetteScorer, type TargetSilhouette } from '@kazashi/core/silhouette';
+import type { Object3D } from '@iwsdk/core';
 import { HandReader } from './hand-input.js';
 import { loadProgress, saveProgress, type Progress } from './storage.js';
 
@@ -66,6 +67,8 @@ export const app = {
   /** Light-frame joints for the scorer. */
   lightHands: [new Float32Array(75), new Float32Array(75)],
   elapsed: 0,
+  /** The target card mesh (for the glasses field-of-view check). */
+  card: null as Object3D | null,
 };
 
 export function setSettings(patch: Partial<Settings>): void {

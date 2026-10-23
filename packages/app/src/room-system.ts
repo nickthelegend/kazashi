@@ -125,6 +125,9 @@ export class RoomSystem extends createSystem({
       if (app.wall && !app.surfaces.some((s) => s.id === app.wall!.id) && app.wall.kind !== 'shoji') {
         app.wall = null;
         app.events.emit('wall', null);
+        // The wall went away (room changed): look again, then offer the shoji.
+        this.scanTime = 0;
+        this.stateEntity.setValue(RoomState, 'mode', RoomModes.scanning);
       }
     }
     this.stateEntity.setValue(RoomState, 'scanSeconds', this.scanTime);

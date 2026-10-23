@@ -12,6 +12,7 @@ import { installDebugHook } from './debug.js';
 import { HandSystem } from './hand-system.js';
 import { LanternSystem } from './lantern-system.js';
 import { MenuSystem } from './menu-system.js';
+import { installPerf, PerfEndSystem, PerfStartSystem } from './perf.js';
 import { loadFonts } from './paint.js';
 import { PuzzleSystem } from './puzzle-system.js';
 import { RoomSystem } from './room-system.js';
@@ -27,6 +28,7 @@ async function main(): Promise<void> {
 
   const world = await World.create(document.getElementById('scene-container') as HTMLDivElement, projectOptions);
   world
+    .registerSystem(PerfStartSystem, { priority: -1000 })
     .registerSystem(RoomSystem, { priority: 1 })
     .registerSystem(LanternSystem, { priority: 2 })
     .registerSystem(HandSystem, { priority: 3 })
@@ -34,7 +36,9 @@ async function main(): Promise<void> {
     .registerSystem(CreatureSystem, { priority: 5 })
     .registerSystem(TheatreSystem, { priority: 6 })
     .registerSystem(MenuSystem, { priority: 7 })
-    .registerSystem(ToastSystem, { priority: 8 });
+    .registerSystem(ToastSystem, { priority: 8 })
+    .registerSystem(PerfEndSystem, { priority: 1000 });
+  installPerf(world);
 
   const room = world.getSystem(RoomSystem)!;
   const lantern = world.getSystem(LanternSystem)!;

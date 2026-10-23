@@ -1,0 +1,13 @@
+{
+  "name": "kazashi",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Kazashi (翳し): a mixed-reality shadow theatre for Meta Quest, built with IWSDK.",
+  "scripts": {
+    "test": "npm --prefix packages/core test",
+    "typecheck": "npm --prefix packages/core run typecheck && npm --prefix packages/app run typecheck && npm --prefix packages/landing run typecheck",
+    "build": "npm --prefix packages/app run build && npm --prefix packages/landing run build",
+    "dev": "npm --prefix packages/app run dev"
+  }
+}
