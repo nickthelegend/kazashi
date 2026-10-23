@@ -8,7 +8,7 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "types": []
+    "types": ["node"]
   },
   "include": ["src", "test", "scripts"]
 }

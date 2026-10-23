@@ -1,19 +1,77 @@
 /**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * Kazashi (翳し): hold your hands up to the lantern; their shadow on your real
+ * wall becomes a creature, and the creatures perform your shadow play.
  */
-
-import { World } from '@iwsdk/core';
+import { buildTargets } from '@kazashi/core/bestiary';
+import { VisibilityState, World } from '@iwsdk/core';
 import projectOptions from 'virtual:iwsdk-project';
-import { PanelSystem } from './panel.js';
-import { RobotSystem } from './robot.js';
+import { app } from './app.js';
+import { sound } from './audio.js';
+import { CreatureSystem } from './creature-system.js';
+import { installDebugHook } from './debug.js';
+import { HandSystem } from './hand-system.js';
+import { LanternSystem } from './lantern-system.js';
+import { MenuSystem } from './menu-system.js';
+import { loadFonts } from './paint.js';
+import { PuzzleSystem } from './puzzle-system.js';
+import { RoomSystem } from './room-system.js';
+import { TheatreSystem } from './theatre-system.js';
+import { ToastSystem } from './toast-system.js';
 
-World.create(
-  document.getElementById('scene-container') as HTMLDivElement,
-  projectOptions,
-).then((world) => {
-  world.registerSystem(RobotSystem);
-  world.registerSystem(PanelSystem);
+async function main(): Promise<void> {
+  const status = document.getElementById('status')!;
+  const enter = document.getElementById('enter') as HTMLButtonElement;
+  if (app.progress.settings) Object.assign(app.settings, app.progress.settings);
+  app.targets = buildTargets();
+  await loadFonts();
+
+  const world = await World.create(document.getElementById('scene-container') as HTMLDivElement, projectOptions);
+  world
+    .registerSystem(RoomSystem, { priority: 1 })
+    .registerSystem(LanternSystem, { priority: 2 })
+    .registerSystem(HandSystem, { priority: 3 })
+    .registerSystem(PuzzleSystem, { priority: 4 })
+    .registerSystem(CreatureSystem, { priority: 5 })
+    .registerSystem(TheatreSystem, { priority: 6 })
+    .registerSystem(MenuSystem, { priority: 7 })
+    .registerSystem(ToastSystem, { priority: 8 });
+
+  const room = world.getSystem(RoomSystem)!;
+  const lantern = world.getSystem(LanternSystem)!;
+  const puzzles = world.getSystem(PuzzleSystem)!;
+  const creatures = world.getSystem(CreatureSystem)!;
+  const theatre = world.getSystem(TheatreSystem)!;
+  lantern.room = room;
+  puzzles.creatures = creatures;
+  theatre.creatures = creatures;
+  theatre.puzzles = puzzles;
+  theatre.lantern = lantern;
+  world.getSystem(MenuSystem)!.lantern = lantern;
+  installDebugHook();
+
+  world.renderer.shadowMap.enabled = true;
+
+  const xr = navigator.xr;
+  const supported = xr ? await xr.isSessionSupported('immersive-ar').catch(() => false) : false;
+  if (!supported) {
+    status.textContent = 'Mixed reality is not available in this browser. Open this page in the Meta Quest browser.';
+    enter.disabled = true;
+  } else {
+    status.textContent = 'Sit at a desk facing a wall. Your hands are the only controller.';
+    enter.disabled = false;
+  }
+  enter.addEventListener('click', () => {
+    sound.start();
+    void world.launchXR();
+  });
+  world.visibilityState.subscribe((v) => {
+    document.body.classList.toggle('in-xr', v !== VisibilityState.NonImmersive);
+    if (v !== VisibilityState.NonImmersive) sound.start();
+  });
+}
+
+main().catch((e: unknown) => {
+  console.error(e);
+  const status = document.getElementById('status');
+  if (status) status.textContent = `Kazashi could not start: ${(e as Error).message}`;
 });

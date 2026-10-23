@@ -16,7 +16,8 @@
         "handTracking": true,
         "anchors": true,
         "planeDetection": true,
-        "meshDetection": true
+        "meshDetection": false,
+        "gazeTracking": true
       }
     },
     "input": {
@@ -29,13 +30,13 @@
       "camera": {
         "position": [
           0,
-          1.6,
-          1
+          1.4,
+          0.6
         ],
         "lookAt": [
           0,
-          0.95,
-          -1.95
+          1.2,
+          -1.5
         ]
       }
     },
@@ -45,10 +46,7 @@
       "physics": false,
       "sceneUnderstanding": true,
       "environmentRaycast": false,
-      "spatialUI": {
-        "kit": "horizon",
-        "preferredColorScheme": "dark"
-      }
+      "spatialUI": false
     }
   },
   "dev": {
