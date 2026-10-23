@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f0e0d" />
+    <meta name="description" content="Kazashi: a mixed-reality shadow theatre for Meta Quest. Your hand's shadow on your real wall becomes a creature, then performs your shadow play." />
+    <title>Kazashi — a shadow theatre for your room</title>
+  </head>
+  <body>
+    <a class="skip" href="#acts">Skip to the acts</a>
+    <header class="bar">
+      <a class="mark" href="#top" aria-label="Kazashi home"><span class="mark-en">Kazashi</span><span class="mark-jp" lang="ja">翳し</span></a>
+      <nav aria-label="Sections">
+        <a href="#acts">Acts</a>
+        <a href="#cast">Cast</a>
+        <a href="#how">How</a>
+        <a href="#run">Run it</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="butai" aria-labelledby="hero-title">
+        <div class="butai-frame">
+          <div class="stage">
+            <div class="title-card" id="title-card">
+              <p class="kicker">A shadow theatre for your room</p>
+              <h1 id="hero-title">Hold your hands to the light.</h1>
+              <p class="lede">A paper lantern sits on your desk. Your hand's shadow falls on your real wall. Shape a dog, and the shadow inks into a living dog that trots along the wall and leaps the corner.</p>
+              <p class="meta">Meta Quest 3 · hands only · seated · WebXR</p>
+            </div>
+            <figure class="clip-card">
+              <video id="clip" muted loop playsinline preload="metadata" poster="./media/whoa-poster.jpg" aria-describedby="clip-caption">
+                <source src="./media/whoa.mp4" type="video/mp4" />
+              </video>
+              <figcaption id="clip-caption">Recorded in the IWER emulator (Quest 3 profile, synthetic living room). Real app output, uncut 20 s.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="acts" class="acts" aria-labelledby="acts-title">
+        <h2 id="acts-title" class="section-title"><span class="num">01</span> Three acts, fifteen shadows</h2>
+        <div class="cards" id="act-cards"></div>
+      </section>
+
+      <section id="cast" class="cast" aria-labelledby="cast-title">
+        <h2 id="cast-title" class="section-title"><span class="num">02</span> The cast, on glass slides</h2>
+        <p class="note">Every creature is a hand pose authored in the emulator and run through the same shadow rasteriser as your live hands, so each one is reachable by construction. These silhouettes are drawn from that data.</p>
+        <div class="slides" id="slides" tabindex="0" aria-label="Cast slides, scroll sideways"></div>
+      </section>
+
+      <section id="how" class="how" aria-labelledby="how-title">
+        <h2 id="how-title" class="section-title"><span class="num">03</span> How the shadow works</h2>
+        <div class="how-grid">
+          <article class="paper">
+            <h3>The lantern is a pinhole</h3>
+            <p>Each frame, 25 tracked joints per hand become tapered capsules and a palm polygon, projected through the lantern onto your wall. A 64 × 64 raster, normalised for position and size, is scored by overlap against the target with ±10° of roll. No GPU readback.</p>
+          </article>
+          <article class="paper">
+            <h3>Your room is the stage</h3>
+            <p>Quest planes carry no labels, so Kazashi reads them by orientation, height and size: the desk for the lantern, the wall for the play, the ceiling for anything with wings. No wall? Pinch once to stand a shoji screen.</p>
+          </article>
+          <article class="paper">
+            <h3>Hands, start to finish</h3>
+            <p>Poke the paper tabs on the lantern stand. Turn your left palm up for the menu. Pinch a slide to cast it. Part your hands like a curtain and close them to record a 20-second play.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="run" class="run" aria-labelledby="run-title">
+        <h2 id="run-title" class="section-title"><span class="num">04</span> Run it</h2>
+        <div class="paper run-card">
+          <ol>
+            <li>Sit at a desk facing a wall, in a dim room if you can.</li>
+            <li>Open the Kazashi link in the Meta Quest browser and tap <em>Enter the theatre</em>.</li>
+            <li>Raise a flat hand over the lantern. Hold the shape until the ring fills.</li>
+          </ol>
+          <p class="honest"><strong>Tested so far:</strong> the IWER emulator (Quest 3 and Meta VR Glasses profiles) with emulated hands. <strong>Not yet verified on a headset:</strong> tracking jitter on held poses, crossed-hand occlusion, thumb microgestures and 72 fps.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>Kazashi · Meta VR Start 2026 · Entertainment · MIT licence · fonts: Bricolage Grotesque, Anonymous Pro (OFL)</p>
+    </footer>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
