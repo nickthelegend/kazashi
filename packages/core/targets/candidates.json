@@ -1,0 +1,5222 @@
+[
+ {
+  "id": "open.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "open.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "open.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "open.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "open.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "open.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "open.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "open.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "flat.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "peace.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rock.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "call.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "point.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "finger-gun.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "finger-gun",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "three.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "four.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ok.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "claw.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "thumbs-up.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "thumbs-up",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "pinch.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cup.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hook.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tripod.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "tripod",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.diaglit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.down",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.edge",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fist.edgeup",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.7071,
+     0.7071,
+     0
+    ],
+    "palmDir": [
+     -0.7071,
+     -0.7071,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogjaw.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "pinky": "call",
+     "thumb": "call"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogjaw.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "pinky": "call",
+     "thumb": "call"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogjaw.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "pinky": "call",
+     "thumb": "call"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogjaw.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "pinky": "call",
+     "thumb": "call"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogear.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "thumb": "thumbs-up"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogear.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "thumb": "thumbs-up"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogear.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "thumb": "thumbs-up"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "dogear.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "fingers": {
+     "thumb": "thumbs-up"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "wolf.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "fingers": {
+     "thumb": "call",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "wolf.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "fingers": {
+     "thumb": "call",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "wolf.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "fingers": {
+     "thumb": "call",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "wolf.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "four",
+    "fingers": {
+     "thumb": "call",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "snail.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "fingers": {
+     "index": "peace",
+     "middle": "peace"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "snail.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "fingers": {
+     "index": "peace",
+     "middle": "peace"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "snail.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "fingers": {
+     "index": "peace",
+     "middle": "peace"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "snail.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "fingers": {
+     "index": "peace",
+     "middle": "peace"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "deer1.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "fingers": {
+     "thumb": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "deer1.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "fingers": {
+     "thumb": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "deer1.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "fingers": {
+     "thumb": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "deer1.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "open",
+    "fingers": {
+     "thumb": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "gooseneck.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "gooseneck.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "gooseneck.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "gooseneck.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "crabclaw.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "crabclaw.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "crabclaw.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "crabclaw.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "owl1.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "owl1.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "owl1.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "owl1.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "fingers": {
+     "middle": "fist",
+     "ring": "fist",
+     "pinky": "fist"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "catears.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "fingers": {
+     "thumb": "pinch"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "catears.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "fingers": {
+     "thumb": "pinch"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "catears.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "fingers": {
+     "thumb": "pinch"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "catears.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "fingers": {
+     "thumb": "pinch"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "horn.up",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "fingers": {
+     "pinky": "rock"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0,
+     1,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "horn.left",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "fingers": {
+     "pinky": "rock"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "horn.leftlit",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "fingers": {
+     "pinky": "rock"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "horn.diag",
+  "hands": [
+   {
+    "hand": "right",
+    "poseId": "point",
+    "fingers": {
+     "pinky": "rock"
+    },
+    "wrist": [
+     0.05,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.butterfly",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "open",
+    "wrist": [
+     -0.03,
+     0.08,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.507,
+     0.8619,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.03,
+     0.08,
+     -0.3
+    ],
+    "fingersDir": [
+     0.507,
+     0.8619,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.eagle",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "flat",
+    "wrist": [
+     -0.06,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9701,
+     0.2425,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.06,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0.9701,
+     0.2425,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.deer",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "open",
+    "wrist": [
+     -0.08,
+     0.1,
+     -0.32
+    ],
+    "fingersDir": [
+     -0.2873,
+     0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.08,
+     0.1,
+     -0.32
+    ],
+    "fingersDir": [
+     0.2873,
+     0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.crab",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "claw",
+    "wrist": [
+     -0.1,
+     0.12,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.1961,
+     -0.9806,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.1,
+     0.12,
+     -0.3
+    ],
+    "fingersDir": [
+     0.1961,
+     -0.9806,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.croc",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "flat",
+    "wrist": [
+     0.08,
+     0.06,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9889,
+     -0.1483,
+     0
+    ],
+    "palmDir": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.08,
+     0.16,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9889,
+     0.1483,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.heron",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "flat",
+    "wrist": [
+     0.06,
+     0.02,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9536,
+     -0.3011,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "pinch",
+    "wrist": [
+     0.04,
+     0.2,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9487,
+     0.3162,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.owl",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "ok",
+    "wrist": [
+     -0.07,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.1961,
+     0.9806,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "ok",
+    "wrist": [
+     0.07,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0.1961,
+     0.9806,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.spider",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "open",
+    "wrist": [
+     -0.02,
+     0.12,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     -0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.02,
+     0.12,
+     -0.3
+    ],
+    "fingersDir": [
+     0.6,
+     -0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.bull",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "rock",
+    "wrist": [
+     -0.07,
+     0.08,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.507,
+     0.8619,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "rock",
+    "wrist": [
+     0.07,
+     0.08,
+     -0.3
+    ],
+    "fingersDir": [
+     0.507,
+     0.8619,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.camel",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "flat",
+    "wrist": [
+     0.06,
+     0.04,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "fist",
+    "wrist": [
+     0.06,
+     0.16,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.4061,
+     0.9138,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.swan",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "four",
+    "wrist": [
+     0.06,
+     0,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.995,
+     0.0995,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "hook",
+    "wrist": [
+     0.02,
+     0.2,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.8,
+     0.6,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.elephant",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "open",
+    "wrist": [
+     0.09,
+     0.12,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.1961,
+     0.9806,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "point",
+    "wrist": [
+     0,
+     0.12,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     -0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.moth",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "peace",
+    "wrist": [
+     -0.03,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "peace",
+    "wrist": [
+     0.03,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.bat",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "claw",
+    "wrist": [
+     -0.07,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.995,
+     0.0995,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "claw",
+    "wrist": [
+     0.07,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     0.995,
+     0.0995,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.tortoise",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "point",
+    "wrist": [
+     0.08,
+     0.06,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "cup",
+    "wrist": [
+     0.05,
+     0.12,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.rooster",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "fist",
+    "wrist": [
+     0.05,
+     0.03,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "three",
+    "wrist": [
+     0.05,
+     0.16,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.2873,
+     0.9578,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.dragon",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "rock",
+    "wrist": [
+     -0.02,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9806,
+     0.1961,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "call",
+    "wrist": [
+     0.12,
+     0.08,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.995,
+     0.0995,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.octopus",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "open",
+    "wrist": [
+     -0.06,
+     0.14,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.1961,
+     -0.9806,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "open",
+    "wrist": [
+     0.06,
+     0.14,
+     -0.3
+    ],
+    "fingersDir": [
+     0.1961,
+     -0.9806,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.fish",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "flat",
+    "wrist": [
+     0.1,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9439,
+     -0.3304,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.1,
+     0.1,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.9439,
+     0.3304,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "id": "2.duck",
+  "hands": [
+   {
+    "hand": "left",
+    "poseId": "fist",
+    "wrist": [
+     0.12,
+     0.06,
+     -0.3
+    ],
+    "fingersDir": [
+     -0.6,
+     0.8,
+     0
+    ],
+    "palmDir": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "hand": "right",
+    "poseId": "flat",
+    "wrist": [
+     0.1,
+     0.16,
+     -0.3
+    ],
+    "fingersDir": [
+     -1,
+     0,
+     0
+    ],
+    "palmDir": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ]
+ }
+]

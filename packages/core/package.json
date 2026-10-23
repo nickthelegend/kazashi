@@ -1,0 +1,21 @@
+{
+  "name": "@kazashi/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Kazashi core: analytic hand-shadow rasteriser, pose matching, room classification, takes. No renderer dependency.",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "confusion": "node --experimental-strip-types scripts/confusion.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^3.2.4"
+  }
+}
