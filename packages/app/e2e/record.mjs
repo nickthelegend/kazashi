@@ -47,7 +47,7 @@ export async function captionPng(frame, text, file, { width = 800, height = 64, 
       c.width = w;
       c.height = h;
       const ctx = c.getContext('2d');
-      ctx.fillStyle = s ? 'rgba(15,14,13,0.72)' : 'rgba(243,234,215,0.94)';
+      ctx.fillStyle = s ? '#0f0e0d' : 'rgba(243,234,215,0.96)';
       ctx.fillRect(0, 0, w, h);
       ctx.fillStyle = '#b83a22';
       ctx.fillRect(0, 0, 8, h);
