@@ -9,7 +9,9 @@
 import { BONES, GROUP_PIVOT_JOINT, GROUPS_PER_HAND, PALM_POLYGON } from './hand.js';
 import { measure, type Shape2D } from './silhouette.js';
 
-export const MAX_GROUPS = GROUPS_PER_HAND * 2;
+/** 12 finger groups (two hands) + 4 ink-grown legs. */
+export const MAX_GROUPS = GROUPS_PER_HAND * 2 + 4;
+export const LEG_GROUP = GROUPS_PER_HAND * 2;
 const ARC = 7;
 
 export interface CreatureMeshData {
@@ -22,6 +24,8 @@ export interface CreatureMeshData {
   pivots: Float32Array;
   /** Which groups exist. */
   groupMask: number;
+  /** Eye position (unit-area space), or null. */
+  eye: [number, number] | null;
   /** Bounds in unit-area space. */
   minX: number;
   minY: number;
@@ -29,7 +33,21 @@ export interface CreatureMeshData {
   maxY: number;
 }
 
-export function buildCreatureMesh(shape: Shape2D): CreatureMeshData {
+export interface Dressing {
+  /** Legs the ink grows under the body (0, 2 or 4). */
+  legs: 0 | 2 | 4;
+  /** +1 when the head points right. */
+  facing: 1 | -1;
+  /** Leg length relative to the body height. */
+  legLength?: number;
+}
+
+/**
+ * The ink "dresses" a hand shadow so it reads as an animal: a paper eye at
+ * the head and, for walkers, thin legs grown from the underside that the rig
+ * swings. Legs use groups 12..15 with pivots at their roots.
+ */
+export function buildCreatureMesh(shape: Shape2D, dressing: Dressing = { legs: 0, facing: 1 }): CreatureMeshData {
   const m = measure(shape);
   if (m.area <= 0) throw new Error('empty silhouette');
   const k = 1 / Math.sqrt(m.area);
@@ -110,6 +128,59 @@ export function buildCreatureMesh(shape: Shape2D): CreatureMeshData {
     for (let v = 0; v < n; v++) idx.push(c, ids[v], ids[(v + 1) % n]);
   }
 
+  // Body bounds before dressing.
+  let bx0 = Infinity;
+  let by0 = Infinity;
+  let bx1 = -Infinity;
+  let by1 = -Infinity;
+  for (let i = 0; i < pos.length; i += 2) {
+    bx0 = Math.min(bx0, pos[i]);
+    bx1 = Math.max(bx1, pos[i]);
+    by0 = Math.min(by0, pos[i + 1]);
+    by1 = Math.max(by1, pos[i + 1]);
+  }
+  const bodyH = by1 - by0;
+  const bodyW = bx1 - bx0;
+  // Legs: grown down from the lowest ink in four columns along the body.
+  const legXs = dressing.legs === 4 ? [0.2, 0.36, 0.64, 0.8] : dressing.legs === 2 ? [0.38, 0.62] : [];
+  legXs.forEach((fx, li) => {
+    const x = bx0 + bodyW * fx;
+    // Lowest body vertex near this column.
+    let low = Infinity;
+    for (let i = 0; i < pos.length; i += 2) if (Math.abs(pos[i] - x) < bodyW * 0.08 && pos[i + 1] < low) low = pos[i + 1];
+    if (!Number.isFinite(low)) low = by0;
+    const top = low + bodyH * 0.12;
+    const g = LEG_GROUP + li;
+    groupMask |= 1 << g;
+    pivots[g * 2] = x;
+    pivots[g * 2 + 1] = top;
+    const w = Math.max(0.025, bodyW * 0.022);
+    const foot = by0 - bodyH * (dressing.legLength ?? 0.42);
+    const a = vert(x - w, top, g);
+    const b = vert(x + w, top, g);
+    const c = vert(x + w * 0.7, foot, g);
+    const d = vert(x - w * 0.7, foot, g);
+    idx.push(a, b, c, a, c, d);
+  });
+  // Eye: the topmost-frontmost ink, pulled inward a little.
+  let eye: [number, number] | null = null;
+  {
+    let best = -Infinity;
+    let ex = 0;
+    let ey = 0;
+    for (let i = 0; i < pos.length; i += 2) {
+      if (grp[i / 2] >= LEG_GROUP) continue;
+      const v = dressing.facing * pos[i] * 0.8 + pos[i + 1];
+      if (v > best) {
+        best = v;
+        ex = pos[i];
+        ey = pos[i + 1];
+      }
+    }
+    const k = 0.22;
+    eye = [ex + (0 - ex) * k, ey + (0 - ey) * k];
+  }
+
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -126,6 +197,7 @@ export function buildCreatureMesh(shape: Shape2D): CreatureMeshData {
     indices: new Uint32Array(idx),
     pivots,
     groupMask,
+    eye,
     minX,
     minY,
     maxX,

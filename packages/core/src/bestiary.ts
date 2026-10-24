@@ -33,6 +33,8 @@ export interface CreatureDef {
    * lantern). Above 1 means closer to the lantern, below 1 means farther.
    */
   size?: { min: number; max: number };
+  /** Legs the ink grows (defaults by locomotion: walkers 4, hoppers 2, others 0). */
+  legs?: 0 | 2 | 4;
   /** One short line on the card. */
   hint: string;
 }
@@ -62,7 +64,7 @@ export const BESTIARY: CreatureDef[] = [
   { id: 'hebi', name: 'Snake', jp: '蛇', act: 1, order: 4, hands: 1, locomotion: 'slither', facing: 1, rig: { index: 'jaw', middle: 'jaw' }, hint: 'Peace sign pointing right, hand side-on.' },
   { id: 'kirin', name: 'Giraffe', jp: '麒麟', act: 1, order: 5, hands: 1, locomotion: 'stalk', facing: 1, rig: { index: 'neck', middle: 'neck', ring: 'neck' }, hint: 'Three fingers up and to the right, hand side-on.' },
   // Act 2 — two hands, without heavy finger overlap.
-  { id: 'sagi', name: 'Heron', jp: '鷺', act: 2, order: 1, hands: 2, locomotion: 'fly', facing: -1, rig: { 'R.index': 'jaw', 'R.thumb': 'jaw', 'L.index': 'wing', 'L.middle': 'wing', 'L.ring': 'wing', 'L.pinky': 'wing' }, hint: 'Right hand pinched high as the beak, left hand flat below as the wing.' },
+  { id: 'sagi', name: 'Heron', jp: '鷺', act: 2, order: 1, hands: 2, locomotion: 'fly', facing: -1, legs: 2, rig: { 'R.index': 'jaw', 'R.thumb': 'jaw', 'L.index': 'wing', 'L.middle': 'wing', 'L.ring': 'wing', 'L.pinky': 'wing' }, hint: 'Right hand pinched high as the beak, left hand flat below as the wing.' },
   { id: 'kani', name: 'Crab', jp: '蟹', act: 2, order: 2, hands: 2, locomotion: 'scuttle', facing: 1, rig: { 'L.index': 'leg', 'L.middle': 'leg', 'L.ring': 'leg', 'R.index': 'leg', 'R.middle': 'leg', 'R.ring': 'leg', 'L.thumb': 'claw', 'R.thumb': 'claw' }, hint: 'Both hands clawed, fingers down, side by side.' },
   { id: 'ga', name: 'Moth', jp: '蛾', act: 2, order: 3, hands: 2, locomotion: 'fly', facing: 1, rig: { 'L.index': 'wing', 'L.middle': 'wing', 'R.index': 'wing', 'R.middle': 'wing' }, hint: 'Two peace signs crossed at the wrists, palms to the wall.' },
   { id: 'rakuda', name: 'Camel', jp: '駱駝', act: 2, order: 4, hands: 2, locomotion: 'stalk', facing: -1, rig: { 'L.index': 'leg', 'L.ring': 'leg', 'R.thumb': 'ear' }, hint: 'A fist on top of a flat hand that points left.' },
@@ -103,6 +105,11 @@ export function targetShape(id: string): Shape2D {
 
 export function buildTargets(ids: readonly string[] = BESTIARY.map((d) => d.id)): Map<string, TargetSilhouette> {
   return new Map(ids.map((id) => [id, buildTargetSilhouette(id, targetShape(id))]));
+}
+
+export function legsFor(d: CreatureDef): 0 | 2 | 4 {
+  if (d.legs !== undefined) return d.legs;
+  return d.locomotion === 'trot' || d.locomotion === 'stalk' || d.locomotion === 'scuttle' ? 4 : d.locomotion === 'hop' ? 2 : 0;
 }
 
 export function puzzles(act: 1 | 2 | 3): CreatureDef[] {
