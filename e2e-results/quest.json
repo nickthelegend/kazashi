@@ -1,0 +1,109 @@
+{
+  "steps": {
+    "enter": {
+      "ok": true,
+      "wall": {
+        "id": "plane-46",
+        "kind": "wall",
+        "origin": [
+          1.1102230246251565e-16,
+          1.3500000238418575,
+          -3.4000000953674316
+        ],
+        "normal": [
+          0,
+          2.028159500344629e-7,
+          0.9999999999999796
+        ],
+        "halfU": 2.502000093460083,
+        "halfV": 1.3519998378506144
+      },
+      "lantern": {
+        "placed": true,
+        "onDesk": true
+      },
+      "readyMs": 1075,
+      "ms": 1259
+    },
+    "act1": {
+      "ok": true,
+      "inked": [
+        {
+          "id": "tori",
+          "ms": 2403
+        },
+        {
+          "id": "inu",
+          "ms": 2518
+        },
+        {
+          "id": "usagi",
+          "ms": 2521
+        },
+        {
+          "id": "hebi",
+          "ms": 1997
+        },
+        {
+          "id": "kirin",
+          "ms": 2077
+        }
+      ],
+      "seconds": 32.76,
+      "handActions": 5,
+      "ms": 31501
+    },
+    "lantern-move": {
+      "ok": true,
+      "before": 0.6940813660621643,
+      "after": 0.6100059747695923,
+      "wallDistance": [
+        1.6049998998641968,
+        1.4102282524108887
+      ],
+      "moved": 0.1948218360188275,
+      "puzzle": "sagi",
+      "ms": 6010
+    },
+    "hint-poke": {
+      "ok": true,
+      "before": false,
+      "after": true,
+      "ms": 3617
+    },
+    "palm-up-menu": {
+      "ok": true,
+      "ms": 37
+    },
+    "theatre": {
+      "ok": true,
+      "theatre": {
+        "recording": false,
+        "elapsed": 6.850399971008301,
+        "takes": 1,
+        "lastTakeId": "take-mvln8oop",
+        "onStage": 1,
+        "replaying": false
+      },
+      "ms": 14696
+    },
+    "reload-restores-take": {
+      "ok": true,
+      "takes": 1,
+      "lastTakeId": "take-mvln8oop",
+      "ms": 1679
+    }
+  },
+  "handActions": 12,
+  "errors": [],
+  "log": [
+    "00:10:40.029 enter: PASS",
+    "00:11:11.530 act1: PASS",
+    "00:11:17.540 lantern-move: PASS",
+    "00:11:21.157 hint-poke: PASS",
+    "00:11:21.194 palm-up-menu: PASS",
+    "00:11:35.890 theatre: PASS",
+    "00:11:37.569 reload-restores-take: PASS"
+  ],
+  "pass": true
+}

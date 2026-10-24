@@ -1,0 +1,78 @@
+{
+  "steps": {
+    "profile": {
+      "ok": true,
+      "device": "Meta VR Glasses",
+      "features": [
+        "local-floor",
+        "bounded-floor",
+        "hand-tracking",
+        "anchors",
+        "plane-detection",
+        "gaze-tracking",
+        "eye-tracking",
+        "viewer",
+        "local"
+      ],
+      "gaze": true
+    },
+    "glasses-layout-auto": {
+      "ok": true,
+      "ms": 10
+    },
+    "gaze-pinch-next": {
+      "ok": true,
+      "target": "Glasses_next",
+      "hovered": 1,
+      "from": "tori",
+      "to": "inu"
+    },
+    "menu-via-gaze": {
+      "ok": true,
+      "target": "Menu_contrast",
+      "hovered": 1,
+      "ms": 4
+    },
+    "complete-puzzle": {
+      "ok": true,
+      "id": "inu"
+    },
+    "fov": {
+      "ok": true,
+      "res": {
+        "ring": {
+          "h": 4.1632254064485466,
+          "v": 8.78851851449493,
+          "inside": true
+        },
+        "card": {
+          "h": 0,
+          "v": -18.409089607992726,
+          "inside": true
+        },
+        "Glasses_hint": {
+          "h": -4.812540039364073,
+          "v": -26.620827089225838,
+          "inside": true
+        },
+        "Glasses_retry": {
+          "h": 0,
+          "v": -26.620827089225838,
+          "inside": true
+        },
+        "Glasses_next": {
+          "h": 4.812540039364073,
+          "v": -26.620827089225838,
+          "inside": true
+        }
+      },
+      "shot": "/Volumes/Extreme SSD/Projects/grokbot/projects/kazashi/packages/app/.tmp/glasses-fov.png"
+    }
+  },
+  "menuGaze": {
+    "target": "Menu_contrast",
+    "hovered": 1
+  },
+  "errors": [],
+  "pass": true
+}

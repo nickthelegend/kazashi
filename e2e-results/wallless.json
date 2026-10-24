@@ -1,0 +1,65 @@
+{
+  "steps": {
+    "room": {
+      "ok": true,
+      "planes": 3,
+      "labels": [
+        "floor",
+        "ceiling",
+        "table"
+      ]
+    },
+    "shoji-within-5s": {
+      "ok": true,
+      "offeredAtSeconds": 5.084000110626221,
+      "walls": 0,
+      "surfaces": 3
+    },
+    "pinch-places-shoji": {
+      "ok": true,
+      "wall": {
+        "id": "shoji",
+        "kind": "shoji",
+        "origin": [
+          0,
+          0.95,
+          -1.6499999992549417
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "halfU": 0.8,
+        "halfV": 0.9
+      },
+      "lantern": {
+        "placed": true,
+        "onDesk": true
+      },
+      "ms": 2
+    },
+    "puzzle-on-shoji": {
+      "ok": true,
+      "id": "tori",
+      "ms": 1162,
+      "shadow": {
+        "seq": 104,
+        "valid": true,
+        "center": [
+          0.17536591124088183,
+          1.5507352020094867,
+          -1.6499999992549417
+        ],
+        "size": 0.5035336942370898,
+        "imageSize": 0.40444473999062214,
+        "height": 0.904744945528101,
+        "hands": 1,
+        "lastCostMs": 0.20000001788139343
+      }
+    }
+  },
+  "shot": "/Volumes/Extreme SSD/Projects/grokbot/projects/kazashi/packages/app/.tmp/wallless.png",
+  "errors": [],
+  "pass": true
+}
