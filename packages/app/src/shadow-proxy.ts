@@ -28,6 +28,7 @@ export class ShadowProxy {
   private readonly spheres: InstancedMesh;
   private readonly bones: InstancedMesh;
   private readonly palms: Mesh[] = [];
+  private readonly material: MeshBasicMaterial;
   private readonly m = new Matrix4();
   private readonly q = new Quaternion();
   private readonly s = new Vector3();
@@ -42,6 +43,7 @@ export class ShadowProxy {
     // the dusk overlay and wall art. Pushed back a little so the emulator's
     // hand visual is never z-fought.
     const mat = new MeshBasicMaterial({ color: 0x000000, colorWrite: false, polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 4 });
+    this.material = mat;
     this.spheres = new InstancedMesh(new SphereGeometry(1, 10, 8), mat, 25 * MAX_HANDS);
     this.bones = new InstancedMesh(new CylinderGeometry(1, 1, 1, 10, 1, true), mat, BONES.length * MAX_HANDS);
     this.spheres.frustumCulled = false;
@@ -73,12 +75,13 @@ export class ShadowProxy {
     }
   }
 
-  /** Replayed hands cast shadows but must not punch holes in the main view. */
+  /**
+   * Replayed hands cast shadows but must not punch holes in the main view.
+   * (three.js only renders shadow casters the main camera can see, so the
+   * proxy stays on layer 0 and stops writing depth instead.)
+   */
   setOccluding(on: boolean): void {
-    for (const o of [this.spheres, this.bones, ...this.palms]) {
-      if (on) o.layers.enable(0);
-      else o.layers.disable(0);
-    }
+    this.material.depthWrite = on;
   }
 
   /** `hands` are world-space joint arrays, or null for an absent hand. */

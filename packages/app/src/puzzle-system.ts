@@ -8,10 +8,11 @@ import { dailyPick } from '@kazashi/core/daily';
 import { fromLightFrame, imageToWall } from '@kazashi/core/lightframe';
 import { MatchTracker, thresholdForTolerance } from '@kazashi/core/match';
 import { toSurface } from '@kazashi/core/room';
-import { createSystem, type Entity, Vector3 } from '@iwsdk/core';
+import { createSystem, type Entity, Group, Mesh, MeshBasicMaterial, PlaneGeometry, RayInteractable, Vector3 } from '@iwsdk/core';
 import { app, recordStar, setSettings } from './app.js';
 import { sound } from './audio.js';
-import { Modes, Puzzle, PuzzleStates } from './components.js';
+import { Modes, PaperButton, Puzzle, PuzzleStates } from './components.js';
+import { canvasTexture, COLORS, drawGlyph, type Glyph, paper } from './paint.js';
 import type { CreatureSystem } from './creature-system.js';
 import { shadow } from './hand-system.js';
 import { GhostHands, MatchRing, TargetCard } from './hud.js';
@@ -34,6 +35,8 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
   private advanceAt = Infinity;
   private time = 0;
   private lastNote = '';
+  /** Free mode: the creature just inked must be let go of before it can ink again. */
+  private freeHeld = '';
   private readonly v = new Vector3();
   private readonly n = new Vector3();
   private readonly ghostHands = [new Float32Array(75), new Float32Array(75)];
@@ -154,21 +157,19 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     const w = app.wall;
     if (!w || !app.lightReady) return;
     const d = app.wallDistance;
-    const width = Math.min(0.75, Math.max(0.32, 0.26 * d));
+    const width = Math.min(0.9, Math.max(0.42, 0.36 * d));
     if (app.settings.glasses) {
-      // Glasses: keep the card inside the narrow view, just below eye level.
-      const head = this.player.head.getWorldPosition(this.v);
-      const fwd = this.player.head.getWorldDirection(this.n).negate();
-      this.card.mesh.position.copy(head).addScaledVector(fwd, 0.9).add(this.n.set(0, -0.12, 0));
-      this.card.mesh.lookAt(head);
-      this.card.mesh.scale.setScalar(0.3);
+      // Glasses: the wall is mostly outside the narrow view, so the card and
+      // its gaze buttons float just below eye level and follow lazily.
+      this.followGlasses(true);
       return;
     }
-    // On the wall, up and to the left of where the shadow will fall.
+    // On the wall, to the left of where the shadow will fall, clear of it.
     const c = imageToWall(app.frame, d, 0.05 / 0.3, 0.1 / 0.3);
     const p = toSurface(w, c);
-    const a = Math.max(-w.halfU + width / 2, Math.min(w.halfU - width / 2, p.a - 0.62 * d * 0.36 - width / 2));
-    const b = Math.max(-w.halfV + width / 2, Math.min(w.halfV - width * 0.4, p.b + 0.18 * d));
+    const shadowHalf = 0.5 * 0.4 * d; // a typical shadow is ~0.4 d across
+    const a = Math.max(-w.halfU + width / 2 + 0.05, p.a - shadowHalf - width * 0.62);
+    const b = Math.max(-w.halfV + width / 2, Math.min(w.halfV - width * 0.4, p.b + 0.05 * d));
     this.card.mesh.position.set(...w.origin);
     this.card.mesh.position
       .addScaledVector(this.v.set(...w.u), a)
@@ -176,6 +177,77 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
       .addScaledVector(this.v.set(...w.normal), 0.008);
     this.card.mesh.lookAt(this.v.copy(this.card.mesh.position).add(this.n.set(...w.normal)));
     this.card.mesh.scale.setScalar(width);
+  }
+
+  private readonly glassTarget = new Vector3();
+  private readonly headTmp = new Vector3();
+  private glassesBar: { root: Group; entities: Entity[]; on: boolean } | null = null;
+
+  /** Card + gaze buttons in front of the eyes (glasses layout). `snap` jumps instead of easing. */
+  private followGlasses(snap: boolean, delta = 0): void {
+    const head = this.player.head.getWorldPosition(this.headTmp);
+    const fwd = this.player.head.getWorldDirection(this.n).negate();
+    fwd.y = Math.min(fwd.y, 0);
+    fwd.normalize();
+    this.glassTarget.copy(head).addScaledVector(fwd, 0.85);
+    this.glassTarget.y -= 0.1;
+    const card = this.card.mesh;
+    if (snap || card.position.distanceTo(this.glassTarget) > 0.3) card.position.copy(this.glassTarget);
+    else card.position.lerp(this.glassTarget, Math.min(1, delta * 2));
+    card.lookAt(head);
+    card.scale.setScalar(0.3);
+  }
+
+  private buildGlassesBar(): { root: Group; entities: Entity[]; on: boolean } {
+    const root = new Group();
+    root.name = 'GlassesBar';
+    const entities: Entity[] = [];
+    const rootEntity = this.world.createTransformEntity(root);
+    (['hint', 'retry', 'next'] as const).forEach((action, i) => {
+      const mesh = new Mesh(
+        new PlaneGeometry(0.055, 0.045),
+        new MeshBasicMaterial({
+          map: canvasTexture(176, 144, (ctx) => {
+            paper(ctx, 176, 144);
+            ctx.strokeStyle = COLORS.vermilion;
+            ctx.lineWidth = 8;
+            ctx.strokeRect(4, 4, 168, 136);
+            drawGlyph(ctx, action as Glyph, 88, 72, 46, COLORS.sumi);
+          }),
+        }),
+      );
+      mesh.name = `Glasses_${action}`;
+      mesh.position.set((i - 1) * 0.07, 0, 0);
+      root.add(mesh);
+      const e = this.world.createTransformEntity(mesh, { parent: rootEntity });
+      e.addComponent(PaperButton, { action });
+      entities.push(e);
+    });
+    root.visible = false;
+    return { root, entities, on: false };
+  }
+
+  private updateGlassesBar(delta: number): void {
+    const want = app.settings.glasses && this.card.mesh.visible && this.xrManager.isPresenting;
+    if (want) this.followGlasses(false, delta);
+    if (!this.glassesBar) {
+      if (!want) return;
+      this.glassesBar = this.buildGlassesBar();
+    }
+    const bar = this.glassesBar;
+    if (want !== bar.on) {
+      bar.on = want;
+      bar.root.visible = want;
+      for (const e of bar.entities) {
+        if (want) e.addComponent(RayInteractable);
+        else if (e.hasComponent(RayInteractable)) e.removeComponent(RayInteractable);
+      }
+    }
+    if (want) {
+      const card = this.card.mesh;
+      bar.root.position.copy(card.position).addScaledVector(this.v.set(0, 1, 0), -0.14);
+      bar.root.quaternion.copy(card.quaternion);
+    }
   }
 
   private setGhost(on: boolean): void {
@@ -276,6 +348,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
       app.progress.daily[new Date().toISOString().slice(0, 10)] = def.id;
       saveProgress(app.progress);
     }
+    if (this.mode === Modes.free) this.freeHeld = def.id;
     const p = toSurface(w, shadow.center);
     this.creatures.spawn(def.id, w, p.a, p.b, Math.max(0.2, shadow.size), 'puzzle');
     this.entity.setValue(Puzzle, 'inkedCount', (this.entity.getValue(Puzzle, 'inkedCount') as number) + 1);
@@ -306,7 +379,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     if (!this.xrManager.isPresenting) return;
     this.microgestures();
     const mode = this.mode;
-    if (this.card.mesh.visible && app.settings.glasses) this.placeCard();
+    this.updateGlassesBar(delta);
     if (time >= this.advanceAt) {
       this.advanceAt = Infinity;
       if (mode === Modes.free) {
@@ -352,6 +425,13 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
         this.freeId = bestId;
         this.tracker.reset();
         this.refreshCard();
+      }
+      if (this.freeHeld && (!shadow.valid || bestId !== this.freeHeld || best < 0.5)) this.freeHeld = '';
+      if (bestId && bestId === this.freeHeld) {
+        this.entity.setValue(Puzzle, 'score', best);
+        this.ring.material.uniforms.uProgress.value = 0;
+        this.ring.material.uniforms.uClose.value = 0;
+        return;
       }
       def = bestId ? app.defs.get(bestId) ?? null : null;
       score = shadow.valid ? best : null;

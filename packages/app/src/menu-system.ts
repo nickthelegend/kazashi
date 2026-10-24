@@ -171,9 +171,18 @@ export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }
       if (this.closeTimer > 0.35) this.setOpen(false);
     }
     if (!this.open || !L.tracked) return;
-    // Float above the palm, tilted toward the eyes.
     this.player.head.getWorldPosition(this.head);
-    this.root.position.copy(L.palm).addScaledVector(L.palmNormal, 0.09);
+    if (app.settings.glasses) {
+      // Glasses: the palm is often below the narrow view; open the menu in view instead.
+      this.player.head.getWorldDirection(this.v).negate();
+      this.v.y = Math.min(this.v.y, 0);
+      this.v.normalize();
+      this.root.position.copy(this.head).addScaledVector(this.v, 0.5);
+      this.root.position.y -= 0.08;
+    } else {
+      // Float above the palm, tilted toward the eyes.
+      this.root.position.copy(L.palm).addScaledVector(L.palmNormal, 0.09);
+    }
     this.root.lookAt(this.head);
   }
 }

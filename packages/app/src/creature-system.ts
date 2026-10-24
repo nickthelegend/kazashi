@@ -3,13 +3,15 @@
  * along the real wall's extent, leaping to the next wall at a corner or up
  * onto the ceiling (fliers). Replays drive the same creatures from a take.
  */
-import { type CreatureDef, groupIndex, type RigRole, targetShape } from '@kazashi/core/bestiary';
-import { buildCreatureMesh, type CreatureMeshData } from '@kazashi/core/creature-mesh';
+import { type CreatureDef, groupIndex, legsFor, type RigRole, targetShape } from '@kazashi/core/bestiary';
+import { buildCreatureMesh, type CreatureMeshData, LEG_GROUP } from '@kazashi/core/creature-mesh';
 import { closestOnSurface, findJump, fromSurface, type Surface, type SurfaceKind, toSurface } from '@kazashi/core/room';
 import type { Vec3 } from '@kazashi/core/lightframe';
 import {
   BufferAttribute,
   BufferGeometry,
+  CircleGeometry,
+  MeshBasicMaterial,
   createSystem,
   type Entity,
   Matrix4,
@@ -79,7 +81,7 @@ const ROLE: Record<RigRole, { amp: number; speed: number; bias: number }> = {
 const SPEED: Record<CreatureDef['locomotion'], number> = {
   trot: 0.75,
   hop: 0.65,
-  fly: 0.55,
+  fly: 0.72,
   slither: 0.35,
   swim: 0.45,
   scuttle: 0.6,
@@ -88,10 +90,10 @@ const SPEED: Record<CreatureDef['locomotion'], number> = {
 
 const meshCache = new Map<string, { data: CreatureMeshData; geometry: BufferGeometry }>();
 
-export function creatureGeometry(id: string): { data: CreatureMeshData; geometry: BufferGeometry } {
+export function creatureGeometry(id: string, def: CreatureDef): { data: CreatureMeshData; geometry: BufferGeometry } {
   let c = meshCache.get(id);
   if (!c) {
-    const data = buildCreatureMesh(targetShape(id));
+    const data = buildCreatureMesh(targetShape(id), { legs: legsFor(def), facing: def.facing });
     const g = new BufferGeometry();
     const pos = new Float32Array((data.positions.length / 2) * 3);
     for (let i = 0; i < data.positions.length / 2; i++) {
@@ -109,6 +111,8 @@ export function creatureGeometry(id: string): { data: CreatureMeshData; geometry
 }
 
 let keySeq = 0;
+const EYE_GEOMETRY = new CircleGeometry(0.034, 14);
+const EYE_MATERIAL = new MeshBasicMaterial({ color: '#f3ead7' });
 
 export class CreatureSystem extends createSystem({ creatures: { required: [Creature] } }) {
   readonly live: LiveCreature[] = [];
@@ -134,7 +138,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
   spawn(id: string, surface: Surface, a: number, b: number, size: number, mode: CreatureMode): LiveCreature {
     const def = app.defs.get(id);
     if (!def) throw new Error(`unknown creature ${id}`);
-    const { data, geometry } = creatureGeometry(id);
+    const { data, geometry } = creatureGeometry(id, def);
     const material = createCreatureMaterial();
     material.uniforms.uExtent.value = Math.max(Math.abs(data.minX), Math.abs(data.maxX), Math.abs(data.minY), Math.abs(data.maxY));
     if (app.settings.highContrast) material.uniforms.uColor.value.set('#000000');
@@ -142,6 +146,13 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
     for (let g = 0; g < RIG_SLOTS; g++) pv[g].set(data.pivots[g * 2], data.pivots[g * 2 + 1], 0, 0);
     const mesh = new Mesh(geometry, material);
     mesh.name = `Creature_${id}`;
+    if (data.eye) {
+      const eye = new Mesh(EYE_GEOMETRY, EYE_MATERIAL);
+      eye.name = 'Eye';
+      eye.position.set(data.eye[0], data.eye[1], 0.002);
+      eye.renderOrder = 4;
+      mesh.add(eye);
+    }
     mesh.renderOrder = 3;
     mesh.frustumCulled = false;
     this.scene.add(mesh);
@@ -174,6 +185,10 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
       const g = groupIndex(key, def.hands);
       c.rig.push({ g, role, phase: role === 'leg' ? (leg++ % 2) * Math.PI : g * 0.7 + c.seed });
     }
+    // Ink-grown legs walk in diagonal pairs.
+    for (let i = 0; i < 4; i++) {
+      if (data.groupMask & (1 << (LEG_GROUP + i))) c.rig.push({ g: LEG_GROUP + i, role: 'leg', phase: (i % 2) * Math.PI + (i > 1 ? Math.PI / 2 : 0) });
+    }
     if (mode === 'replay') material.uniforms.uInk.value = 1;
     this.chooseDirection(c);
     this.live.push(c);
@@ -197,9 +212,9 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
     const edgeR = fromSurface(c.surface, c.surface.halfU, c.b);
     const canL = !!findJump(app.surfaces, c.surface, edgeL, kinds);
     const canR = !!findJump(app.surfaces, c.surface, edgeR, kinds);
-    let dir: number;
+    // Head first, unless only the other way leads somewhere.
+    let dir: number = c.def.facing;
     if (canL !== canR) dir = canL ? -1 : 1;
-    else dir = c.a > 0 ? 1 : -1;
     if (c.def.locomotion === 'fly') {
       c.du = dir * speed * 0.55;
       c.dv = speed * 0.8;
@@ -214,7 +229,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
   }
 
   /** Pose the mesh on its surface at (a, b), facing its travel. */
-  private place(c: LiveCreature, lift: number): void {
+  private place(c: LiveCreature, lift: number, pulse = 1): void {
     const s = c.surface;
     const mirror = c.du === 0 ? 1 : Math.sign(c.du) * c.def.facing;
     const tilt = c.def.locomotion === 'fly' ? Math.atan2(c.dv, Math.abs(c.du) + 1e-6) * 0.5 * Math.sign(c.du || 1) : 0;
@@ -227,7 +242,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
     c.mesh.quaternion.copy(this.q).multiply(this.qz);
     const p = fromSurface(s, c.a, c.b, 0.006 + lift);
     c.mesh.position.set(p[0], p[1], p[2]);
-    c.mesh.scale.set(c.size * mirror, c.size, c.size);
+    c.mesh.scale.set(c.size * mirror * pulse, c.size * pulse, c.size);
   }
 
   private animateRig(c: LiveCreature, time: number, gait: number): void {
@@ -262,9 +277,8 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
         case 'peel': {
           const k = Math.min(1, c.t / 0.6);
           const lift = Math.sin(k * Math.PI) * 0.04;
-          c.size *= 1 + Math.sin(k * Math.PI) * 0.004;
           this.animateRig(c, time, k);
-          this.place(c, lift);
+          this.place(c, lift, 1 + Math.sin(k * Math.PI) * 0.06);
           if (k >= 1) {
             c.phase = 'run';
             c.t = 0;
@@ -327,7 +341,8 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
     if (outU || outV) {
       const exit = fromSurface(s, c.a, c.b);
       const j = findJump(app.surfaces, s, exit, this.jumpKinds(c), Math.max(0.2, c.size * 0.6));
-      if (j && (c.mode !== 'puzzle' || c.jumps < 3)) this.startJump(c, exit, j);
+      // On stage (theatre) the cast stays on the lit wall; puzzle creatures roam.
+      if (j && c.mode === 'puzzle' && c.jumps < 3) this.startJump(c, exit, j);
       else {
         // Nowhere to go: turn around (fliers glide back down).
         if (outU) c.du = -c.du;

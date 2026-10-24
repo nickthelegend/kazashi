@@ -5,7 +5,7 @@
 import { buildTargets } from '@kazashi/core/bestiary';
 import { VisibilityState, World } from '@iwsdk/core';
 import projectOptions from 'virtual:iwsdk-project';
-import { app } from './app.js';
+import { app, setSettings } from './app.js';
 import { sound } from './audio.js';
 import { CreatureSystem } from './creature-system.js';
 import { installDebugHook } from './debug.js';
@@ -67,6 +67,11 @@ async function main(): Promise<void> {
   enter.addEventListener('click', () => {
     sound.start();
     void world.launchXR();
+  });
+  // Meta VR Glasses grant gaze tracking; Quest 3 does not. Use the glasses layout there.
+  world.renderer.xr.addEventListener('sessionstart', () => {
+    const features = (world.renderer.xr.getSession() as (XRSession & { enabledFeatures?: string[] }) | null)?.enabledFeatures ?? [];
+    if (features.includes('gaze-tracking') && !app.settings.glasses) setSettings({ glasses: true });
   });
   world.visibilityState.subscribe((v) => {
     document.body.classList.toggle('in-xr', v !== VisibilityState.NonImmersive);

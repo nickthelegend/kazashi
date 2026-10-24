@@ -6,7 +6,7 @@
  */
 import { Color, DoubleSide, ShaderMaterial, Vector4 } from '@iwsdk/core';
 
-export const RIG_SLOTS = 12;
+export const RIG_SLOTS = 16;
 
 export function createCreatureMaterial(): ShaderMaterial {
   return new ShaderMaterial({

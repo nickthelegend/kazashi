@@ -279,7 +279,7 @@ export class LanternSystem extends createSystem({
     }
 
     this.syncDusk();
-    this.dusk = Math.min(0.62, this.dusk + delta * 0.25);
+    this.dusk = Math.min(0.74, this.dusk + delta * 0.4);
     const flicker = 0.93 + 0.05 * Math.sin(time * 7.3) + 0.02 * Math.sin(time * 13.1);
     this.duskMaterial.uniforms.uDusk.value = this.dusk;
     this.duskMaterial.uniforms.uFlicker.value = flicker;
