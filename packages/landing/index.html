@@ -38,7 +38,7 @@
               <video id="hero-clip" muted loop playsinline preload="metadata" poster="./media/whoa-poster.jpg" aria-describedby="clip-caption">
                 <source src="./media/whoa.mp4" type="video/mp4" />
               </video>
-              <figcaption id="clip-caption">Recorded in IWER emulator (Quest 3 profile). Real app output, uncut 20 s.</figcaption>
+              <figcaption id="clip-caption">Recorded in IWER emulator (Quest 3 profile, Oct 24). Real app output, uncut 22 s.</figcaption>
             </figure>
           </div>
         </div>
@@ -59,7 +59,7 @@
           </li>
           <li class="step-item">
             <span class="step-num">02</span>
-            <span class="step-text"><strong>Cast the shadow:</strong> Hold your bare hands in the light beam to project joint capsules.</span>
+            <span class="step-text"><strong>Cast the shadow:</strong> Hold a shape in the lantern light until it inks.</span>
           </li>
           <li class="step-item">
             <span class="step-num">03</span>
@@ -73,21 +73,24 @@
         <div class="section-header">
           <p class="section-kicker">02 · Proof</p>
           <h2 id="proof-title" class="section-heading">Measured performance</h2>
-          <p class="section-lead">Audited in the Meta Quest 3 IWER emulator with zero GPU readback.</p>
-          <p class="section-sub">Silhouette rasterisation and state machine run in deterministic CPU time.</p>
+          <p class="section-lead">Desktop emulator measurements, with zero GPU readback.</p>
+          <p class="section-sub">IWER figures from Oct 24; 83 unit tests passed again Oct 25.</p>
         </div>
         <div class="proof-grid">
           <div class="stat-card">
             <span class="stat-value">1.8ms</span>
             <span class="stat-label">Frametime</span>
+            <small>IWER, Oct 24</small>
           </div>
           <div class="stat-card">
             <span class="stat-value">46</span>
             <span class="stat-label">Drawcalls</span>
+            <small>IWER, Oct 24</small>
           </div>
           <div class="stat-card">
             <span class="stat-value">83</span>
             <span class="stat-label">Tests</span>
+            <small>Unit tests, Oct 25</small>
           </div>
         </div>
         <div class="proof-footer">
@@ -103,8 +106,8 @@
         </div>
         <div class="status-strip">
           <div class="status-col status-live">
-            <span class="status-badge">Live in Emulator</span>
-            <p class="status-line">3-act story, 25 silhouette shapes, 0 console errors, desk plane anchoring.</p>
+            <span class="status-badge">IWER, Oct 24</span>
+            <p class="status-line">3-act story, 25 silhouette shapes, 0 console errors, desk plane anchoring. Oct 25 emulator rerun blocked before browser launch.</p>
           </div>
           <div class="status-col status-pending">
             <span class="status-badge">Hardware Pending</span>
