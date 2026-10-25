@@ -228,7 +228,10 @@ export class TheatreSystem extends createSystem({
     const take = this.recorder.end();
     this.entity.setValue(Theatre, 'recording', false);
     this.showSeal(false);
-    if (!take || take.frames.length < 3) return;
+    if (!take || take.frames.length < 3) {
+      app.events.emit('toast', 'That take was too short to keep');
+      return;
+    }
     sound.pluck(0, 0.5);
     try {
       const count = await saveTake(take);
