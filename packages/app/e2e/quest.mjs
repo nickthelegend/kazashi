@@ -5,11 +5,11 @@
 import path from 'node:path';
 import { harness, reloadApp, watchConsole } from './lib.mjs';
 
-export default async function run(ctx) {
+export default async function run(ctx, { glasses = false } = {}) {
   const h = harness(ctx);
   const { call, note } = h;
   const con = watchConsole(ctx.page);
-  const out = { steps: {}, handActions: 0, errors: [] };
+  const out = { recordedAt: new Date().toISOString(), profile: glasses ? 'metaVRGlasses' : 'metaQuest3', steps: {}, handActions: 0, errors: [] };
   const step = async (name, fn) => {
     const t0 = Date.now();
     try {
@@ -31,15 +31,27 @@ export default async function run(ctx) {
   const frame = await reloadApp(ctx);
   const hh = harness({ ...ctx, frame });
   const coldStart = Date.now();
+  const press = async (name) => {
+    if (!glasses) return hh.call('run_sequence', { device: 'hand-right', idleHand: 'keep', steps: [{ target: name, press: {} }] });
+    const list = await hh.call('list_targets', {});
+    const target = (list.targets ?? list).find((t) => t.name === name);
+    if (!target) throw new Error(`missing gaze target ${name}`);
+    await hh.call('look_at', { device: 'gaze', target: target.center ?? target.position });
+    await hh.sleep(250);
+    return hh.call('select', { device: 'hand-right' });
+  };
 
   await step('enter', async () => {
     await hh.waitFor('app booted', () => hh.frame.evaluate(() => !!window.__kazashi), 20000);
     await hh.ensureSession('hand');
-    await hh.call('set_transform', { device: 'headset', position: { x: 0, y: 1.05, z: -1.45 }, orientation: { pitch: -8, yaw: 0, roll: 0 } });
+    const status = await hh.call('get_session_status', {});
+    if (!String(status.deviceName).includes(glasses ? 'Glasses' : 'Quest 3')) throw new Error(`wrong profile: ${status.deviceName}`);
+    if (glasses && !status.enabledFeatures?.includes('gaze-tracking')) throw new Error('glasses gaze tracking not granted');
+    await hh.call('set_transform', { device: 'headset', position: { x: 0, y: 1.05, z: -1.45 }, orientation: { pitch: glasses ? -12 : -8, yaw: 0, roll: 0 } });
     const r = await hh.waitFor('lantern lit + wall', () => hh.k('k.ready'), 15000);
     const wall = await hh.k('k.wall()');
     const lantern = await hh.component('Lantern');
-    return { wall, lantern, readyMs: r.ms };
+    return { device: status.deviceName, features: status.enabledFeatures, wall, lantern, readyMs: r.ms };
   });
 
   await step('act1', async () => {
@@ -62,6 +74,7 @@ export default async function run(ctx) {
     }
     const p = await hh.component('Puzzle');
     if (p.act !== 2) throw new Error(`expected act 2 after act 1, got act ${p.act} (${p.mode})`);
+    if (inked.map((p) => p.id).join(',') !== 'tori,inu,usagi,hebi,kirin') throw new Error('did not ink all five act-one targets');
     return { inked, seconds: (Date.now() - coldStart) / 1000, handActions: out.handActions };
   });
 
@@ -97,9 +110,10 @@ export default async function run(ctx) {
     return { before: before.size, after: after.size, wallDistance: [before.wallDistance, after.wallDistance], moved, puzzle: p.targetId };
   });
 
-  await step('hint-poke', async () => {
+  await step(glasses ? 'hint-gaze' : 'hint-poke', async () => {
     const before = (await hh.component('Puzzle')).hintShown;
-    await hh.call('run_sequence', { device: 'hand-right', steps: [{ label: 'poke hint', target: 'Tab_Hint', press: {} }, { label: 'back', position: { relativeTo: 'body', x: 0.25, y: 0.75, z: 0.05 } }] });
+    await press(glasses ? 'Glasses_hint' : 'Tab_Hint');
+    await hh.restHand('hand-right');
     out.handActions++;
     const after = await hh.waitFor('hint toggled', async () => (await hh.component('Puzzle')).hintShown !== before, 3000);
     return { before, after: !before, ms: after.ms };
@@ -117,7 +131,7 @@ export default async function run(ctx) {
 
   await step('theatre', async () => {
     // Menu is open: poke the theatre tab with the right index finger.
-    await hh.call('run_sequence', { device: 'hand-right', idleHand: 'keep', steps: [{ label: 'theatre', target: 'Menu_theatre', press: {} }] });
+    await press('Menu_theatre');
     out.handActions++;
     await hh.waitFor('theatre mode', async () => (await hh.component('Puzzle')).mode === 'theatre', 3000);
     await hh.restHand('hand-left');
@@ -189,6 +203,6 @@ export default async function run(ctx) {
   out.errors = con.errors;
   out.log = h.log.concat(hh.log);
   out.pass = Object.values(out.steps).every((s) => s.ok) && con.errors.length === 0;
-  h.writeJson(path.join(ctx.workspaceRoot, '.tmp/e2e/quest.json'), out);
+  h.writeJson(path.join(ctx.workspaceRoot, `.tmp/e2e/${glasses ? 'glasses-core' : 'quest'}.json`), out);
   return out;
 }

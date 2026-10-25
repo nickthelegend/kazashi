@@ -13,8 +13,20 @@ Spec: `grokbot/specs/meta-vr/kazashi.md`.
 
 ![The whoa moment in the emulator](packages/landing/public/media/whoa-poster.jpg)
 
-Clips (IWER emulator, real app output, emulated hands): `grokbot/videos/kazashi/kazashi-whoa.mp4` (22 s),
+Verified clips (IWER emulator, real app output, emulated hands; full decode + SHA-256 in [clips.json](e2e-results/clips.json)): `grokbot/videos/kazashi/kazashi-whoa.mp4` (22 s),
 `kazashi-theatre.mp4` (26 s), `kazashi-shoji.mp4` (21 s).
+
+## Completion pass (Oct 25, 2026)
+
+All **83 core unit tests**, all package typechecks and both production builds pass. This pass fixes one-hand
+chapter progression (Act II offers four solo free-shadow creatures), filters two-hand matches out of one-hand
+free mode, and lets the theatre's **Next** paper tab browse the entire cast book in six-slide pages.
+
+Fresh emulator validation is **blocked before browser launch**: this workspace's sandbox denies process
+inspection, so IWSDK cannot establish runtime process ownership. [Latest attempt](e2e-results/latest-run.json).
+The Oct 24 emulator metrics below and in TESTING.md describe the previous build, not validation of these edits.
+The expanded Glasses completion, fallback and full-card/ring visibility checks still need an unrestricted local
+run with `npm run test:e2e`. Git commits/push are also blocked here because `.git` is read-only. No deployment.
 
 ## How it plays
 
@@ -26,7 +38,7 @@ Clips (IWER emulator, real app output, emulated hands): `grokbot/videos/kazashi/
 | Change the size | Pinch-grab the lantern and move it. Act III needs giants (hands near the lantern) or small things (far). |
 | Hint, retry, next | Poke the paper tabs on the lantern stand (≥ 3 cm), or point and pinch. Thumb swipe left/right also works (unverified on hardware). |
 | Menu | Turn your left palm up: acts, free shadows, today's silhouette, theatre, play, record, tolerance, one-hand mode, high contrast, glasses layout, re-place lantern, exit. |
-| Theatre | Pinch a glass slide from the cast strip and let go in front of the lantern: it is projected onto the wall. Part your hands like a curtain and close them to start and stop a 20 s take. Up to 5 takes are kept (IndexedDB) and replay through the same shadow and creature rigs. |
+| Theatre | Pinch a glass slide from the cast strip and let go in front of the lantern: it is projected onto the wall. Part your hands like a curtain and close them to start and stop a 20 s take. Use the lantern’s Next tab to turn the cast book page. Up to 5 takes are kept (IndexedDB) and replay through the same shadow and creature rigs. |
 | No wall? | After 5 s without a wall, a shoji screen follows your view; pinch once to stand it. |
 
 Onboarding has no wall of text: the first three cards (bird, dog, rabbit) show a glowing ghost hand exactly where your
@@ -67,19 +79,21 @@ e2e-results/       the latest emulator e2e results (JSON) and the glasses field-
 Requirements: Node ≥ 20.19 (tested on 26), npm.
 
 ```bash
-cd packages/core && npm install && npm test        # 79 unit tests
-cd ../app && npm install && npm run dev             # IWSDK dev server + emulator (https://localhost:8093)
-cd ../landing && npm install && npm run dev         # landing page (http://localhost:8094)
+cd packages/core && npm install && npm test        # 83 unit tests
+cd ../app && npm install && ../../../../tools/heavy-slot.sh acquire kazashi && npm run dev             # IWSDK dev server + emulator (https://localhost:8093)
+cd ../landing && npm install && ../../../../tools/heavy-slot.sh acquire kazashi && npm run dev         # landing page (http://localhost:8094)
 ```
 
 ### On your Quest (local, no hosting)
 
-1. `cd packages/app && npm run dev` (serves HTTPS on port 8093; the emulator is skipped automatically in the Quest
+1. Acquire the shared heavy slot with `../../tools/heavy-slot.sh acquire kazashi` from the repo root, then `cd packages/app && npm run dev` (serves HTTPS on port 8093; the emulator is skipped automatically in the Quest
    browser).
 2. Either connect the Quest by USB and run `adb reverse tcp:8093 tcp:8093`, then open `https://localhost:8093` in the
    Quest browser; or open the `network` URL printed by `npx @iwsdk/cli dev status` on the same Wi-Fi.
 3. Accept the local certificate warning, tap *Enter the theatre*, allow hand tracking and spatial data.
 4. Sit at a desk facing a wall. If your room setup has no wall in front of you, pinch to stand the shoji screen.
+
+After a local session, stop the dev server, run `npm run dev:down` from `packages/app`, then release with `../../../../tools/heavy-slot.sh release kazashi`. Stop any landing server you started too.
 
 For automated runs on a connected Quest see `.claude/skills/iwsdk-native-xr-test` in `packages/app`.
 
@@ -88,13 +102,20 @@ For automated runs on a connected Quest see `.claude/skills/iwsdk-native-xr-test
 See [TESTING.md](TESTING.md). The e2e scripts run inside the IWSDK-managed headless Chromium with IWER:
 
 ```bash
-cd packages/app
-npx @iwsdk/cli dev up --ai-mode agent --headless --allow-browser-automation
-npx @iwsdk/cli xr enter
-npx @iwsdk/cli browser run e2e/quest.mjs --timeout 110000      # also: wallless, perf, glasses (glasses profile)
-npx @iwsdk/cli browser run e2e/preroll.mjs --timeout 110000    # then e2e/whoa.mjs records the clip
-npx @iwsdk/cli dev down
+npm run typecheck
+npm test
+npm run test:e2e   # acquires/releases kazashi; Quest + Glasses; restores config; stops managed processes
+npm run test:clips # full decode of all three existing clips; requires ffmpeg + ffprobe
 ```
+
+`test:e2e` clears local test progress/takes, performs the complete hands-only act-one/theatre loop on both profiles,
+checks the wall-less room on both, and runs the 600-frame performance gates. It refuses an existing runtime and
+writes `e2e-results/latest-run.json`, including failures. Raw suite results stay in `packages/app/.tmp/e2e`;
+`node scripts/collect-e2e.mjs` copies those results for review after a successful run.
+
+Manual recorder sequence (one held heavy slot): `e2e/preroll.mjs`, then `e2e/whoa.mjs` through
+`iwsdk browser run ... --timeout 180000`. The recorder now fails if either plane crossing is missing and always
+stops its screencast. The verified existing 22.13-second clip already contains the complete whoa moment.
 
 ## Honest status
 

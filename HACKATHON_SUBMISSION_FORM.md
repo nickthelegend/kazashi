@@ -14,6 +14,15 @@ owns, edits and submits this; Nick is a non-Representative member.
 | Target launch date | TBD by the Representative |
 | Video | Under 3:00, public on YouTube/Vimeo, IWER footage allowed. Lead with `kazashi-whoa.mp4`, then theatre and shoji clips |
 
+## Build handoff (Oct 25)
+
+83 core unit tests, package typechecks and both production builds pass. All existing clips fully decode, including
+`../../videos/kazashi/kazashi-whoa.mp4` (22.13 s). This pass fixes one-hand chapter progression and complete
+cast-book browsing. The expanded Quest/Glasses e2e suite must be rerun outside the current process-inspection
+sandbox before describing these edits as emulator-verified. The figures in the criteria table are the **Oct 24
+baseline**. Git writes/push are blocked by this session's read-only `.git`; local edits remain uncommitted.
+No deployment or submission has been performed.
+
 ## Description (about 450 words)
 
 **Inspiration.** Everyone has made a dog with their hand in a beam of light. Kazashi (翳し, "holding your hand up to
@@ -61,7 +70,7 @@ pictograms and a ghost hand instead of text. Meta VR Glasses get a layout inside
 |---|---|
 | Innovation & Creativity | Your hand pose is the content, cast onto your own wall by a virtual lantern. Daily silhouette, growing cast, stars and takes drive repeat use. |
 | Experience Design | Seated, hands-only from the first second; first success in seconds (open hand = bird) with a ghost hand, no wall of text. Passthrough is purposeful: the desk holds the lantern, the wall is the stage, the ceiling is the sky. FoV-aware glasses layout. |
-| Technical Implementation | Analytic shadow raster with no GPU readback (0.1–0.2 ms/tick); unlabelled plane classification; anchored lantern; one 512² shadow map; depth-only hand occluders; vertex-shader creature rigs; IndexedDB takes. Emulator: CPU p95 1.8 ms, ≤ 46 draw calls, 43k triangles. |
+| Technical Implementation | Analytic shadow raster with no GPU readback (0.1–0.2 ms/tick); unlabelled plane classification; anchored lantern; one 512² shadow map; depth-only hand occluders; vertex-shader creature rigs; IndexedDB takes. Oct 24 emulator baseline: CPU p95 1.8 ms, ≤ 46 draw calls, 43k triangles. |
 | Polish & Presentation | Washi/sumi art direction, ink-bleed transition with a vermilion wet edge, kamishibai cards, synthesised koto and paper sounds, an honest emulator video. |
 | Boldest Original Concept | Hand shadows cannot exist without tracked hands and a real wall in your real room; on a flat screen it falls apart. |
 
@@ -78,7 +87,7 @@ pictograms and a ghost hand instead of text. Meta VR Glasses get a layout inside
 
 1. Be eligible (18+, eligible country, Meta account with Developer Access) and a VR Start member with the forum
    flair at submission. Join the Devpost hackathon, create the team, add Nick as a non-Representative member.
-2. Genuinely own part of the build: author the 15 puzzle poses and the 10-creature bestiary with the pose tool
+2. Before submission, run `npm run test:e2e` locally (both profiles, performance and wall-less rooms) and review the current changes. Genuinely own part of the build: author the 15 puzzle poses and the 10-creature bestiary with the pose tool
    (`packages/app/e2e/capture-poses.mjs` in the emulator, or real hands on a Quest), playtest, write the description
    and narration. Commits from their own account.
 3. Own the public repo and GitHub Pages, upload the video (public, under 3:00) and submit (Track Entertainment,

@@ -4,7 +4,8 @@
 // glasses layout from the wrist menu with gaze + pinch, then checks that the
 // target card and the match ring sit inside the glasses' view.
 import path from 'node:path';
-import { harness, watchConsole } from './lib.mjs';
+import { appFrame, harness, watchConsole } from './lib.mjs';
+import coreLoop from './quest.mjs';
 
 const H = 37; // degrees left/right
 const UP = 25;
@@ -26,9 +27,11 @@ function angles(head, q, p) {
 }
 
 export default async function run(ctx) {
+  const core = await coreLoop(ctx, { glasses: true });
+  ctx = { ...ctx, frame: appFrame(ctx.page) };
   const h = harness(ctx);
   const con = watchConsole(ctx.page);
-  const out = { steps: {} };
+  const out = { recordedAt: new Date().toISOString(), steps: { 'hands-only-core': { ok: core.pass, seconds: core.steps.act1?.seconds, handActions: core.steps.act1?.handActions } } };
   const step = async (name, fn) => {
     try {
       out.steps[name] = { ok: true, ...(await fn()) };
@@ -41,7 +44,8 @@ export default async function run(ctx) {
     await h.ensureSession('hand');
     const st = await h.call('get_session_status', {});
     const dev = await h.call('get_device_state', {});
-    if (!String(st.deviceName ?? dev.deviceName ?? '').includes('Glasses')) throw new Error(`device is ${st.deviceName}`);
+    if (!st.sessionActive || !String(st.deviceName ?? dev.deviceName ?? '').includes('Glasses')) throw new Error(`device is ${st.deviceName}`);
+    if (!st.enabledFeatures?.includes('gaze-tracking') || !dev.gaze?.connected) throw new Error('active glasses gaze is required');
     await h.call('set_transform', { device: 'headset', position: { x: 0, y: 1.05, z: -1.45 }, orientation: { pitch: -12, yaw: 0, roll: 0 } });
     await h.waitFor('lantern lit + wall', () => h.k('k.ready'), 15000);
     return { device: st.deviceName, features: st.enabledFeatures, gaze: !!dev.gaze };
@@ -50,14 +54,14 @@ export default async function run(ctx) {
     const m = await h.waitFor('glasses layout', async () => (await h.component('WristMenu')).glasses, 3000);
     return { ms: m.ms };
   });
-  const gazeSelect = async (name) => {
+  const gazeSelect = async (name, hand = 'hand-right') => {
     const targets = await h.call('list_targets', {});
     const t = (targets.targets ?? targets).find((x) => x.name === name);
     if (!t) throw new Error(`${name} not listed`);
     await h.call('look_at', { device: 'gaze', target: t.center ?? t.position });
     await h.sleep(250);
     const hovered = await h.call('ecs_find_entities', { withComponents: ['Hovered'] });
-    await h.call('select', { device: 'hand-right' });
+    await h.call('select', { device: hand });
     return { target: name, hovered: hovered.total ?? (hovered.entities ?? []).length };
   };
   await step('gaze-pinch-next', async () => {
@@ -81,7 +85,7 @@ export default async function run(ctx) {
     const g = await gazeSelect('Menu_contrast');
     out.menuGaze = g;
     const r = await h.waitFor('high contrast on', async () => (await h.component('WristMenu')).highContrast, 3000);
-    await gazeSelect('Menu_contrast');
+    await gazeSelect('Menu_contrast', 'hand-left');
     await h.restHand('hand-left');
     return { ...g, ms: r.ms };
   });
@@ -103,6 +107,10 @@ export default async function run(ctx) {
     const items = { ring: { x: shadow.center[0], y: shadow.center[1], z: shadow.center[2] } };
     const cardPos = await h.k('k.cardPosition()');
     if (cardPos) items.card = cardPos;
+    for (const [i, p] of (await h.k('k.cardCorners()')).entries()) items[`card-corner-${i}`] = p;
+    const perimeter = await h.k('k.ringPerimeter()');
+    if (!perimeter.length) throw new Error('match ring is hidden; cannot prove field-of-view fit');
+    for (const [i, p] of perimeter.entries()) items[`ring-edge-${i}`] = p;
     const bar = await h.call('list_targets', {});
     for (const t of (bar.targets ?? bar).filter((x) => String(x.name).startsWith('Glasses_'))) items[t.name] = t.center ?? t.position;
     const res = {};
@@ -115,9 +123,27 @@ export default async function run(ctx) {
     if (!Object.values(res).every((r) => r.inside)) throw new Error(`outside the glasses view: ${JSON.stringify(res)}`);
     return { res, shot };
   });
+  await step('gaze-disconnect-hand-ray', async () => {
+    await h.restHand('hand-left');
+    await h.restHand('hand-right');
+    const targets = await h.call('list_targets', {});
+    const t = (targets.targets ?? targets).find((x) => x.name === 'Glasses_next');
+    if (!t) throw new Error('missing Glasses_next');
+    await h.call('set_connected', { device: 'gaze', connected: false });
+    try {
+      const before = await h.component('Puzzle');
+      await h.call('look_at', { device: 'hand-right', target: t.center ?? t.position });
+      await h.sleep(250);
+      await h.call('select', { device: 'hand-right' });
+      const changed = await h.waitFor('hand ray fallback advances', async () => (await h.component('Puzzle')).targetId !== before.targetId, 3000);
+      return { ms: changed.ms };
+    } finally {
+      await h.call('set_connected', { device: 'gaze', connected: true });
+    }
+  });
   con.stop();
   out.errors = con.errors;
-  out.pass = Object.values(out.steps).every((s) => s.ok) && con.errors.length === 0;
+  out.pass = core.pass && Object.values(out.steps).every((s) => s.ok) && con.errors.length === 0;
   h.writeJson(path.join(ctx.workspaceRoot, '.tmp/e2e/glasses.json'), out);
   return out;
 }

@@ -21,9 +21,9 @@ async function loadRoom(frame, id, file) {
   );
 }
 
-export default async function run(ctx) {
+export default async function run(ctx, { glasses = false } = {}) {
   const con = watchConsole(ctx.page);
-  const out = { steps: {} };
+  const out = { recordedAt: new Date().toISOString(), profile: glasses ? 'metaVRGlasses' : 'metaQuest3', steps: {} };
   const frame = await reloadApp(ctx);
   const h = harness({ ...ctx, frame });
   const step = async (name, fn) => {
@@ -66,6 +66,6 @@ export default async function run(ctx) {
   con.stop();
   out.errors = con.errors;
   out.pass = Object.values(out.steps).every((s) => s.ok) && con.errors.length === 0;
-  h.writeJson(path.join(ctx.workspaceRoot, '.tmp/e2e/wallless.json'), out);
+  h.writeJson(path.join(ctx.workspaceRoot, `.tmp/e2e/${glasses ? 'glasses-wallless' : 'wallless'}.json`), out);
   return out;
 }

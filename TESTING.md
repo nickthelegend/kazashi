@@ -1,8 +1,31 @@
 # Testing
 
-All numbers below come from runs on Oct 24, 2026 (MacBook, Node 26.5, IWSDK 1.1.0-rc.2, IWER via the IWSDK
+The historical emulator numbers below come from runs on Oct 24, 2026 (MacBook, Node 26.5, IWSDK 1.1.0-rc.2, IWER via the IWSDK
 managed headless Chromium). Raw results: [`e2e-results/`](e2e-results). No mocks: the e2e drives IWER's emulated
 hands and headset through the app's real systems; the only page hook (`window.__kazashi`) is read-only.
+
+## Current verification: Oct 25, 2026
+
+- **83/83 core unit tests pass** across seven files. Added coverage ensures every chapter has reachable one-hand
+  targets and every collected creature is accessible through cast-book paging.
+- All three package typechecks and both production builds pass.
+- All three existing MP4s fully decode without errors. The whoa clip is 22.13 s and byte-identical to the landing
+  copy; theatre is 26.33 s and shoji 21.07 s. Sizes, streams and SHA-256: [clips.json](e2e-results/clips.json).
+- **Fresh emulator run blocked before launch.** `npm run test:e2e` exits nonzero with
+  `RuntimeOwnerError: Cannot establish this process birth identity`. The sandbox denies `ps`, which IWSDK needs
+  for safe runtime ownership. [Latest run](e2e-results/latest-run.json) records the failure and cleanup. No browser
+  or dev server remains; the heavy slot was released. No new frame-time or console-error claims are made.
+- The current Glasses suite now reuses the complete cold-load act-one, lantern, theatre and persistence loop,
+  uses gaze + pinch for buttons, checks gaze disconnection fallback and both pinch hands, and checks the card's
+  corners and ring perimeter rather than only centres. It and the new cast-book interaction require a fresh run.
+- `perf.mjs` explicitly fails unless it captures 600 frames, uses all 25 poses, has CPU p95 ≤ 4 ms, ≤ 60 draw calls,
+  ≤ 100k triangles, and zero console errors. The old perf JSON is historical evidence, not a current gate pass.
+
+Run `npm run typecheck && npm test && npm run test:e2e && npm run build` from the repo root in an environment that
+permits local runtime/process inspection. The e2e runner acquires the heavy slot before launching, uses both
+profiles in one held slot, stops the managed runtime between profiles, restores the config and releases the slot
+in cleanup. It refuses to replace an already running session. `npm run test:clips` verifies existing recordings.
+Do not deploy as part of validation.
 
 ## Counts
 
@@ -13,14 +36,15 @@ hands and headset through the app's real systems; the only page hook (`window.__
 | Daily silhouette (UTC seed) | `packages/core/test/daily.test.ts` | 3 | pass |
 | Take recorder + serialiser round trip | `packages/core/test/take.test.ts` | 4 | pass |
 | Room reading (unlabelled planes) | `packages/core/test/room.test.ts` | 6 | pass |
-| The cast: 25 reachability + 25 distinctness + structure + report | `packages/core/test/bestiary.test.ts` | 52 | pass |
-| **Unit total** | `cd packages/core && npm test` | **79** | **79 pass** |
-| e2e Quest 3 hands, sunlit_living_room | `packages/app/e2e/quest.mjs` | 7 steps | 7 pass, 0 console errors |
-| e2e wall-less custom room (engawa) | `packages/app/e2e/wallless.mjs` | 4 steps | 4 pass, 0 console errors |
-| e2e Meta VR Glasses (gaze + hands, FoV) | `packages/app/e2e/glasses.mjs` | 6 steps | 6 pass, 0 console errors |
-| Perf: 600-frame pose sweep | `packages/app/e2e/perf.mjs` | 1 | within budget |
+| The cast: reachability, distinctness, structure, one-hand chapters, report | `packages/core/test/bestiary.test.ts` | 53 | pass |
+| Cast-book paging, wraparound and empty collection | `packages/core/test/cast.test.ts` | 3 | pass |
+| **Unit total** | `cd packages/core && npm test` | **83** | **83 pass** |
+| Historical e2e Quest 3 hands, sunlit_living_room | `packages/app/e2e/quest.mjs` | 7 steps | 7 pass, 0 console errors |
+| Historical e2e wall-less custom room (engawa) | `packages/app/e2e/wallless.mjs` | 4 steps | 4 pass, 0 console errors |
+| Historical e2e Meta VR Glasses (gaze + hands, FoV) | `packages/app/e2e/glasses.mjs` | 6 steps | 6 pass, 0 console errors |
+| Historical perf: 600-frame pose sweep | `packages/app/e2e/perf.mjs` | 1 | within budget |
 
-## Gates (spec) vs measured
+## Historical emulator gates (Oct 24) vs measured
 
 | Gate | Spec | Measured |
 |---|---|---|
@@ -45,7 +69,7 @@ Frame numbers are desktop Chromium + IWER, not Quest. One shadow scoring tick co
 Real tracking jitter on held poses, crossed-hand occlusion, thumb microgestures (`gamepad.buttons[5/6]`), 72 fps on
 Quest 3, plane detection in real rooms, Quest browser permission prompts. These need a device pass.
 
-## Clips (test recordings)
+## Clips (Oct 24 recordings, fully verified Oct 25)
 
 Recorded with CDP screencast from the managed browser while the e2e drove the emulated hands; captions are separate
 overlay strips (no output is edited). `grokbot/videos/kazashi/`:

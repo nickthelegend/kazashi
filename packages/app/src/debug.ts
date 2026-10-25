@@ -63,6 +63,27 @@ export function installDebugHook(): void {
       const v = c.getWorldPosition(new Vector3());
       return { x: v.x, y: v.y, z: v.z };
     },
+    /** Full target-card corners, so glasses tests cannot pass a clipped card. */
+    cardCorners() {
+      const c = app.card;
+      if (!c || !c.visible) return [];
+      c.updateWorldMatrix(true, false);
+      return [[-0.5, -0.35], [-0.5, 0.35], [0.5, -0.35], [0.5, 0.35]].map(([x, y]) => {
+        const v = new Vector3(x, y, 0).applyMatrix4(c.matrixWorld);
+        return { x: v.x, y: v.y, z: v.z };
+      });
+    },
+    /** Visible ring perimeter, rather than only its centre. */
+    ringPerimeter() {
+      const ring = app.matchRing;
+      if (!ring || !ring.visible) return [];
+      ring.updateWorldMatrix(true, false);
+      return Array.from({ length: 16 }, (_, i) => {
+        const a = i * Math.PI / 8;
+        const v = new Vector3(Math.cos(a) * 0.98, Math.sin(a) * 0.98, 0).applyMatrix4(ring.matrixWorld);
+        return { x: v.x, y: v.y, z: v.z };
+      });
+    },
     /** World joints of a hand in the light frame (pose tool). */
     lightFrameJoints: () => app.lightHands.map((h) => Array.from(h)),
   };

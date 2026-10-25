@@ -112,8 +112,11 @@ export function legsFor(d: CreatureDef): 0 | 2 | 4 {
   return d.locomotion === 'trot' || d.locomotion === 'stalk' || d.locomotion === 'scuttle' ? 4 : d.locomotion === 'hop' ? 2 : 0;
 }
 
-export function puzzles(act: 1 | 2 | 3): CreatureDef[] {
-  return BESTIARY.filter((d) => d.act === act).sort((a, b) => a.order - b.order);
+export function puzzles(act: 1 | 2 | 3, oneHand = false): CreatureDef[] {
+  const list = BESTIARY.filter((d) => d.act === act && (!oneHand || d.hands === 1)).sort((a, b) => a.order - b.order);
+  // Act II teaches pairs. In one-hand mode, offer the four solo free shadows
+  // instead, so the chapter remains playable without an empty target card.
+  return oneHand && list.length === 0 ? BESTIARY.filter((d) => d.act === 0 && d.hands === 1) : list;
 }
 
 export const FREE_BESTIARY = (): CreatureDef[] => BESTIARY.filter((d) => d.act === 0);

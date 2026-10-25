@@ -5,6 +5,7 @@
  * shadow and creature rigs.
  */
 import { targetShape } from '@kazashi/core/bestiary';
+import { castPage } from '@kazashi/core/cast';
 import { fromLightFrame, toLightFrame } from '@kazashi/core/lightframe';
 import { raySurface, toSurface } from '@kazashi/core/room';
 import { type CreatureKey, sampleTrack, type Take, TakeRecorder } from '@kazashi/core/take';
@@ -24,7 +25,7 @@ import { sound } from './audio.js';
 import { CastCard, Modes, Theatre } from './components.js';
 import type { CreatureSystem, LiveCreature } from './creature-system.js';
 import type { LanternSystem } from './lantern-system.js';
-import { canvasTexture, COLORS, drawSilhouette } from './paint.js';
+import { canvasTexture, COLORS, drawSilhouette, FONT_MONO } from './paint.js';
 import type { PuzzleSystem } from './puzzle-system.js';
 import { listTakes, saveTake } from './storage.js';
 
@@ -58,7 +59,10 @@ export class TheatreSystem extends createSystem({
   private replayHands: (Float32Array | null)[] = [new Float32Array(75), new Float32Array(75)];
   private seal: Mesh | null = null;
   private time = 0;
-  private castKey = '';
+  private castPage = 0;
+  private shownPage = -1;
+  private castCount = -1;
+  private cardsActive = false;
   private readonly v = new Vector3();
   private readonly w = new Vector3();
   private readonly lightHands = [new Float32Array(75), new Float32Array(75)];
@@ -72,6 +76,12 @@ export class TheatreSystem extends createSystem({
       app.events.on('button', (a) => {
         if (a === 'play') void this.playLatest();
         if (a === 'record') this.toggleRecording();
+        if (this.active && (a === 'next' || a === 'prev')) {
+          if (this.slots.some((s) => s.entity.hasComponent(Grabbed))) return;
+          this.castPage += a === 'next' ? 1 : -1;
+          this.syncCards();
+          app.events.emit('toast', `Cast book ${this.entity.getValue(Theatre, 'castPage') as number + 1}/${this.entity.getValue(Theatre, 'castPages')}`);
+        }
       }),
     );
     void this.refreshTakes();
@@ -79,7 +89,7 @@ export class TheatreSystem extends createSystem({
       this.stopReplay();
       for (const s of this.slots) s.entity.dispose();
       this.slots = [];
-      this.castKey = '';
+      this.castCount = -1;
     };
     this.xrManager.addEventListener('sessionend', onEnd);
     this.cleanupFuncs.push(() => this.xrManager.removeEventListener('sessionend', onEnd));
@@ -99,15 +109,20 @@ export class TheatreSystem extends createSystem({
     return this.puzzles.mode === Modes.theatre;
   }
 
-  /** Build the cast strip from inked creatures (newest six). */
+  /** Build a six-slide page; the lantern's Next tab browses the whole book. */
   private syncCards(): void {
-    const ids = app.progress.cast.slice(-6);
-    const key = this.active ? ids.join(',') : '';
-    if (key === this.castKey) return;
-    this.castKey = key;
+    const active = this.active;
+    if (active === this.cardsActive && this.castCount === app.progress.cast.length && this.shownPage === this.castPage) return;
+    const { ids, page, pages } = castPage(app.progress.cast, this.castPage);
+    this.castPage = page;
+    this.shownPage = page;
+    this.castCount = app.progress.cast.length;
+    this.cardsActive = active;
+    this.entity.setValue(Theatre, 'castPage', page);
+    this.entity.setValue(Theatre, 'castPages', pages);
     for (const s of this.slots) s.entity.dispose();
     this.slots = [];
-    if (!key) return;
+    if (!active || !ids.length) return;
     ids.forEach((id, i) => {
       const tex = canvasTexture(150, 200, (ctx) => {
         ctx.fillStyle = 'rgba(255, 208, 138, 0.35)';
@@ -115,7 +130,12 @@ export class TheatreSystem extends createSystem({
         ctx.strokeStyle = COLORS.vermilion;
         ctx.lineWidth = 8;
         ctx.strokeRect(4, 4, 142, 192);
-        drawSilhouette(ctx, targetShape(id), { x: 18, y: 26, w: 114, h: 148 }, COLORS.sumi);
+        drawSilhouette(ctx, targetShape(id), { x: 18, y: 18, w: 114, h: 128 }, COLORS.sumi);
+        ctx.fillStyle = COLORS.sumi;
+        ctx.font = `700 16px ${FONT_MONO}`;
+        ctx.textAlign = 'center';
+        ctx.fillText(app.defs.get(id)?.name ?? id, 75, 168, 130);
+        ctx.fillText(`${'*'.repeat(app.progress.stars[id] ?? 0)}  ${page + 1}/${pages}`, 75, 188, 130);
       });
       const mesh = new Mesh(
         new PlaneGeometry(CARD_W, CARD_H),

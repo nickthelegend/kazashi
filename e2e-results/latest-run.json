@@ -1,0 +1,13 @@
+{
+  "startedAt": "2026-10-25T08:58:17.400Z",
+  "pass": false,
+  "suites": {},
+  "error": "{\n  \"ok\": false,\n  \"error\": {\n    \"code\": \"dev_up_exit\",\n    \"message\": \"Dev server exited before registering a runtime session\",\n    \"details\": {\n      \"workspaceRoot\": \"/Volumes/Extreme SSD/Projects/grokbot/projects/kazashi/packages/app\",\n      \"logPath\": \"/Volumes/Extreme SSD/Projects/grokbot/projects/kazashi/packages/app/.iwsdk/runtime/logs/dev-1792918727919.log\",\n      \"exitCode\": 1,\n      \"signal\": null,\n      \"scriptName\": \"dev:runtime\"\n    }\n  }\n}\n",
+  "cleanup": {
+    "attempted": true,
+    "errors": []
+  },
+  "finishedAt": "2026-10-25T08:58:51.971Z",
+  "status": "blocked-before-browser-launch",
+  "runtimeLog": "\n> app@0.1.0 dev:runtime\n> vite\n\n\n\ud83e\udd7d IWSDK Dev Summary (Development):\n  - Device: metaQuest3\n  - Runtime injected: 1470.5KB\n  - Activation mode: localhost\n  - SEM environment: sunlit_living_room\n  - AI: agent mode (WebSocket at /__iwer_mcp)\n  - Note: Runtime only activates on localhost/local networks\n\n\n\ud83e\udd7d IWSDK Dev Summary (Development):\n  - Device: metaQuest3\n  - Runtime injected: 1470.5KB\n  - Activation mode: localhost\n  - SEM environment: sunlit_living_room\n  - AI: agent mode (WebSocket at /__iwer_mcp)\n  - Note: Runtime only activates on localhost/local networks\n\nerror when starting dev server:\nRuntimeOwnerError: Cannot establish this process birth identity, so runtime ownership cannot be acquired safely. Retry startup; on Windows, verify PowerShell is available.\n    at acquireRuntimeOwner (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/kazashi/packages/app/node_modules/@iwsdk/vite-plugin-dev/dist/index.js:4797:15)\n    at acquireOwner (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/kazashi/packages/app/node_modules/@iwsdk/vite-plugin-dev/dist/index.js:59938:81)\n    at Http2SecureServer.<anonymous> (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/kazashi/packages/app/node_modules/@iwsdk/vite-plugin-dev/dist/index.js:61487:26)\n    at httpServer.listen (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/kazashi/packages/app/node_modules/vite/dist/node/chunks/config.js:25899:11)\n"
+}

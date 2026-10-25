@@ -27,6 +27,17 @@ function jittered(id: string, seed: number, sigma = JITTER_M): Float32Array[] {
 }
 
 describe('cast', () => {
+  it('keeps every chapter playable with only one hand, including chapter II', () => {
+    for (const act of [1, 2, 3] as const) {
+      const solo = puzzles(act, true);
+      expect(solo.length).toBeGreaterThan(0);
+      expect(solo.every((d) => d.hands === 1)).toBe(true);
+      for (const d of solo) expect(targetHands(d.id)).toHaveLength(1);
+    }
+    expect(puzzles(2, true)).toHaveLength(4);
+    expect(puzzles(3, true).every((d) => d.size)).toBe(true);
+  });
+
   it('has 15 puzzles in three acts of five and a 10-creature free bestiary', () => {
     expect(puzzles(1)).toHaveLength(5);
     expect(puzzles(2)).toHaveLength(5);

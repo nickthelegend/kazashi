@@ -22,7 +22,15 @@ export default async function run(ctx) {
   }
   const result = await ctx.frame.evaluate(() => window.__kazashiPerf.result());
   con.stop();
-  const out = { result, posesUsed: Math.min(i, all.length), errors: con.errors };
+  const gates = {
+    frames: result.frames === 600,
+    poses: i >= all.length && all.length === 25,
+    cpu: Number.isFinite(result.cpuP95) && result.cpuP95 <= 4,
+    calls: Number.isFinite(result.callsMax) && result.callsMax <= 60,
+    triangles: Number.isFinite(result.trianglesMax) && result.trianglesMax <= 100000,
+    console: con.errors.length === 0,
+  };
+  const out = { recordedAt: new Date().toISOString(), result, posesUsed: Math.min(i, all.length), gates, errors: con.errors, pass: Object.values(gates).every(Boolean) };
   h.writeJson(path.join(ctx.workspaceRoot, '.tmp/e2e/perf.json'), out);
   return out;
 }

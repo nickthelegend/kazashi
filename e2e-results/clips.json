@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-10-25T08:57:32.370Z",
+  "source": "Existing Oct 24 IWER captures; verified without rerecording",
+  "clips": [
+    {
+      "file": "/Volumes/Extreme SSD/Projects/grokbot/videos/kazashi/kazashi-whoa.mp4",
+      "duration": 22.133333,
+      "bytes": 4166413,
+      "sha256": "6da771c5cefb436a64af2de9035599fe26b391150f6a0cb806ccf1b36b96fd3b",
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 800,
+          "height": 800,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "fullDecode": true,
+      "pass": true,
+      "matchesLanding": true
+    },
+    {
+      "file": "/Volumes/Extreme SSD/Projects/grokbot/videos/kazashi/kazashi-theatre.mp4",
+      "duration": 26.333333,
+      "bytes": 5769596,
+      "sha256": "2f5ea6f7ff743964faddf055b5da063d19acbb5dd8f5c31a31ada15be3274ba6",
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 800,
+          "height": 800,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "fullDecode": true,
+      "pass": true
+    },
+    {
+      "file": "/Volumes/Extreme SSD/Projects/grokbot/videos/kazashi/kazashi-shoji.mp4",
+      "duration": 21.066667,
+      "bytes": 1639176,
+      "sha256": "13c9203d1567ca0f22a07372a61a3352dfde8e33b5486bfc08f5f18697459f41",
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 800,
+          "height": 800,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "fullDecode": true,
+      "pass": true
+    }
+  ],
+  "pass": true
+}

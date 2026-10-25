@@ -67,6 +67,8 @@ export const Theatre = createComponent('Theatre', {
   lastTakeId: { type: Types.String, default: '' },
   onStage: { type: Types.Int8, default: 0 },
   replaying: { type: Types.Boolean, default: false },
+  castPage: { type: Types.Int8, default: 0 },
+  castPages: { type: Types.Int8, default: 1 },
 });
 
 /** The palm-up wrist menu (one entity). */

@@ -41,17 +41,26 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
   private readonly n = new Vector3();
   private readonly ghostHands = [new Float32Array(75), new Float32Array(75)];
   private readonly mbtn = { left: [false, false], right: [false, false] };
+  private oneHand = app.settings.oneHand;
 
   init(): void {
     this.entity = this.world.createEntity();
     this.entity.addComponent(Puzzle, { mode: app.progress.onboarded ? Modes.act : Modes.onboarding, act: 1, index: 0 });
     this.scene.add(this.card.mesh, this.ring.mesh, this.ghost.root);
     app.card = this.card.mesh;
+    app.matchRing = this.ring.mesh;
     this.cleanupFuncs.push(
       app.events.on('button', (a) => this.onButton(a)),
       app.events.on('wall', () => this.refreshCard()),
       app.events.on('settings', () => {
         this.tracker.setThreshold(thresholdForTolerance(app.settings.tolerance));
+        this.entity.setValue(Puzzle, 'threshold', this.tracker.opts.threshold);
+        if (this.oneHand !== app.settings.oneHand) {
+          this.oneHand = app.settings.oneHand;
+          this.entity.setValue(Puzzle, 'index', 0);
+          this.load();
+          return;
+        }
         this.refreshCard();
       }),
     );
@@ -73,9 +82,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
   /** The list the current mode walks through. */
   private list(): CreatureDef[] {
     const act = this.entity.getValue(Puzzle, 'act') as 1 | 2 | 3;
-    let l = puzzles(act);
-    if (app.settings.oneHand) l = l.filter((d) => d.hands === 1);
-    return l;
+    return puzzles(act, app.settings.oneHand);
   }
 
   setMode(mode: Mode, act?: number): void {
@@ -407,7 +414,8 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     let def = this.def;
     let score: number | null = null;
     if (mode === Modes.free) {
-      const free = [...FREE_BESTIARY(), ...app.progress.cast.map((id) => app.defs.get(id)!).filter(Boolean)];
+      const free = [...FREE_BESTIARY(), ...app.progress.cast.map((id) => app.defs.get(id)!).filter(Boolean)]
+        .filter((d) => !app.settings.oneHand || d.hands === 1);
       let best = 0;
       let bestId = '';
       if (shadow.valid) {
