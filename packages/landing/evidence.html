@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f0e0d" />
+    <meta name="description" content="Kazashi evidence & technical audit: act progression, 25 silhouettes, shadow projection math, measured benchmarks, and hardware verification matrix." />
+    <title>Kazashi — Evidence &amp; Technical Audit</title>
+  </head>
+  <body>
+    <a class="skip" href="#main-content">Skip to evidence</a>
+    <header class="bar">
+      <a class="mark" href="./index.html" aria-label="Kazashi home"><span class="mark-en">Kazashi</span><span class="mark-jp" lang="ja">翳し</span></a>
+      <nav aria-label="Evidence sections">
+        <a href="./index.html">← Landing</a>
+        <a href="#acts">Acts</a>
+        <a href="#cast">Cast</a>
+        <a href="#methodology">Method</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#caveats">Caveats</a>
+        <a href="#setup">Setup</a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <div class="evidence-hero">
+        <p class="kicker">Technical Reference &amp; Audit</p>
+        <h1 class="evidence-title">Evidence &amp; Verification</h1>
+        <p class="evidence-sub">Explore three acts, 25 silhouettes, shadow projection, dated benchmarks, and what still needs a headset.</p>
+      </div>
+
+      <!-- Acts Section -->
+      <section id="acts" class="acts" aria-labelledby="acts-title">
+        <h2 id="acts-title" class="section-title"><span class="num">01</span> Three acts, fifteen shadows</h2>
+        <p class="note">Progression curve from single flat hands to complex two-handed puppetry and spatial lantern positioning.</p>
+        <div class="cards" id="act-cards"></div>
+      </section>
+
+      <!-- Cast Slides Section -->
+      <section id="cast" class="cast" aria-labelledby="cast-title">
+        <h2 id="cast-title" class="section-title"><span class="num">02</span> The cast, on glass slides</h2>
+        <p class="note">Every creature is a hand pose authored in the emulator and run through the same shadow rasteriser as your live hands, so each one is reachable by construction. These silhouettes are drawn directly from core definition vectors.</p>
+        <div class="slides" id="slides" tabindex="0" aria-label="Cast slides, scroll sideways"></div>
+      </section>
+
+      <!-- Methodology Section -->
+      <section id="methodology" class="how" aria-labelledby="method-title">
+        <h2 id="method-title" class="section-title"><span class="num">03</span> How the shadow works</h2>
+        <div class="how-grid">
+          <article class="paper">
+            <h3>The lantern is a pinhole</h3>
+            <p>Each frame, 25 tracked joints per hand become tapered capsules and a palm polygon, projected through the lantern onto your wall. A 64 × 64 raster, normalised for position and size, is scored by overlap against the target with ±10° of roll. No GPU readback.</p>
+          </article>
+          <article class="paper">
+            <h3>Your room is the stage</h3>
+            <p>Quest planes carry no labels, so Kazashi reads them by orientation, height and size: the desk for the lantern, the wall for the play, the ceiling for anything with wings. No wall? Pinch once to stand a shoji screen.</p>
+          </article>
+          <article class="paper">
+            <h3>Hands, start to finish</h3>
+            <p>Poke the paper tabs on the lantern stand. Turn your left palm up for the menu. Pinch a slide to cast it. Part your hands like a curtain and close them to record a 20-second play.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Benchmarks & Test Audit Section -->
+      <section id="benchmarks" class="benchmarks" aria-labelledby="bench-title">
+        <h2 id="bench-title" class="section-title"><span class="num">04</span> Measured benchmarks &amp; test audit</h2>
+        <p class="note">Emulator measurements are historical: IWER, Oct 24, 2026. All 83 unit tests passed again Oct 25. The Oct 25 emulator rerun was blocked before Chromium launched (RuntimeOwnerError: process inspection denied); it produced no new frame or console measurements. Raster size and roll tolerance are code facts.</p>
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th scope="col">Metric</th>
+                <th scope="col">Measured Value</th>
+                <th scope="col">Environment / Methodology</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Act-One Cold Completion</th>
+                <td><code>5 actions / 32.8 s</code></td>
+                <td>IWER Quest 3 profile (Oct 24 recorded run)</td>
+                <td><span class="tag tag-pass">Verified</span></td>
+              </tr>
+              <tr>
+                <th scope="row">CPU Frame Time (p95)</th>
+                <td><code>1.8 ms</code></td>
+                <td>IWER, Oct 24: synthetic living room, 64×64 bitmask match</td>
+                <td><span class="tag tag-pass">Verified</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Maximum Draw Calls</th>
+                <td><code>46</code></td>
+                <td>IWER, Oct 24: full scene with lantern, plane shadows, ink creatures</td>
+                <td><span class="tag tag-pass">Verified</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Emulator Console Errors</th>
+                <td><code>0 errors</code></td>
+                <td>IWER, Oct 24: recorded story-cycle run</td>
+                <td><span class="tag tag-pass">Verified</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Core Unit Tests</th>
+                <td><code>83 passing</code></td>
+                <td>Silhouette math, rasteriser, bitmask scoring (Oct 25 run)</td>
+                <td><span class="tag tag-pass">Verified</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Shadow Raster Grid</th>
+                <td><code>64 × 64 bitmask</code></td>
+                <td>Fixed grid, scale- and translation-normalised</td>
+                <td><span class="tag tag-pass">Verified</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Roll Tolerance Window</th>
+                <td><code>±10°</code></td>
+                <td>Rotational variance scored without GPU pipeline stalls</td>
+                <td><span class="tag tag-pass">Verified</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Caveats & Hardware Matrix Section -->
+      <section id="caveats" class="caveats" aria-labelledby="caveats-title">
+        <h2 id="caveats-title" class="section-title"><span class="num">05</span> Verification status &amp; hardware limits</h2>
+        <div class="matrix-grid">
+          <div class="paper matrix-card">
+            <h3 class="matrix-head pass">Verified in IWER, Oct 24</h3>
+            <ul class="matrix-list">
+              <li>IWER emulator runs on Quest 3 and Meta VR Glasses synthetic profiles.</li>
+              <li>Deterministic joint projection and capsule-to-wall shadow casting.</li>
+              <li>Automatic room plane classification (desk, wall, ceiling).</li>
+              <li>Act progression state machine and 20-second play recorder.</li>
+              <li>Zero console errors in the recorded Oct 24 end-to-end runs.</li>
+            </ul>
+          </div>
+          <div class="paper matrix-card">
+            <h3 class="matrix-head pending">Pending Physical Quest Hardware</h3>
+            <ul class="matrix-list">
+              <li>Real-camera optical tracking jitter on stationary held poses.</li>
+              <li>Crossed-hand visual self-occlusion during Act II two-handed figures.</li>
+              <li>Subtle thumb microgestures under rapid or low-contrast motion.</li>
+              <li>Sustained 72 fps display sync under adverse room lighting conditions.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Run & Setup Section -->
+      <section id="setup" class="run" aria-labelledby="setup-title">
+        <h2 id="setup-title" class="section-title"><span class="num">06</span> How to run locally</h2>
+        <div class="paper run-card">
+          <ol>
+            <li>Sit at a desk facing a real wall, in a dim room if possible.</li>
+            <li>Clone the repository, then start the app: <code>cd packages/app &amp;&amp; npm install &amp;&amp; npm run dev</code>.</li>
+            <li>Open <code>https://localhost:8093</code> in the Meta Quest Browser with WebXR hand tracking enabled.</li>
+            <li>Tap <em>Enter the theatre</em> on the landing prompt.</li>
+            <li>Raise a flat hand over the virtual lantern. Hold the shape until the ink ring fills.</li>
+          </ol>
+          <p class="honest">Note: For remote Quest debugging, use <code>adb reverse tcp:8093 tcp:8093</code> over USB or connect via your local Wi-Fi subnet.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>Kazashi (翳し) · Meta VR Start 2026 · MIT licence · <a href="./index.html">Return to landing</a></p>
+    </footer>
+    <script type="module" src="./src/evidence.ts"></script>
+  </body>
+</html>
