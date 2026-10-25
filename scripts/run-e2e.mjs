@@ -8,7 +8,11 @@ import { promisify } from 'node:util';
 const exec = promisify(execFile);
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const app = path.join(root, 'packages/app');
-const slot = path.resolve(root, '../../tools/heavy-slot.sh');
+const relativeSlot = path.resolve(root, '../../tools/heavy-slot.sh');
+const slot = await fs.access(relativeSlot).then(
+  () => relativeSlot,
+  () => '/Volumes/Extreme SSD/Projects/grokbot/tools/heavy-slot.sh',
+);
 const configFile = path.join(app, 'iwsdk.config.json');
 const config = await fs.readFile(configFile, 'utf8');
 const report = { startedAt: new Date().toISOString(), pass: false, suites: {} };
