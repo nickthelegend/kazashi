@@ -18,15 +18,19 @@ Verified clips (IWER emulator, real app output, emulated hands; full decode + SH
 
 ## Completion pass (Oct 25, 2026)
 
-All **83 core unit tests**, all package typechecks and both production builds pass. This pass fixes one-hand
+All **83 core unit tests** and all three package typechecks pass in this worktree. Both production builds passed
+in the earlier completion pass. That pass fixes one-hand
 chapter progression (Act II offers four solo free-shadow creatures), filters two-hand matches out of one-hand
 free mode, and lets the theatre's **Next** paper tab browse the entire cast book in six-slide pages.
 
-Fresh emulator validation is **blocked before browser launch**: this workspace's sandbox denies process
-inspection, so IWSDK cannot establish runtime process ownership. [Latest attempt](e2e-results/latest-run.json).
-The Oct 24 emulator metrics below and in TESTING.md describe the previous build, not validation of these edits.
-The expanded Glasses completion, fallback and full-card/ring visibility checks still need an unrestricted local
-run with `npm run test:e2e`. Git commits/push are also blocked here because `.git` is read-only. No deployment.
+Fresh emulator validation is **blocked before browser launch** on both Oct 25 retries (13:03:51 and 13:04:11 UTC):
+this sandbox denies `ps`, so IWSDK exits with `RuntimeOwnerError: Cannot establish this process birth identity`.
+The runner now finds the shared heavy-slot script from this deeper Loom worktree; both attempts acquired and
+released the slot, restored the config and left no managed runtime or browser. [Latest attempt](e2e-results/latest-run.json).
+Quest, perf, wallless, Glasses and glasses-wallless did not run; there are no fresh performance measurements or
+headset results. The Oct 24 emulator metrics in [TESTING.md](TESTING.md) remain historical. The expanded Glasses
+completion, fallback and full-card/ring visibility checks still need `npm run test:e2e` where `ps` is permitted.
+No deployment.
 
 ## How it plays
 

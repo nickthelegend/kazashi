@@ -8,13 +8,23 @@ hands and headset through the app's real systems; the only page hook (`window.__
 
 - **83/83 core unit tests pass** across seven files. Added coverage ensures every chapter has reachable one-hand
   targets and every collected creature is accessible through cast-book paging.
-- All three package typechecks and both production builds pass.
-- All three existing MP4s fully decode without errors. The whoa clip is 22.13 s and byte-identical to the landing
-  copy; theatre is 26.33 s and shoji 21.07 s. Sizes, streams and SHA-256: [clips.json](e2e-results/clips.json).
-- **Fresh emulator run blocked before launch.** `npm run test:e2e` exits nonzero with
-  `RuntimeOwnerError: Cannot establish this process birth identity`. The sandbox denies `ps`, which IWSDK needs
-  for safe runtime ownership. [Latest run](e2e-results/latest-run.json) records the failure and cleanup. No browser
-  or dev server remains; the heavy slot was released. No new frame-time or console-error claims are made.
+- All three package typechecks pass in this worktree. Both production builds passed in the earlier completion
+  pass; they were not rerun for this emulator verification.
+- In the earlier completion pass, all three existing MP4s fully decoded without errors. The whoa clip is 22.13 s
+  and byte-identical to the landing copy; theatre is 26.33 s and shoji 21.07 s. Sizes, streams and SHA-256:
+  [clips.json](e2e-results/clips.json).
+- **Fresh emulator runs blocked before browser launch.** Both root `npm run test:e2e` attempts on Oct 25 at
+  13:03:51 UTC and 13:04:11 UTC passed typechecks, acquired the heavy slot and exited nonzero during Quest runtime
+  startup with `RuntimeOwnerError: Cannot establish this process birth identity`. This sandbox denies `ps`, which
+  IWSDK needs for safe runtime ownership; no environment permitting it is available in this session.
+  **quest, perf, wallless, glasses and glasses-wallless did not run.** [Latest run](e2e-results/latest-run.json)
+  records the second failure, runtime log and error-free cleanup. The config is restored, runtime status reports
+  no running/starting session or browser, and no slot remains owned by Kazashi (another project subsequently
+  acquired the shared slot). No new frame-time or console-error claims are made; all Oct 24 emulator measurements
+  below remain historical.
+- The runner's heavy-slot lookup now uses the normal relative path when present, otherwise
+  `/Volumes/Extreme SSD/Projects/grokbot/tools/heavy-slot.sh`. The fallback was needed and exercised in this deeper
+  Loom worktree. The runner alone acquires/releases the slot; do not acquire it before `npm run test:e2e`.
 - The current Glasses suite now reuses the complete cold-load act-one, lantern, theatre and persistence loop,
   uses gaze + pinch for buttons, checks gaze disconnection fallback and both pinch hands, and checks the card's
   corners and ring perimeter rather than only centres. It and the new cast-book interaction require a fresh run.
