@@ -20,8 +20,7 @@ owns, edits and submits this; Nick is a non-Representative member.
 `../../videos/kazashi/kazashi-whoa.mp4` (22.13 s). This pass fixes one-hand chapter progression and complete
 cast-book browsing. The expanded Quest/Glasses e2e suite must be rerun outside the current process-inspection
 sandbox before describing these edits as emulator-verified. The figures in the criteria table are the **Oct 24
-baseline**. Git writes/push are blocked by this session's read-only `.git`; local edits remain uncommitted.
-No deployment or submission has been performed.
+baseline**. No deployment or submission has been performed.
 
 ## Description (about 450 words)
 
