@@ -7,3 +7,4 @@ dist/
 test-results/
 packages/app/.tmp/
 packages/core/targets/cross.json
+.loom/
