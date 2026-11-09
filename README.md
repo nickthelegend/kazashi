@@ -133,3 +133,7 @@ final cast with the pose tool (`packages/app/e2e/capture-poses.mjs`).
 ## Licence
 
 MIT © 2026 Nivesh Gajengi. Fonts: SIL Open Font License (Bricolage Grotesque, Anonymous Pro).
+
+## Art
+
+Art generated with ChatGPT (image generation); prompts and art direction in [docs/ART.md](docs/ART.md). The app ships WebP copies in `packages/landing/public/art/`.
