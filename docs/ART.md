@@ -20,3 +20,14 @@ Generated with ChatGPT's image model (via the Codex image tool on a ChatGPT plan
 | kazashi-feature-1.webp | square 1024x1024: a hand shaping a rabbit that comes alive on the wall |
 | kazashi-feature-2.webp | square 1024x1024: a shadow bird flying across a room |
 | kazashi-feature-3.webp | square 1024x1024: a shadow story with three characters |
+
+## Wave 2: film, social and onboarding
+
+| File | Prompt |
+|---|---|
+| kazashi-film-title.webp | landscape 1536x1024: hand shadows of animals cast by a paper lantern on a warm wall; a cinematic title-card background for this product's demo film, its core metaphor at dusk, wide calm area in the center for a title added later |
+| kazashi-social-square.webp | square 1024x1024: hand shadows of animals cast by a paper lantern on a warm wall; a bold social post image showing the product's single most exciting moment |
+| kazashi-banner.webp | landscape 1536x512 wide banner: hand shadows of animals cast by a paper lantern on a warm wall; a panoramic strip of the product's world, low detail in the middle third |
+| kazashi-onboard-1.webp | portrait 1024x1536: hand shadows of animals cast by a paper lantern on a warm wall; onboarding slide 1, a newcomer discovering the product's core idea |
+| kazashi-onboard-2.webp | portrait 1024x1536: hand shadows of animals cast by a paper lantern on a warm wall; onboarding slide 2, the newcomer taking the main action for the first time |
+| kazashi-loading.webp | transparent PNG with a real alpha channel, no background, no ground shadow, centered, 1024x1024: hand shadows of animals cast by a paper lantern on a warm wall; a tiny looping-friendly loading mascot or object from the product's world, centered |
