@@ -39,7 +39,8 @@ export interface CardInfo {
 /**
  * The kamishibai card: the hand shadow to make (left, large), its name and a
  * short hint (right), and the animal it becomes. Sized so the hint keeps a
- * 0.018 m cap height per metre of viewing distance (see placeCard).
+ * 0.018 m cap height per metre of viewing distance (see placeCard): Anonymous
+ * Pro's caps are 0.637 em (measured), so 52 px → 33 px caps on 1280 px.
  */
 export function paintCard(ctx: CanvasRenderingContext2D, info: CardInfo): void {
   const W = CARD_W;
@@ -65,10 +66,10 @@ export function paintCard(ctx: CanvasRenderingContext2D, info: CardInfo): void {
   ctx.fillStyle = ink;
   ctx.font = `800 108px ${FONT_DISPLAY}`;
   ctx.fillText(info.def.name, x - 4, 196, W - x - 80);
-  ctx.font = `400 44px ${FONT_MONO}`;
-  const lines = wrap(ctx, info.def.hint, x, 268, W - x - 90, 52, 3);
+  ctx.font = `400 52px ${FONT_MONO}`;
+  const lines = wrap(ctx, info.def.hint, x, 272, W - x - 80, 60, 3);
   // What it becomes: the animal itself.
-  const by = 268 + lines * 52 + 18;
+  const by = 272 + lines * 60 + 6;
   if (info.note) {
     ctx.fillStyle = COLORS.vermilion;
     ctx.font = `700 40px ${FONT_MONO}`;

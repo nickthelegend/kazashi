@@ -190,7 +190,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
     if (app.settings.highContrast) material.uniforms.uColor.value.set('#000000');
     const mesh = new Mesh(geometry, material);
     mesh.name = `Creature_${id}`;
-    mesh.renderOrder = 3;
+    mesh.renderOrder = 5;
     mesh.frustumCulled = false;
     this.scene.add(mesh);
     const entity = this.world.createTransformEntity(mesh);
@@ -206,7 +206,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
       if (app.settings.highContrast) blotMaterial.uniforms.uColor.value.set('#000000');
       blot = new Mesh(bg.geometry, blotMaterial);
       blot.name = `Blot_${id}`;
-      blot.renderOrder = 3;
+      blot.renderOrder = 5;
       blot.frustumCulled = false;
       this.scene.add(blot);
     }
@@ -312,7 +312,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
     const tilt = c.plan.gait === 'fly' ? Math.atan2(c.dv, Math.abs(c.du) + 1e-6) * 0.35 * c.facing : 0;
     this.qz.setFromAxisAngle(this.z, tilt);
     c.mesh.quaternion.copy(this.basis(s)).multiply(this.qz);
-    const p = fromSurface(s, c.a, c.b, 0.006 + lift);
+    const p = fromSurface(s, c.a, c.b, 0.014 + lift); // in front of the kamishibai card (0.008)
     c.mesh.position.set(p[0], p[1], p[2]);
     c.mesh.scale.set(c.size * c.facing * pulse, c.size * pulse, c.size);
   }
@@ -321,7 +321,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
   private placeBlot(c: LiveCreature, shadowSize: number): void {
     const blot = c.blot!;
     blot.quaternion.copy(this.basis(c.surface));
-    const p = fromSurface(c.surface, c.a, c.b, 0.005);
+    const p = fromSurface(c.surface, c.a, c.b, 0.013);
     blot.position.set(p[0], p[1], p[2]);
     blot.scale.set(shadowSize, shadowSize, shadowSize);
   }
@@ -350,7 +350,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
       if (app.settings.highContrast) material.uniforms.uColor.value.set('#000000');
       const mesh = new Mesh(STROKE_GEOMETRY, material);
       mesh.name = `Stroke_${c.def.id}`;
-      mesh.renderOrder = 2;
+      mesh.renderOrder = 4;
       mesh.frustumCulled = false;
       this.scene.add(mesh);
       c.stroke = { mesh, material, surface: s, b: ground, min: c.a - half, max: c.a + half, fade: 1 };
@@ -363,7 +363,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
     st.material.uniforms.uLen.value = len;
     st.material.uniforms.uOpacity.value = Math.min(0.85, st.material.uniforms.uOpacity.value + delta * 2) * st.fade;
     st.mesh.quaternion.copy(this.basis(s));
-    const p = fromSurface(s, (st.min + st.max) / 2, st.b - thick * 0.3, 0.004);
+    const p = fromSurface(s, (st.min + st.max) / 2, st.b - thick * 0.3, 0.011);
     st.mesh.position.set(p[0], p[1], p[2]);
     st.mesh.scale.set(len, thick, 1);
   }
@@ -475,7 +475,7 @@ export class CreatureSystem extends createSystem({ creatures: { required: [Creat
 
   private startJump(c: LiveCreature, exit: Vec3, j: ReturnType<typeof findJump> & object): void {
     const from = new Vector3(...exit);
-    const to = new Vector3(...fromSurface(j.surface, j.a, j.b, 0.006));
+    const to = new Vector3(...fromSurface(j.surface, j.a, j.b, 0.014));
     const nFrom = new Vector3(...c.surface.normal);
     const nTo = new Vector3(...j.surface.normal);
     const ctrl = from.clone().add(to).multiplyScalar(0.5).addScaledVector(nFrom.add(nTo).normalize(), 0.3).add(new Vector3(0, 0.22, 0));

@@ -70,6 +70,8 @@ export const app = {
   /** The target card mesh (for the glasses field-of-view check). */
   card: null as Object3D | null,
   matchRing: null as Object3D | null,
+  /** The viewer's head (set by the puzzle system). */
+  headObject: null as Object3D | null,
 };
 
 export function setSettings(patch: Partial<Settings>): void {

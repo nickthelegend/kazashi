@@ -116,6 +116,17 @@ export function installDebugHook(): void {
         return btoa(bin);
       },
     },
+    /** World size and eye distance of a named object (UI legibility checks). */
+    inspect(name: string) {
+      const scene = app.card?.parent;
+      const o = scene?.getObjectByName(name);
+      if (!o) return null;
+      o.updateWorldMatrix(true, false);
+      const pos = o.getWorldPosition(new Vector3());
+      const scale = o.getWorldScale(new Vector3());
+      const head = app.headObject?.getWorldPosition(new Vector3());
+      return { visible: o.visible, pos: pos.toArray(), scale: scale.toArray(), eyeDistance: head ? head.distanceTo(pos) : null };
+    },
     /** World joints of a hand in the light frame (pose tool). */
     lightFrameJoints: () => app.lightHands.map((h) => Array.from(h)),
   };

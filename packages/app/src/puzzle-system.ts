@@ -19,7 +19,7 @@ import { CARD_H, CARD_W, GhostHands, MatchRing, TargetCard } from './hud.js';
 import { BODY_SCALE } from './creature-system.js';
 
 /** Wall card width per metre of viewing distance (hint cap height ≥ 0.018 m/m). */
-const CARD_SIZE_PER_M = 0.86;
+const CARD_SIZE_PER_M = 0.7;
 /** Glasses: the card floats 0.65 m away, 0.56 m wide (inside the 37° half-width view). */
 const GLASSES_CARD_DIST = 0.65;
 const GLASSES_CARD_W = 0.56;
@@ -56,6 +56,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     this.scene.add(this.card.mesh, this.ring.mesh, this.ghost.root);
     app.card = this.card.mesh;
     app.matchRing = this.ring.mesh;
+    app.headObject = this.player.head;
     this.cleanupFuncs.push(
       app.events.on('button', (a) => this.onButton(a)),
       app.events.on('wall', () => this.refreshCard()),
@@ -179,10 +180,10 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     }
     // On the wall, to the left of where the shadow will fall, clear of it.
     // Sized by the viewer's distance: the hint keeps a cap height of at least
-    // 0.018 m per metre (44 px Anonymous Pro ≈ 29 px caps on a 1280 px card).
+    // 0.018 m per metre (52 px Anonymous Pro = 33 px caps on a 1280 px card).
     const c = imageToWall(app.frame, d, 0.05 / 0.3, 0.1 / 0.3);
     const view = this.player.head.getWorldPosition(this.headTmp).distanceTo(this.v.set(...c));
-    const width = Math.min(w.halfU * 1.1, Math.max(0.8, Math.min(1.6, view * CARD_SIZE_PER_M)));
+    const width = Math.min(w.halfU * 1.1, Math.max(0.8, Math.min(2.0, view * CARD_SIZE_PER_M)));
     const height = width * (CARD_H / CARD_W);
     const p = toSurface(w, c);
     const shadowHalf = 0.5 * 0.4 * d * BODY_SCALE; // a typical shadow is ~0.4 d across

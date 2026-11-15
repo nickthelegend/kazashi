@@ -30,7 +30,7 @@ import type { LanternSystem } from './lantern-system.js';
 import { canvasTexture, COLORS, drawBody, FONT_DISPLAY, FONT_MONO, paper } from './paint.js';
 import type { PuzzleSystem } from './puzzle-system.js';
 import { listTakes, saveTake } from './storage.js';
-import { NarrationUnavailable, requestNarration, speak, stopSpeaking, voiceAvailable } from './narration-client.js';
+import { NarrationUnavailable, requestNarration } from './narration-client.js';
 import { redraw } from './paint.js';
 
 const CAPTION_W = 1600;
@@ -172,7 +172,7 @@ export class TheatreSystem extends createSystem({
     const head = this.player.head.getWorldPosition(this.v);
     const n = this.slots.length;
     this.slots.forEach((s, i) => {
-      const off = (i - (n - 1) / 2) * (CARD_W + 0.012);
+      const off = (i - (n - 1) / 2) * (CARD_W + 0.02);
       s.home.set(off, 0.3 - Math.abs(off) * 0.12, 0.12 + Math.abs(off) * 0.35).applyMatrix4(lantern.matrixWorld);
       if (snap || !s.entity.hasComponent(Grabbed)) {
         if (snap) s.mesh.position.copy(s.home);
@@ -196,7 +196,8 @@ export class TheatreSystem extends createSystem({
       return;
     }
     const hit = this.v.set(...app.light).addScaledVector(dir.normalize(), t);
-    const size = Math.max(0.25, Math.min(1.0, (CARD_W * t) / dist));
+    // The slide's picture is ~7.5 cm across: its projection sets the creature's size.
+    const size = Math.max(0.25, Math.min(0.75, (0.075 * t) / dist));
     const c = this.creatures.landAt(slot.id, [hit.x, hit.y, hit.z], size);
     if (!c) return;
     this.stage.push(c);
@@ -347,7 +348,7 @@ export class TheatreSystem extends createSystem({
       ctx.font = `700 30px ${FONT_MONO}`;
       ctx.fillText(`NARRATOR · ${model.toUpperCase()} (META)`, 60, 52);
       ctx.fillStyle = COLORS.sumi;
-      ctx.font = `800 62px ${FONT_DISPLAY}`;
+      ctx.font = `800 74px ${FONT_DISPLAY}`;
       const words = text.split(' ');
       const lines: string[] = [];
       let line = '';
@@ -359,21 +360,27 @@ export class TheatreSystem extends createSystem({
         } else line = test;
       }
       lines.push(line);
-      lines.slice(0, 2).forEach((l, i) => ctx.fillText(i === 1 && lines.length > 2 ? `${l} ${lines.slice(2).join(' ')}` : l, 60, 136 + i * 76, CAPTION_W - 100));
+      lines.slice(0, 2).forEach((l, i) => ctx.fillText(i === 1 && lines.length > 2 ? `${l} ${lines.slice(2).join(' ')}` : l, 60, 142 + i * 84, CAPTION_W - 100));
     });
-    const view = this.player.head.getWorldPosition(this.v).distanceTo(this.w.set(...w.origin));
-    const width = Math.min(w.halfU * 1.8, Math.max(1.1, Math.min(1.8, view * 0.85)));
+    // High on the wall, above the stage, sized by its distance from the eyes so the
+    // line keeps a cap height of at least 18 mm per metre (74 px Bricolage = 49 px caps;
+    // 0.75 m per metre gives 23 mm/m).
     const c = toSurface(w, imageToWall(app.frame, app.wallDistance, 0, 0));
-    const h = width * (CAPTION_H / CAPTION_W);
-    const a = Math.max(-w.halfU + width / 2, Math.min(w.halfU - width / 2, c.a));
-    const b = Math.max(-w.halfV + h / 2, Math.min(w.halfV - h / 2 - 0.06, c.b + 0.62 * app.wallDistance));
-    mesh.position.set(...w.origin);
-    mesh.position
-      .addScaledVector(this.v.set(...w.u), a)
-      .addScaledVector(this.w.set(...w.v), b)
-      .addScaledVector(this.v.set(...w.normal), 0.012);
+    const place = (width: number) => {
+      const h = width * (CAPTION_H / CAPTION_W);
+      const a = Math.max(-w.halfU + width / 2, Math.min(w.halfU - width / 2, c.a));
+      const b = w.halfV - h / 2 - 0.1;
+      mesh.position.set(...w.origin);
+      mesh.position
+        .addScaledVector(this.v.set(...w.u), a)
+        .addScaledVector(this.w.set(...w.v), b)
+        .addScaledVector(this.v.set(...w.normal), 0.016);
+      mesh.scale.setScalar(width);
+    };
+    place(1.4);
+    const view = this.player.head.getWorldPosition(this.v).distanceTo(mesh.position);
+    place(Math.max(1.2, Math.min(2.8, view * 0.75)));
     mesh.lookAt(this.w.copy(mesh.position).add(this.v.set(...w.normal)));
-    mesh.scale.setScalar(width);
   }
 
   async playLatest(): Promise<void> {
@@ -397,7 +404,6 @@ export class TheatreSystem extends createSystem({
       return this.creatures.spawn(tr.creatureId, app.wall!, k.u, k.v, tr.size, 'replay');
     });
     this.replay = { take, t: 0, creatures, key: { t: 0, u: 0, v: 0, surface: 0, facing: 1 }, line: -1 };
-    this.entity.setValue(Theatre, 'voice', voiceAvailable());
     this.entity.setValue(Theatre, 'replaying', true);
     sound.flourish();
   }
@@ -435,7 +441,6 @@ export class TheatreSystem extends createSystem({
       r.line = line;
       this.entity.setValue(Theatre, 'captionLine', line);
       this.showCaption(line >= 0 ? lines[line].text : null, r.take.narration?.model);
-      if (line >= 0) speak(lines[line].text);
     }
     if (r.t >= Math.max(r.take.duration, lines.length ? lines[lines.length - 1].at + lines[lines.length - 1].dur : 0)) this.stopReplay();
   }
@@ -445,7 +450,6 @@ export class TheatreSystem extends createSystem({
     for (const c of this.replay.creatures) this.creatures.remove(c);
     this.replay = null;
     this.showCaption(null);
-    stopSpeaking();
     this.entity.setValue(Theatre, 'captionLine', -1);
     app.replayHands = null;
     this.replayHands = [new Float32Array(75), new Float32Array(75)];

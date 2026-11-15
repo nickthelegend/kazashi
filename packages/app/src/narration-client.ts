@@ -2,7 +2,8 @@
  * Talks to the Kazashi narration proxy (packages/proxy). The browser never
  * holds a model key: it sends a staging summary and gets back Muse's lines.
  * Every failure becomes a readable "AI narration unavailable" reason; the
- * theatre works the same without narration.
+ * theatre works the same without narration. Narration is shown as paper
+ * captions only: Kazashi never uses browser speech synthesis.
  */
 import { type Narration, NARRATION_ROUTE, normalizeNarration, type StagingSummary } from '@kazashi/core/narration';
 
@@ -43,24 +44,4 @@ export async function requestNarration(summary: StagingSummary): Promise<Narrati
   } catch (e) {
     throw new NarrationUnavailable(`Muse's reply was unusable (${(e as Error).message})`);
   }
-}
-
-/** Speech: used only when this browser really has voices (checked, not assumed). */
-export function voiceAvailable(): boolean {
-  return typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined' && window.speechSynthesis.getVoices().length > 0;
-}
-
-export function speak(text: string): boolean {
-  if (!voiceAvailable()) return false;
-  const u = new SpeechSynthesisUtterance(text);
-  u.rate = 0.95;
-  u.pitch = 1;
-  const en = window.speechSynthesis.getVoices().find((v) => v.lang?.startsWith('en'));
-  if (en) u.voice = en;
-  window.speechSynthesis.speak(u);
-  return true;
-}
-
-export function stopSpeaking(): void {
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
 }

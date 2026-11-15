@@ -74,8 +74,7 @@ export const Theatre = createComponent('Theatre', {
   narrationError: { type: Types.String, default: '' },
   /** Caption line showing during a replay (-1 = none). */
   captionLine: { type: Types.Int8, default: -1 },
-  /** Whether replays are also spoken (speechSynthesis with voices present). */
-  voice: { type: Types.Boolean, default: false },
+
 });
 
 /** The palm-up wrist menu (one entity). */
