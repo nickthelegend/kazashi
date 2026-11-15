@@ -19,7 +19,7 @@ import { CARD_H, CARD_W, GhostHands, MatchRing, TargetCard } from './hud.js';
 import { BODY_SCALE } from './creature-system.js';
 
 /** Wall card width per metre of viewing distance (hint cap height ≥ 0.018 m/m). */
-const CARD_SIZE_PER_M = 0.7;
+const CARD_SIZE_PER_M = 0.75;
 /** Glasses: the card floats 0.65 m away, 0.56 m wide (inside the 37° half-width view). */
 const GLASSES_CARD_DIST = 0.65;
 const GLASSES_CARD_W = 0.56;
@@ -182,20 +182,25 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     // Sized by the viewer's distance: the hint keeps a cap height of at least
     // 0.018 m per metre (52 px Anonymous Pro = 33 px caps on a 1280 px card).
     const c = imageToWall(app.frame, d, 0.05 / 0.3, 0.1 / 0.3);
-    const view = this.player.head.getWorldPosition(this.headTmp).distanceTo(this.v.set(...c));
-    const width = Math.min(w.halfU * 1.1, Math.max(0.8, Math.min(2.0, view * CARD_SIZE_PER_M)));
-    const height = width * (CARD_H / CARD_W);
     const p = toSurface(w, c);
     const shadowHalf = 0.5 * 0.4 * d * BODY_SCALE; // a typical shadow is ~0.4 d across
-    const a = Math.max(-w.halfU + width / 2 + 0.05, p.a - shadowHalf - width * 0.58);
-    const b = Math.max(-w.halfV + height / 2 + 0.05, Math.min(w.halfV - height / 2 - 0.05, p.b + 0.05 * d));
-    this.card.mesh.position.set(...w.origin);
-    this.card.mesh.position
-      .addScaledVector(this.v.set(...w.u), a)
-      .addScaledVector(this.n.set(...w.v), b)
-      .addScaledVector(this.v.set(...w.normal), 0.008);
-    this.card.mesh.lookAt(this.v.copy(this.card.mesh.position).add(this.n.set(...w.normal)));
-    this.card.mesh.scale.setScalar(width);
+    const mesh = this.card.mesh;
+    const place = (width: number) => {
+      const height = width * (CARD_H / CARD_W);
+      const a = Math.max(-w.halfU + width / 2 + 0.05, p.a - shadowHalf - width * 0.58);
+      const b = Math.max(-w.halfV + height / 2 + 0.05, Math.min(w.halfV - height / 2 - 0.05, p.b + 0.05 * d));
+      mesh.position.set(...w.origin);
+      mesh.position
+        .addScaledVector(this.v.set(...w.u), a)
+        .addScaledVector(this.n.set(...w.v), b)
+        .addScaledVector(this.v.set(...w.normal), 0.008);
+      mesh.scale.setScalar(width);
+    };
+    // Two passes: size by the distance from the eyes to where the card actually lands.
+    place(1.2);
+    const view = this.player.head.getWorldPosition(this.headTmp).distanceTo(mesh.position);
+    place(Math.min(w.halfU * 1.1, Math.max(0.8, Math.min(2.0, view * CARD_SIZE_PER_M))));
+    mesh.lookAt(this.v.copy(mesh.position).add(this.n.set(...w.normal)));
   }
 
   private readonly glassTarget = new Vector3();
