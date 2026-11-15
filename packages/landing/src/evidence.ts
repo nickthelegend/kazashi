@@ -5,6 +5,7 @@ import '@fontsource/anonymous-pro/700.css';
 import './style.css';
 import { BESTIARY, type CreatureDef, FREE_BESTIARY, puzzles, targetShape } from '@kazashi/core/bestiary';
 import type { Shape2D } from '@kazashi/core/silhouette';
+import { bodyPlan } from '@kazashi/core/creatures';
 
 const SVG = 'http://www.w3.org/2000/svg';
 
@@ -58,6 +59,40 @@ function silhouetteSvg(shape: Shape2D, label: string, aspect = 1): SVGSVGElement
   return svg;
 }
 
+/** The animal a shadow becomes (rest pose), as one SVG path, with its eye cut out. */
+function bodySvg(id: string, label: string, aspect = 4 / 3): SVGSVGElement {
+  const p = bodyPlan(id);
+  const w = p.maxX - p.minX;
+  const h = p.maxY - p.minY;
+  const size = Math.max(w, h * aspect) * 1.1;
+  const vbW = size;
+  const vbH = size / aspect;
+  const svg = document.createElementNS(SVG, 'svg');
+  svg.setAttribute('viewBox', `${(p.minX + p.maxX) / 2 - vbW / 2} ${-(p.minY + p.maxY) / 2 - vbH / 2} ${vbW} ${vbH}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', `${label}: the animal its shadow becomes`);
+  const P = p.positions;
+  const I = p.indices;
+  let d = '';
+  const f = (v: number) => v.toFixed(3);
+  for (let i = 0; i < I.length; i += 3) d += `M${f(P[I[i] * 2])} ${f(-P[I[i] * 2 + 1])}L${f(P[I[i + 1] * 2])} ${f(-P[I[i + 1] * 2 + 1])}L${f(P[I[i + 2] * 2])} ${f(-P[I[i + 2] * 2 + 1])}Z`;
+  const path = document.createElementNS(SVG, 'path');
+  path.setAttribute('d', d);
+  path.setAttribute('fill', '#0f0e0d');
+  path.setAttribute('stroke', '#0f0e0d');
+  path.setAttribute('stroke-width', String(size * 0.002));
+  svg.appendChild(path);
+  if (p.eye.r > 0) {
+    const eye = document.createElementNS(SVG, 'circle');
+    eye.setAttribute('cx', String(p.eye.x));
+    eye.setAttribute('cy', String(-p.eye.y));
+    eye.setAttribute('r', String(p.eye.r));
+    eye.setAttribute('fill', '#f3ead7');
+    svg.appendChild(eye);
+  }
+  return svg;
+}
+
 const ACTS: { act: string; title: string; text: string; list: () => CreatureDef[] }[] = [
   { act: 'Act I', title: 'One hand', text: 'A flat hand is a bird: success in seconds. Then a dog, a rabbit and two more.', list: () => puzzles(1) },
   { act: 'Act II', title: 'Two hands', text: 'Thumbs link into wings, palms stack into jaws. Shapes avoid heavy overlap.', list: () => puzzles(2) },
@@ -93,7 +128,10 @@ function renderSlides(): void {
   for (const d of BESTIARY) {
     const fig = document.createElement('figure');
     fig.className = 'slide';
-    fig.appendChild(silhouetteSvg(targetShape(d.id), d.name, 3 / 4));
+    fig.appendChild(bodySvg(d.id, d.name, 3 / 4));
+    const hand = silhouetteSvg(targetShape(d.id), d.name);
+    hand.classList.add('slide-hand');
+    fig.appendChild(hand);
     const cap = document.createElement('figcaption');
     cap.innerHTML = `${d.name} <span>· ${d.hands === 2 ? 'two hands' : 'one hand'}</span>`;
     fig.appendChild(cap);

@@ -675,10 +675,26 @@ h1 {
   border-radius: 4px;
 }
 
+.slide {
+  position: relative;
+}
+
 .slide svg {
   width: 100%;
   aspect-ratio: 3 / 4;
   display: block;
+}
+
+/* The hand shadow that makes it, small in the corner of the slide. */
+.slide svg.slide-hand {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34%;
+  aspect-ratio: 1;
+  padding: 3px;
+  background: rgba(243, 234, 215, 0.85);
+  border-radius: 3px;
 }
 
 .slide figcaption {
