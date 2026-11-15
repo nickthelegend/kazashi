@@ -1,0 +1,4 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": { "api/narrate.js": { "maxDuration": 30, "memory": 256 } }
+}

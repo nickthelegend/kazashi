@@ -8,6 +8,7 @@
  */
 
 import { JOINT_COUNT } from './hand.js';
+import { type Narration, normalizeNarration } from './narration.js';
 
 export const TAKE_VERSION = 1;
 export const TAKE_MAX_SECONDS = 20;
@@ -42,6 +43,8 @@ export interface Take {
   /** Hand frames: frames[f][hand] = 75 floats (light frame, metres) or null. */
   frames: (Float32Array | null)[][];
   tracks: CreatureTrack[];
+  /** Muse's narration for this take, once written. */
+  narration?: Narration;
 }
 
 interface TakeWire {
@@ -53,6 +56,7 @@ interface TakeWire {
   rate: number;
   hands: (string | null)[][];
   tracks: { c: string; s: number; k: number[] }[];
+  n?: Narration;
 }
 
 function toBase64(bytes: Uint8Array): string {
@@ -106,6 +110,7 @@ export function serializeTake(take: Take): string {
       s: r3(tr.size),
       k: tr.keys.flatMap((k) => [r3(k.t), r3(k.u), r3(k.v), k.surface, k.facing]),
     })),
+    ...(take.narration ? { n: take.narration } : {}),
   };
   return JSON.stringify(wire);
 }
@@ -137,6 +142,9 @@ export function deserializeTake(json: string): Take {
       }
       return { creatureId: tr.c, size: tr.s, keys };
     }),
+    ...(wire.n
+      ? { narration: { lines: normalizeNarration(wire.n, wire.duration), model: String(wire.n.model), createdAt: Number(wire.n.createdAt) } }
+      : {}),
   };
 }
 
