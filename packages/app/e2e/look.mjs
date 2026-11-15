@@ -7,31 +7,33 @@ import path from 'node:path';
 import { harness, reloadApp, watchConsole } from './lib.mjs';
 import { SEAT } from './preroll.mjs';
 
-export default async function run(ctx) {
+export async function lookPart(ctx, part) {
   const dir = path.join(ctx.workspaceRoot, '.tmp/look');
-  fs.rmSync(dir, { recursive: true, force: true });
+  if (part === 'a') fs.rmSync(dir, { recursive: true, force: true });
   fs.mkdirSync(dir, { recursive: true });
   const shots = [];
   const snap = async (name) => {
     const { data } = await ctx.cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 82 });
-    fs.writeFileSync(path.join(dir, `${String(shots.length).padStart(2, '0')}-${name}.jpg`), Buffer.from(data, 'base64'));
+    fs.writeFileSync(path.join(dir, `${part}${String(shots.length).padStart(2, '0')}-${name}.jpg`), Buffer.from(data, 'base64'));
     shots.push(name);
   };
-  await ctx.frame.evaluate(async () => {
-    localStorage.clear();
-    await new Promise((r) => {
-      const req = indexedDB.deleteDatabase('kazashi');
-      req.onsuccess = req.onerror = req.onblocked = () => r();
+  if (part === 'a')
+    await ctx.frame.evaluate(async () => {
+      localStorage.clear();
+      await new Promise((r) => {
+        const req = indexedDB.deleteDatabase('kazashi');
+        req.onsuccess = req.onerror = req.onblocked = () => r();
+      });
     });
-  });
-  const frame = await reloadApp(ctx);
+  const frame = part === 'a' ? await reloadApp(ctx) : ctx.frame;
   const console_ = watchConsole(ctx.page);
   const h = harness({ ...ctx, frame });
-  const out = { steps: {} };
+  const out = { part, steps: {} };
   try {
     await h.ensureSession('hand');
     await h.call('set_transform', { device: 'headset', ...SEAT });
     await h.waitFor('ready', () => h.k('k.ready'), 15000);
+    if (part === 'a') {
     await h.sleep(1500);
     await snap('start-card');
     for (const id of ['tori', 'inu', 'usagi']) {
@@ -53,6 +55,7 @@ export default async function run(ctx) {
       out.steps[id] = await h.components('Creature');
       await h.waitFor('next card', async () => (await h.component('Puzzle')).targetId !== p.targetId, 8000);
     }
+    } else {
     // Wrist menu.
     const hp = (await h.call('get_transform', { device: 'headset' })).position;
     const palmUp = async () => {
@@ -124,7 +127,6 @@ export default async function run(ctx) {
     await h.sleep(500);
     await snap('replay-caption');
     out.theatre = await h.component('Theatre');
-    out.voice = await h.frame.evaluate(() => ({ synth: 'speechSynthesis' in window, voices: 'speechSynthesis' in window ? speechSynthesis.getVoices().length : 0 }));
     // Cap height of the card's hint font, measured in this browser.
     out.capRatio = await h.frame.evaluate(async () => {
       await document.fonts.ready;
@@ -135,6 +137,7 @@ export default async function run(ctx) {
       };
       return { mono44: m('400 44px "Anonymous Pro"') / 44, display62: m('800 62px "Bricolage Grotesque"') / 62, display30: m('800 30px "Bricolage Grotesque"') / 30, display44: m('800 44px "Bricolage Grotesque"') / 44 };
     });
+    }
   } catch (e) {
     out.error = String(e.stack || e);
     await snap('error').catch(() => {});
@@ -143,6 +146,6 @@ export default async function run(ctx) {
   }
   out.consoleErrors = console_.errors;
   out.shots = shots;
-  h.writeJson(path.join(dir, 'look.json'), out);
+  h.writeJson(path.join(dir, `look-${part}.json`), out);
   return out;
 }
