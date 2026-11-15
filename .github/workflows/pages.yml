@@ -1,0 +1,65 @@
+# Builds the landing (site root) and the WebXR app (/app/) and publishes both to
+# GitHub Pages: https://<owner>.github.io/<repo>/ and https://<owner>.github.io/<repo>/app/.
+# Optional repository variable KAZASHI_PROXY_URL points the theatre at the
+# deployed narration proxy (packages/proxy); without it narration says
+# "setup required" and everything else works.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      BASE: /${{ github.event.repository.name }}/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Core tests
+        working-directory: packages/core
+        run: npm ci && npm test
+      - name: Proxy tests (no key, no network)
+        working-directory: packages/proxy
+        run: npm test
+      - name: Build the app at /app/
+        working-directory: packages/app
+        env:
+          NODE_ENV: production
+          VITE_KAZASHI_PROXY_URL: ${{ vars.KAZASHI_PROXY_URL }}
+        run: npm ci && npm run typecheck && npx vite build --base "${BASE}app/"
+      - name: Build the landing at the site root
+        working-directory: packages/landing
+        run: npm ci && npx vite build --base "${BASE}"
+      - name: Assemble
+        run: |
+          mkdir -p site/app
+          cp -R packages/landing/dist/. site/
+          cp -R packages/app/dist/. site/app/
+          touch site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
