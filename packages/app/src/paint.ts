@@ -7,6 +7,7 @@ import '@fontsource/bricolage-grotesque/800.css';
 import '@fontsource/anonymous-pro/400.css';
 import '@fontsource/anonymous-pro/700.css';
 import { CanvasTexture, SRGBColorSpace } from '@iwsdk/core';
+import type { BodyPlan } from '@kazashi/core/body';
 import type { Shape2D } from '@kazashi/core/silhouette';
 
 export const COLORS = {
@@ -256,4 +257,38 @@ export function drawGlyph(ctx: CanvasRenderingContext2D, g: Glyph, cx: number, c
       break;
   }
   ctx.restore();
+}
+
+/** Fills a creature's animal body (rest pose) into a box, with its eye cut out. */
+export function drawBody(
+  ctx: CanvasRenderingContext2D,
+  plan: BodyPlan,
+  box: { x: number; y: number; w: number; h: number },
+  color: string,
+  eyeColor: string,
+): void {
+  const s = Math.min(box.w / (plan.maxX - plan.minX), box.h / (plan.maxY - plan.minY));
+  const ox = box.x + box.w / 2 - ((plan.minX + plan.maxX) / 2) * s;
+  const oy = box.y + box.h / 2 + ((plan.minY + plan.maxY) / 2) * s;
+  const P = plan.positions;
+  const I = plan.indices;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  for (let i = 0; i < I.length; i += 3) {
+    ctx.moveTo(ox + P[I[i] * 2] * s, oy - P[I[i] * 2 + 1] * s);
+    ctx.lineTo(ox + P[I[i + 1] * 2] * s, oy - P[I[i + 1] * 2 + 1] * s);
+    ctx.lineTo(ox + P[I[i + 2] * 2] * s, oy - P[I[i + 2] * 2 + 1] * s);
+    ctx.closePath();
+  }
+  ctx.fill('nonzero');
+  // Hairline seams between triangles: stroke the same paths thinly.
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 0.8;
+  ctx.stroke();
+  if (plan.eye.r > 0) {
+    ctx.fillStyle = eyeColor;
+    ctx.beginPath();
+    ctx.arc(ox + plan.eye.x * s, oy - plan.eye.y * s, Math.max(1.5, plan.eye.r * s), 0, Math.PI * 2);
+    ctx.fill();
+  }
 }

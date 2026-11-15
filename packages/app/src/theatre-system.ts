@@ -4,8 +4,10 @@
  * 20 s take, saving takes to IndexedDB, and replaying them through the same
  * shadow and creature rigs.
  */
-import { targetShape } from '@kazashi/core/bestiary';
+import { bodyPlan } from '@kazashi/core/creatures';
 import { castPage } from '@kazashi/core/cast';
+import { imageToWall } from '@kazashi/core/lightframe';
+import { summarizeTake } from '@kazashi/core/narration';
 import { fromLightFrame, toLightFrame } from '@kazashi/core/lightframe';
 import { raySurface, toSurface } from '@kazashi/core/room';
 import { type CreatureKey, sampleTrack, type Take, TakeRecorder } from '@kazashi/core/take';
@@ -23,15 +25,21 @@ import {
 import { app } from './app.js';
 import { sound } from './audio.js';
 import { CastCard, Modes, Theatre } from './components.js';
-import type { CreatureSystem, LiveCreature } from './creature-system.js';
+import { BODY_SCALE, type CreatureSystem, type LiveCreature } from './creature-system.js';
 import type { LanternSystem } from './lantern-system.js';
-import { canvasTexture, COLORS, drawSilhouette, FONT_MONO } from './paint.js';
+import { canvasTexture, COLORS, drawBody, FONT_DISPLAY, FONT_MONO, paper } from './paint.js';
 import type { PuzzleSystem } from './puzzle-system.js';
 import { listTakes, saveTake } from './storage.js';
+import { NarrationUnavailable, requestNarration, speak, stopSpeaking, voiceAvailable } from './narration-client.js';
+import { redraw } from './paint.js';
+
+const CAPTION_W = 1600;
+const CAPTION_H = 260;
 
 const MAX_ON_STAGE = 3;
-const CARD_W = 0.075;
-const CARD_H = 0.1;
+/** Glass slides: 12 × 16 cm, so names keep ≥ 0.018 m cap height per metre at arm's length. */
+const CARD_W = 0.12;
+const CARD_H = 0.16;
 
 interface Slot {
   entity: Entity;
@@ -55,7 +63,8 @@ export class TheatreSystem extends createSystem({
   private curtain: 'idle' | 'apart' = 'idle';
   private apartAt = 0;
   private cooldown = 0;
-  private replay: { take: Take; t: number; creatures: LiveCreature[]; key: CreatureKey } | null = null;
+  private replay: { take: Take; t: number; creatures: LiveCreature[]; key: CreatureKey; line: number } | null = null;
+  private caption: Mesh | null = null;
   private replayHands: (Float32Array | null)[] = [new Float32Array(75), new Float32Array(75)];
   private seal: Mesh | null = null;
   private time = 0;
@@ -124,18 +133,23 @@ export class TheatreSystem extends createSystem({
     this.slots = [];
     if (!active || !ids.length) return;
     ids.forEach((id, i) => {
-      const tex = canvasTexture(150, 200, (ctx) => {
-        ctx.fillStyle = 'rgba(255, 208, 138, 0.35)';
-        ctx.fillRect(0, 0, 150, 200);
+      const tex = canvasTexture(300, 400, (ctx) => {
+        ctx.fillStyle = 'rgba(255, 208, 138, 0.55)';
+        ctx.fillRect(0, 0, 300, 400);
         ctx.strokeStyle = COLORS.vermilion;
-        ctx.lineWidth = 8;
-        ctx.strokeRect(4, 4, 142, 192);
-        drawSilhouette(ctx, targetShape(id), { x: 18, y: 18, w: 114, h: 128 }, COLORS.sumi);
+        ctx.lineWidth = 14;
+        ctx.strokeRect(7, 7, 286, 386);
+        // The slide shows the animal it projects.
+        drawBody(ctx, bodyPlan(id), { x: 26, y: 30, w: 248, h: 220 }, COLORS.sumi, 'rgba(255, 208, 138, 1)');
         ctx.fillStyle = COLORS.sumi;
-        ctx.font = `700 16px ${FONT_MONO}`;
         ctx.textAlign = 'center';
-        ctx.fillText(app.defs.get(id)?.name ?? id, 75, 168, 130);
-        ctx.fillText(`${'*'.repeat(app.progress.stars[id] ?? 0)}  ${page + 1}/${pages}`, 75, 188, 130);
+        ctx.font = `800 44px ${FONT_DISPLAY}`;
+        ctx.fillText(app.defs.get(id)?.name ?? id, 150, 304, 264);
+        ctx.font = `700 30px ${FONT_MONO}`;
+        ctx.fillStyle = COLORS.vermilion;
+        ctx.fillText('★'.repeat(app.progress.stars[id] ?? 0) || '·', 150, 346, 264);
+        ctx.fillStyle = COLORS.sumi;
+        ctx.fillText(`${page + 1}/${pages}`, 150, 380, 264);
       });
       const mesh = new Mesh(
         new PlaneGeometry(CARD_W, CARD_H),
@@ -158,8 +172,8 @@ export class TheatreSystem extends createSystem({
     const head = this.player.head.getWorldPosition(this.v);
     const n = this.slots.length;
     this.slots.forEach((s, i) => {
-      const off = (i - (n - 1) / 2) * 0.085;
-      s.home.set(off, 0.33 + Math.abs(off) * -0.15, 0.1).applyMatrix4(lantern.matrixWorld);
+      const off = (i - (n - 1) / 2) * (CARD_W + 0.012);
+      s.home.set(off, 0.3 - Math.abs(off) * 0.12, 0.12 + Math.abs(off) * 0.35).applyMatrix4(lantern.matrixWorld);
       if (snap || !s.entity.hasComponent(Grabbed)) {
         if (snap) s.mesh.position.copy(s.home);
         else s.mesh.position.lerp(s.home, 0.15);
@@ -238,6 +252,7 @@ export class TheatreSystem extends createSystem({
       this.entity.setValue(Theatre, 'takes', count);
       this.entity.setValue(Theatre, 'lastTakeId', take.id);
       app.events.emit('toast', `Saved ${take.title} (${take.duration.toFixed(1)} s)`);
+      void this.narrate(take);
     } catch (e) {
       console.error(`[kazashi] could not save the take: ${(e as Error).message}`);
       app.events.emit('toast', 'Could not save the take on this device');
@@ -286,11 +301,79 @@ export class TheatreSystem extends createSystem({
     const samples = w
       ? this.stage
           .filter((c) => c.surface.id === w.id && this.creatures.live.includes(c))
-          .map((c) => ({ key: c.key, creatureId: c.def.id, size: c.size, u: c.a, v: c.b, surface: 0, facing: Math.sign(c.du || 1) * c.def.facing }))
+          .map((c) => ({ key: c.key, creatureId: c.def.id, size: c.size / BODY_SCALE, u: c.a, v: c.b, surface: 0, facing: c.facing }))
       : [];
     const done = this.recorder.tick(this.time, hands, samples);
     this.entity.setValue(Theatre, 'elapsed', this.recorder.elapsed);
     if (done) void this.finishRecording();
+  }
+
+  /** Ask Muse (through the proxy) to narrate the take; keep it with the take. */
+  private async narrate(take: Take): Promise<void> {
+    this.entity.setValue(Theatre, 'narration', 'writing');
+    this.entity.setValue(Theatre, 'narrationError', '');
+    const names = new Map([...app.defs.values()].map((d) => [d.id, d.name]));
+    try {
+      take.narration = await requestNarration(summarizeTake(take, names));
+      await saveTake(take);
+      this.entity.setValue(Theatre, 'narration', 'ready');
+      app.events.emit('toast', 'Muse wrote your narration: open your palm, tap Replay');
+    } catch (e) {
+      const reason = e instanceof NarrationUnavailable ? e.message : `could not keep it (${(e as Error).message})`;
+      this.entity.setValue(Theatre, 'narration', 'unavailable');
+      this.entity.setValue(Theatre, 'narrationError', reason);
+      console.warn(`[kazashi] AI narration unavailable: ${reason}`);
+      app.events.emit('toast', `AI narration unavailable: ${reason}`);
+    }
+  }
+
+  /** A paper caption strip high on the wall, above the stage (kamishibai narrator). */
+  private showCaption(text: string | null, model = ''): void {
+    if (!this.caption) {
+      const tex = canvasTexture(CAPTION_W, CAPTION_H, (ctx) => paper(ctx, CAPTION_W, CAPTION_H));
+      this.caption = new Mesh(new PlaneGeometry(1, CAPTION_H / CAPTION_W), new MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, side: DoubleSide }));
+      this.caption.name = 'NarrationCaption';
+      this.caption.renderOrder = 6;
+      this.scene.add(this.caption);
+    }
+    const mesh = this.caption;
+    const w = app.wall;
+    mesh.visible = !!text && !!w;
+    if (!text || !w) return;
+    redraw((mesh.material as MeshBasicMaterial).map as never, (ctx) => {
+      paper(ctx, CAPTION_W, CAPTION_H);
+      ctx.fillStyle = COLORS.vermilion;
+      ctx.fillRect(0, 0, 22, CAPTION_H);
+      ctx.font = `700 30px ${FONT_MONO}`;
+      ctx.fillText(`NARRATOR · ${model.toUpperCase()} (META)`, 60, 52);
+      ctx.fillStyle = COLORS.sumi;
+      ctx.font = `800 62px ${FONT_DISPLAY}`;
+      const words = text.split(' ');
+      const lines: string[] = [];
+      let line = '';
+      for (const word of words) {
+        const test = line ? `${line} ${word}` : word;
+        if (ctx.measureText(test).width > CAPTION_W - 120 && line) {
+          lines.push(line);
+          line = word;
+        } else line = test;
+      }
+      lines.push(line);
+      lines.slice(0, 2).forEach((l, i) => ctx.fillText(i === 1 && lines.length > 2 ? `${l} ${lines.slice(2).join(' ')}` : l, 60, 136 + i * 76, CAPTION_W - 100));
+    });
+    const view = this.player.head.getWorldPosition(this.v).distanceTo(this.w.set(...w.origin));
+    const width = Math.min(w.halfU * 1.8, Math.max(1.1, Math.min(1.8, view * 0.85)));
+    const c = toSurface(w, imageToWall(app.frame, app.wallDistance, 0, 0));
+    const h = width * (CAPTION_H / CAPTION_W);
+    const a = Math.max(-w.halfU + width / 2, Math.min(w.halfU - width / 2, c.a));
+    const b = Math.max(-w.halfV + h / 2, Math.min(w.halfV - h / 2 - 0.06, c.b + 0.62 * app.wallDistance));
+    mesh.position.set(...w.origin);
+    mesh.position
+      .addScaledVector(this.v.set(...w.u), a)
+      .addScaledVector(this.w.set(...w.v), b)
+      .addScaledVector(this.v.set(...w.normal), 0.012);
+    mesh.lookAt(this.w.copy(mesh.position).add(this.v.set(...w.normal)));
+    mesh.scale.setScalar(width);
   }
 
   async playLatest(): Promise<void> {
@@ -313,7 +396,8 @@ export class TheatreSystem extends createSystem({
       const k = tr.keys[0];
       return this.creatures.spawn(tr.creatureId, app.wall!, k.u, k.v, tr.size, 'replay');
     });
-    this.replay = { take, t: 0, creatures, key: { t: 0, u: 0, v: 0, surface: 0, facing: 1 } };
+    this.replay = { take, t: 0, creatures, key: { t: 0, u: 0, v: 0, surface: 0, facing: 1 }, line: -1 };
+    this.entity.setValue(Theatre, 'voice', voiceAvailable());
     this.entity.setValue(Theatre, 'replaying', true);
     sound.flourish();
   }
@@ -344,13 +428,25 @@ export class TheatreSystem extends createSystem({
       sampleTrack(tr, r.t, r.key);
       this.creatures.setReplayPose(c, app.wall, r.key.u, r.key.v, r.key.facing);
     });
-    if (r.t >= r.take.duration) this.stopReplay();
+    const lines = r.take.narration?.lines ?? [];
+    let line = -1;
+    for (let i = 0; i < lines.length; i++) if (r.t >= lines[i].at && r.t < lines[i].at + lines[i].dur) line = i;
+    if (line !== r.line) {
+      r.line = line;
+      this.entity.setValue(Theatre, 'captionLine', line);
+      this.showCaption(line >= 0 ? lines[line].text : null, r.take.narration?.model);
+      if (line >= 0) speak(lines[line].text);
+    }
+    if (r.t >= Math.max(r.take.duration, lines.length ? lines[lines.length - 1].at + lines[lines.length - 1].dur : 0)) this.stopReplay();
   }
 
   private stopReplay(): void {
     if (!this.replay) return;
     for (const c of this.replay.creatures) this.creatures.remove(c);
     this.replay = null;
+    this.showCaption(null);
+    stopSpeaking();
+    this.entity.setValue(Theatre, 'captionLine', -1);
     app.replayHands = null;
     this.replayHands = [new Float32Array(75), new Float32Array(75)];
     this.entity.setValue(Theatre, 'replaying', false);

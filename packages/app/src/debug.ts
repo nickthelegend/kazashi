@@ -7,7 +7,9 @@ import { TARGET_POSES } from '@kazashi/core/bestiary';
 import { dirFromLightFrame, fromLightFrame } from '@kazashi/core/lightframe';
 import { Vector3 } from '@iwsdk/core';
 import { app } from './app.js';
+import { sound } from './audio.js';
 import { shadow } from './hand-system.js';
+import { CARD_H, CARD_W } from './hud.js';
 
 export interface PlacedHand {
   device: 'hand-left' | 'hand-right';
@@ -17,6 +19,9 @@ export interface PlacedHand {
   position: { x: number; y: number; z: number };
   orientation: { fingers: number[]; palm: number[] };
 }
+
+let audioRec: MediaRecorder | null = null;
+let audioChunks: Blob[] = [];
 
 export function installDebugHook(): void {
   (window as unknown as { __kazashi: unknown }).__kazashi = {
@@ -68,7 +73,8 @@ export function installDebugHook(): void {
       const c = app.card;
       if (!c || !c.visible) return [];
       c.updateWorldMatrix(true, false);
-      return [[-0.5, -0.35], [-0.5, 0.35], [0.5, -0.35], [0.5, 0.35]].map(([x, y]) => {
+      const h = CARD_H / CARD_W / 2;
+      return [[-0.5, -h], [-0.5, h], [0.5, -h], [0.5, h]].map(([x, y]) => {
         const v = new Vector3(x, y, 0).applyMatrix4(c.matrixWorld);
         return { x: v.x, y: v.y, z: v.z };
       });
@@ -83,6 +89,32 @@ export function installDebugHook(): void {
         const v = new Vector3(Math.cos(a) * 0.98, Math.sin(a) * 0.98, 0).applyMatrix4(ring.matrixWorld);
         return { x: v.x, y: v.y, z: v.z };
       });
+    },
+    /** The app's own sound, recorded from its master bus (film recorder). Read-only: it plays nothing. */
+    audio: {
+      state: () => sound.state,
+      start(): boolean {
+        const stream = sound.stream();
+        if (!stream || typeof MediaRecorder === 'undefined') return false;
+        audioChunks = [];
+        audioRec = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+        audioRec.ondataavailable = (e) => audioChunks.push(e.data);
+        audioRec.start(500);
+        return true;
+      },
+      async stop(): Promise<string> {
+        const rec = audioRec;
+        if (!rec) return '';
+        await new Promise<void>((r) => {
+          rec.onstop = () => r();
+          rec.stop();
+        });
+        audioRec = null;
+        const buf = new Uint8Array(await new Blob(audioChunks, { type: 'audio/webm' }).arrayBuffer());
+        let bin = '';
+        for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+        return btoa(bin);
+      },
     },
     /** World joints of a hand in the light frame (pose tool). */
     lightFrameJoints: () => app.lightHands.map((h) => Array.from(h)),

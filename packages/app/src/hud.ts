@@ -4,6 +4,7 @@
  */
 import { BONES, JOINT_RADII } from '@kazashi/core/hand';
 import type { CreatureDef } from '@kazashi/core/bestiary';
+import { bodyPlan } from '@kazashi/core/creatures';
 import type { Shape2D } from '@kazashi/core/silhouette';
 import {
   CanvasTexture,
@@ -21,10 +22,10 @@ import {
   SphereGeometry,
   Vector3,
 } from '@iwsdk/core';
-import { canvasTexture, COLORS, drawSilhouette, FONT_DISPLAY, FONT_MONO, paper, redraw } from './paint.js';
+import { canvasTexture, COLORS, drawBody, drawSilhouette, FONT_DISPLAY, FONT_MONO, paper, redraw } from './paint.js';
 
-export const CARD_W = 640;
-export const CARD_H = 448;
+export const CARD_W = 1280;
+export const CARD_H = 720;
 
 export interface CardInfo {
   def: CreatureDef;
@@ -35,49 +36,67 @@ export interface CardInfo {
   highContrast: boolean;
 }
 
+/**
+ * The kamishibai card: the hand shadow to make (left, large), its name and a
+ * short hint (right), and the animal it becomes. Sized so the hint keeps a
+ * 0.018 m cap height per metre of viewing distance (see placeCard).
+ */
 export function paintCard(ctx: CanvasRenderingContext2D, info: CardInfo): void {
   const W = CARD_W;
   const H = CARD_H;
   paper(ctx, W, H, info.highContrast ? '#ffffff' : COLORS.paper);
-  // Kamishibai frame: vermilion border with a wooden inner rule.
   ctx.strokeStyle = COLORS.vermilion;
-  ctx.lineWidth = 22;
-  ctx.strokeRect(11, 11, W - 22, H - 22);
+  ctx.lineWidth = 34;
+  ctx.strokeRect(17, 17, W - 34, H - 34);
   ctx.strokeStyle = '#3b2216';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(30, 30, W - 60, H - 60);
+  ctx.lineWidth = 4;
+  ctx.strokeRect(46, 46, W - 92, H - 92);
   const ink = info.highContrast ? '#000000' : COLORS.sumi;
-  drawSilhouette(ctx, info.shape, { x: 52, y: 70, w: 300, h: 330 }, ink);
+  // The shape to make.
+  drawSilhouette(ctx, info.shape, { x: 80, y: 120, w: 470, h: 470 }, ink);
   ctx.fillStyle = ink;
-  ctx.font = `700 22px ${FONT_MONO}`;
-  ctx.fillText(info.label.toUpperCase(), 380, 92);
-  ctx.font = `800 64px ${FONT_DISPLAY}`;
-  ctx.fillText(info.def.name, 376, 168);
-  ctx.font = `400 26px ${FONT_MONO}`;
-  wrap(ctx, info.def.hint, 380, 214, 220, 32);
-  // Brush stars.
+  ctx.font = `700 34px ${FONT_MONO}`;
+  ctx.fillText(info.label.toUpperCase(), 84, 104);
   for (let i = 0; i < 3; i++) {
     ctx.fillStyle = i < info.stars ? COLORS.vermilion : 'rgba(15,14,13,0.18)';
-    star(ctx, 400 + i * 52, 370, 20);
+    star(ctx, 112 + i * 64, 632, 26);
   }
+  const x = 600;
+  ctx.fillStyle = ink;
+  ctx.font = `800 108px ${FONT_DISPLAY}`;
+  ctx.fillText(info.def.name, x - 4, 196, W - x - 80);
+  ctx.font = `400 44px ${FONT_MONO}`;
+  const lines = wrap(ctx, info.def.hint, x, 268, W - x - 90, 52, 3);
+  // What it becomes: the animal itself.
+  const by = 268 + lines * 52 + 18;
   if (info.note) {
     ctx.fillStyle = COLORS.vermilion;
-    ctx.font = `700 26px ${FONT_MONO}`;
-    ctx.fillText(info.note, 380, 330);
+    ctx.font = `700 40px ${FONT_MONO}`;
+    ctx.fillText(info.note, x, by + 30, W - x - 80);
+  } else {
+    ctx.fillStyle = COLORS.vermilion;
+    ctx.font = `700 32px ${FONT_MONO}`;
+    ctx.fillText('BECOMES', x, by + 34);
+    drawBody(ctx, bodyPlan(info.def.id), { x: x + 190, y: by - 6, w: W - x - 280, h: H - 80 - by }, ink, info.highContrast ? '#ffffff' : COLORS.paper);
   }
 }
 
-function wrap(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, w: number, lh: number): void {
+/** Word-wraps into at most `max` lines (the last one shrinks to fit); returns the lines drawn. */
+function wrap(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, w: number, lh: number, max = 99): number {
+  const lines: string[] = [];
   let line = '';
   for (const word of text.split(' ')) {
     const test = line ? `${line} ${word}` : word;
     if (ctx.measureText(test).width > w && line) {
-      ctx.fillText(line, x, y);
-      y += lh;
+      lines.push(line);
       line = word;
     } else line = test;
   }
-  if (line) ctx.fillText(line, x, y);
+  if (line) lines.push(line);
+  const shown = lines.slice(0, max);
+  if (lines.length > max) shown[max - 1] = lines.slice(max - 1).join(' ');
+  shown.forEach((l, i) => ctx.fillText(l, x, y + i * lh, w));
+  return shown.length;
 }
 
 function star(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number): void {

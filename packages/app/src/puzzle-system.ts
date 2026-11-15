@@ -15,7 +15,14 @@ import { Modes, PaperButton, Puzzle, PuzzleStates } from './components.js';
 import { canvasTexture, COLORS, drawGlyph, type Glyph, paper } from './paint.js';
 import type { CreatureSystem } from './creature-system.js';
 import { shadow } from './hand-system.js';
-import { GhostHands, MatchRing, TargetCard } from './hud.js';
+import { CARD_H, CARD_W, GhostHands, MatchRing, TargetCard } from './hud.js';
+import { BODY_SCALE } from './creature-system.js';
+
+/** Wall card width per metre of viewing distance (hint cap height ≥ 0.018 m/m). */
+const CARD_SIZE_PER_M = 0.86;
+/** Glasses: the card floats 0.65 m away, 0.56 m wide (inside the 37° half-width view). */
+const GLASSES_CARD_DIST = 0.65;
+const GLASSES_CARD_W = 0.56;
 import { saveProgress } from './storage.js';
 
 type Mode = (typeof Modes)[keyof typeof Modes];
@@ -164,7 +171,6 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     const w = app.wall;
     if (!w || !app.lightReady) return;
     const d = app.wallDistance;
-    const width = Math.min(0.9, Math.max(0.42, 0.36 * d));
     if (app.settings.glasses) {
       // Glasses: the wall is mostly outside the narrow view, so the card and
       // its gaze buttons float just below eye level and follow lazily.
@@ -172,11 +178,16 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
       return;
     }
     // On the wall, to the left of where the shadow will fall, clear of it.
+    // Sized by the viewer's distance: the hint keeps a cap height of at least
+    // 0.018 m per metre (44 px Anonymous Pro ≈ 29 px caps on a 1280 px card).
     const c = imageToWall(app.frame, d, 0.05 / 0.3, 0.1 / 0.3);
+    const view = this.player.head.getWorldPosition(this.headTmp).distanceTo(this.v.set(...c));
+    const width = Math.min(w.halfU * 1.1, Math.max(0.8, Math.min(1.6, view * CARD_SIZE_PER_M)));
+    const height = width * (CARD_H / CARD_W);
     const p = toSurface(w, c);
-    const shadowHalf = 0.5 * 0.4 * d; // a typical shadow is ~0.4 d across
-    const a = Math.max(-w.halfU + width / 2 + 0.05, p.a - shadowHalf - width * 0.62);
-    const b = Math.max(-w.halfV + width / 2, Math.min(w.halfV - width * 0.4, p.b + 0.05 * d));
+    const shadowHalf = 0.5 * 0.4 * d * BODY_SCALE; // a typical shadow is ~0.4 d across
+    const a = Math.max(-w.halfU + width / 2 + 0.05, p.a - shadowHalf - width * 0.58);
+    const b = Math.max(-w.halfV + height / 2 + 0.05, Math.min(w.halfV - height / 2 - 0.05, p.b + 0.05 * d));
     this.card.mesh.position.set(...w.origin);
     this.card.mesh.position
       .addScaledVector(this.v.set(...w.u), a)
@@ -196,13 +207,13 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     const fwd = this.player.head.getWorldDirection(this.n).negate();
     fwd.y = Math.min(fwd.y, 0);
     fwd.normalize();
-    this.glassTarget.copy(head).addScaledVector(fwd, 0.85);
-    this.glassTarget.y -= 0.1;
+    this.glassTarget.copy(head).addScaledVector(fwd, GLASSES_CARD_DIST);
+    this.glassTarget.y -= 0.08;
     const card = this.card.mesh;
     if (snap || card.position.distanceTo(this.glassTarget) > 0.3) card.position.copy(this.glassTarget);
     else card.position.lerp(this.glassTarget, Math.min(1, delta * 2));
     card.lookAt(head);
-    card.scale.setScalar(0.3);
+    card.scale.setScalar(GLASSES_CARD_W);
   }
 
   private buildGlassesBar(): { root: Group; entities: Entity[]; on: boolean } {
@@ -212,7 +223,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     const rootEntity = this.world.createTransformEntity(root);
     (['hint', 'retry', 'next'] as const).forEach((action, i) => {
       const mesh = new Mesh(
-        new PlaneGeometry(0.055, 0.045),
+        new PlaneGeometry(0.075, 0.061),
         new MeshBasicMaterial({
           map: canvasTexture(176, 144, (ctx) => {
             paper(ctx, 176, 144);
@@ -224,7 +235,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
         }),
       );
       mesh.name = `Glasses_${action}`;
-      mesh.position.set((i - 1) * 0.07, 0, 0);
+      mesh.position.set((i - 1) * 0.09, 0, 0);
       root.add(mesh);
       const e = this.world.createTransformEntity(mesh, { parent: rootEntity });
       e.addComponent(PaperButton, { action });
@@ -252,7 +263,7 @@ export class PuzzleSystem extends createSystem({ puzzle: { required: [Puzzle] } 
     }
     if (want) {
       const card = this.card.mesh;
-      bar.root.position.copy(card.position).addScaledVector(this.v.set(0, 1, 0), -0.14);
+      bar.root.position.copy(card.position).addScaledVector(this.v.set(0, 1, 0), -(GLASSES_CARD_W * (CARD_H / CARD_W)) / 2 - 0.045);
       bar.root.quaternion.copy(card.quaternion);
     }
   }

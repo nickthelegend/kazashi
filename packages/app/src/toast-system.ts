@@ -12,7 +12,7 @@ export class ToastSystem extends createSystem({}) {
 
   init(): void {
     const tex = canvasTexture(1024, 128, (ctx) => paper(ctx, 1024, 128));
-    this.mesh = new Mesh(new PlaneGeometry(0.42, 0.0525), new MeshBasicMaterial({ map: tex, transparent: true, side: DoubleSide, depthTest: false }));
+    this.mesh = new Mesh(new PlaneGeometry(0.5, 0.0625), new MeshBasicMaterial({ map: tex, transparent: true, side: DoubleSide, depthTest: false }));
     this.mesh.name = 'Toast';
     this.mesh.renderOrder = 20;
     this.mesh.visible = false;

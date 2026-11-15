@@ -26,26 +26,34 @@ interface Tab {
   action: string;
   label?: string;
   glyph?: Glyph;
+  /** Word under the pictogram. */
+  caption?: string;
   toggle?: () => boolean;
 }
 
 const TABS: Tab[][] = [
   [{ action: 'act1', label: 'I' }, { action: 'act2', label: 'II' }, { action: 'act3', label: 'III' }, { action: 'free', label: 'Free' }],
-  [{ action: 'daily', label: 'Day' }, { action: 'theatre', glyph: 'book' }, { action: 'play', glyph: 'play' }, { action: 'record', glyph: 'record' }],
   [
-    { action: 'tolerance-', glyph: 'minus' },
-    { action: 'tolerance+', glyph: 'plus' },
-    { action: 'onehand', glyph: 'hand1', toggle: () => app.settings.oneHand },
-    { action: 'contrast', glyph: 'contrast', toggle: () => app.settings.highContrast },
+    { action: 'daily', label: 'Day' },
+    { action: 'theatre', glyph: 'book', caption: 'Stage' },
+    { action: 'play', glyph: 'play', caption: 'Replay' },
+    { action: 'record', glyph: 'record', caption: 'Record' },
   ],
   [
-    { action: 'glasses', glyph: 'eye', toggle: () => app.settings.glasses },
-    { action: 'recentre', glyph: 'retry' },
-    { action: 'hint', glyph: 'hint' },
-    { action: 'exit', glyph: 'exit' },
+    { action: 'tolerance-', glyph: 'minus', caption: 'Stricter' },
+    { action: 'tolerance+', glyph: 'plus', caption: 'Easier' },
+    { action: 'onehand', glyph: 'hand1', caption: 'One hand', toggle: () => app.settings.oneHand },
+    { action: 'contrast', glyph: 'contrast', caption: 'Contrast', toggle: () => app.settings.highContrast },
+  ],
+  [
+    { action: 'glasses', glyph: 'eye', caption: 'Glasses', toggle: () => app.settings.glasses },
+    { action: 'recentre', glyph: 'retry', caption: 'Lantern' },
+    { action: 'hint', glyph: 'hint', caption: 'Hint' },
+    { action: 'exit', glyph: 'exit', caption: 'Exit' },
   ],
 ];
-const TAB = 0.042;
+/** 6 cm tabs: captions keep ≥ 0.018 m cap height per metre at ~0.4 m. */
+const TAB = 0.06;
 const GAP = 0.008;
 
 export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }) {
@@ -64,7 +72,7 @@ export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }
     const cols = TABS[0].length;
     const rows = TABS.length;
     const back = new Mesh(
-      new PlaneGeometry(cols * (TAB + GAP) + GAP * 2, rows * (TAB + GAP) + GAP * 2 + 0.02),
+      new PlaneGeometry(cols * (TAB + GAP) + GAP * 2, rows * (TAB + GAP) + GAP * 2),
       new MeshBasicMaterial({ color: COLORS.sumi, transparent: true, opacity: 0.82, side: DoubleSide }),
     );
     back.position.z = -0.002;
@@ -75,10 +83,10 @@ export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }
     const rootEntity = this.world.createTransformEntity(this.root);
     TABS.forEach((row, r) =>
       row.forEach((tab, c) => {
-        const mat = new MeshBasicMaterial({ map: canvasTexture(128, 128, (ctx) => this.paintTab(ctx, tab)), side: DoubleSide });
+        const mat = new MeshBasicMaterial({ map: canvasTexture(160, 160, (ctx) => this.paintTab(ctx, tab)), side: DoubleSide });
         const mesh = new Mesh(new PlaneGeometry(TAB, TAB), mat);
         mesh.name = `Menu_${tab.action}`;
-        mesh.position.set((c - (cols - 1) / 2) * (TAB + GAP), ((rows - 1) / 2 - r) * (TAB + GAP) - 0.008, 0);
+        mesh.position.set((c - (cols - 1) / 2) * (TAB + GAP), ((rows - 1) / 2 - r) * (TAB + GAP), 0);
         this.root.add(mesh);
         const e = this.world.createTransformEntity(mesh, { parent: rootEntity });
         e.addComponent(PaperButton, { action: tab.action });
@@ -93,17 +101,20 @@ export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }
 
   private paintTab(ctx: CanvasRenderingContext2D, tab: Tab): void {
     const on = tab.toggle?.() ?? false;
-    paper(ctx, 128, 128, on ? COLORS.lamp : COLORS.paper);
+    paper(ctx, 160, 160, on ? COLORS.lamp : COLORS.paper);
     ctx.strokeStyle = COLORS.vermilion;
-    ctx.lineWidth = 6;
-    ctx.strokeRect(3, 3, 122, 122);
-    if (tab.glyph) drawGlyph(ctx, tab.glyph, 64, 64, 40, COLORS.sumi);
-    else {
-      ctx.fillStyle = COLORS.sumi;
-      ctx.font = `800 ${tab.label!.length > 3 ? 34 : 46}px ${FONT_DISPLAY}`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(tab.label!, 64, 68);
+    ctx.lineWidth = 8;
+    ctx.strokeRect(4, 4, 152, 152);
+    ctx.fillStyle = COLORS.sumi;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (tab.glyph) {
+      drawGlyph(ctx, tab.glyph, 80, 62, 40, COLORS.sumi);
+      ctx.font = `800 30px ${FONT_DISPLAY}`;
+      ctx.fillText(tab.caption ?? '', 80, 130, 144);
+    } else {
+      ctx.font = `800 ${tab.label!.length > 3 ? 46 : 60}px ${FONT_DISPLAY}`;
+      ctx.fillText(tab.label!, 80, 84);
     }
   }
 
@@ -181,7 +192,7 @@ export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }
       this.root.position.y -= 0.08;
     } else {
       // Float above the palm, tilted toward the eyes.
-      this.root.position.copy(L.palm).addScaledVector(L.palmNormal, 0.09);
+      this.root.position.copy(L.palm).addScaledVector(L.palmNormal, 0.13);
     }
     this.root.lookAt(this.head);
   }

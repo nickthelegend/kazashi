@@ -35,6 +35,19 @@ export class Sound {
     }
   }
 
+  /** The audio context's state ('none' before the first gesture). */
+  get state(): string {
+    return this.ctx?.state ?? 'none';
+  }
+
+  /** A stream of everything Kazashi plays (for the film recorder); null before start. */
+  stream(): MediaStream | null {
+    if (!this.ctx || !this.master) return null;
+    const dest = this.ctx.createMediaStreamDestination();
+    this.master.connect(dest);
+    return dest.stream;
+  }
+
   private ready(): AudioContext | null {
     return this.muted || !this.ctx || !this.master ? null : this.ctx;
   }
