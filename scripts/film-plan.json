@@ -1,0 +1,133 @@
+{
+  "sources": {
+    "f1": {
+      "dir": "../packages/app/.tmp/film-1",
+      "crop": "1849:1040:35:40"
+    },
+    "f2": {
+      "dir": "../packages/app/.tmp/film-2",
+      "crop": "1849:1040:35:40"
+    },
+    "f3": {
+      "dir": "../packages/app/.tmp/film-3",
+      "crop": "1849:1040:35:40"
+    },
+    "f4": {
+      "dir": "../packages/app/.tmp/film-4",
+      "crop": "1849:1040:35:40"
+    },
+    "g": {
+      "dir": "../packages/app/.tmp/film-glasses",
+      "crop": "814:756:553:288"
+    }
+  },
+  "captions": "../packages/app/.tmp/film-captions",
+  "segments": [
+    {
+      "src": "f1",
+      "from": "dogStart-0.3",
+      "to": "dogJumped+2.2",
+      "caption": "hook",
+      "label": true,
+      "note": "the whoa: dog shadow, ring, ink, the dog trots on its brush line and leaps the corner"
+    },
+    {
+      "src": "f1",
+      "from": "intro-1.2",
+      "to": "ghost",
+      "caption": "launch",
+      "note": "first launch: 2D intro, enter, the room dims, the lantern lands"
+    },
+    {
+      "src": "f1",
+      "from": "ghost",
+      "to": "toriInked+3.6",
+      "caption": "ghost",
+      "note": "onboarding: ghost hand, open hand inks the bird, it flies"
+    },
+    {
+      "src": "f1",
+      "from": "rabbit-0.3",
+      "to": "end",
+      "caption": "bodies",
+      "note": "rabbit inks and hops"
+    },
+    {
+      "src": "f2",
+      "from": "hebi",
+      "to": "kirinInked+3.5",
+      "caption": "act1",
+      "note": "snake slithers, giraffe walks"
+    },
+    {
+      "src": "f2",
+      "from": "heron-0.4",
+      "to": "heronCeiling+1.6",
+      "caption": "heron",
+      "note": "two-hand heron flies onto the ceiling"
+    },
+    {
+      "src": "f2",
+      "from": "menu-0.2",
+      "to": "end-0.5",
+      "caption": "act3",
+      "note": "wrist menu to Act III, pinch-carry the lantern, giant spider"
+    },
+    {
+      "src": "f3",
+      "from": "theatre-0.4",
+      "to": "curtainOpen",
+      "caption": "slides",
+      "note": "glass slides pinched and projected"
+    },
+    {
+      "src": "f3",
+      "from": "curtainOpen",
+      "to": "saved+0.8",
+      "caption": "curtain",
+      "note": "curtain gesture, a take records, curtain closes, saved"
+    },
+    {
+      "src": "f3",
+      "from": "narration-2.5",
+      "to": "replay",
+      "caption": "muse",
+      "note": "Muse narration arrives (live call via the local proxy)"
+    },
+    {
+      "src": "f3",
+      "from": "replay",
+      "to": "replayDone+0.6",
+      "caption": "replay",
+      "note": "replay with Muse's lines as paper captions"
+    },
+    {
+      "src": "f4",
+      "from": "settings-0.5",
+      "to": "freeInked+4",
+      "caption": "menu",
+      "note": "high contrast, one-hand mode, free shadows (otter)"
+    },
+    {
+      "src": "f4",
+      "from": "shojiOffered-1",
+      "to": "end",
+      "caption": "shoji",
+      "note": "wall-less room: shoji follows the view, pinch stands it, a bird inks"
+    },
+    {
+      "src": "g",
+      "from": "start",
+      "to": "inked+1.2",
+      "caption": "glasses",
+      "note": "Meta VR Glasses profile: gaze + pinch Next, a dog inks"
+    },
+    {
+      "src": "g",
+      "from": "inked+1.2",
+      "to": "end",
+      "caption": "end",
+      "note": "end card caption over the live dog"
+    }
+  ]
+}

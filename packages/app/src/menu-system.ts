@@ -52,8 +52,8 @@ const TABS: Tab[][] = [
     { action: 'exit', glyph: 'exit', caption: 'Exit' },
   ],
 ];
-/** 6 cm tabs: captions keep ≥ 0.018 m cap height per metre at ~0.4 m. */
-const TAB = 0.06;
+/** 6.4 cm tabs: 36 px captions keep ≥ 0.018 m cap height per metre at ~0.47 m. */
+const TAB = 0.064;
 const GAP = 0.008;
 
 export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }) {
@@ -109,9 +109,9 @@ export class MenuSystem extends createSystem({ menu: { required: [WristMenu] } }
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if (tab.glyph) {
-      drawGlyph(ctx, tab.glyph, 80, 62, 40, COLORS.sumi);
-      ctx.font = `800 30px ${FONT_DISPLAY}`;
-      ctx.fillText(tab.caption ?? '', 80, 130, 144);
+      drawGlyph(ctx, tab.glyph, 80, 58, 38, COLORS.sumi);
+      ctx.font = `800 36px ${FONT_DISPLAY}`;
+      ctx.fillText(tab.caption ?? '', 80, 132, 148);
     } else {
       ctx.font = `800 ${tab.label!.length > 3 ? 46 : 60}px ${FONT_DISPLAY}`;
       ctx.fillText(tab.label!, 80, 84);

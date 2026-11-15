@@ -363,8 +363,8 @@ export class TheatreSystem extends createSystem({
       lines.slice(0, 2).forEach((l, i) => ctx.fillText(i === 1 && lines.length > 2 ? `${l} ${lines.slice(2).join(' ')}` : l, 60, 142 + i * 84, CAPTION_W - 100));
     });
     // High on the wall, above the stage, sized by its distance from the eyes so the
-    // line keeps a cap height of at least 18 mm per metre (74 px Bricolage = 49 px caps;
-    // 0.75 m per metre gives 23 mm/m).
+    // line reads from the seat and in a film frame: 74 px Bricolage = 49 px caps on
+    // 1600 px, so 1 m of strip per metre of distance gives 31 mm/m (gate: 18).
     const c = toSurface(w, imageToWall(app.frame, app.wallDistance, 0, 0));
     const place = (width: number) => {
       const h = width * (CAPTION_H / CAPTION_W);
@@ -379,7 +379,7 @@ export class TheatreSystem extends createSystem({
     };
     place(1.4);
     const view = this.player.head.getWorldPosition(this.v).distanceTo(mesh.position);
-    place(Math.max(1.2, Math.min(2.8, view * 0.75)));
+    place(Math.max(1.6, Math.min(w.halfU * 2 - 0.1, 3.4, view * 1.0)));
     mesh.lookAt(this.w.copy(mesh.position).add(this.v.set(...w.normal)));
   }
 

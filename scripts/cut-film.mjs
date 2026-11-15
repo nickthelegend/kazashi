@@ -2,7 +2,8 @@
 // the marks the recorder wrote. Captions are separate PNG overlays (brand
 // fonts, rendered by e2e/film-captions.mjs); frames are never edited.
 //   node scripts/cut-film.mjs <plan.json> <out.mp4>
-// plan.json: { sources: { quest: ".tmp/film", glasses: ".tmp/film-glasses" }, captions: ".tmp/film-captions",
+// plan.json: { sources: { name: { dir, crop: "w:h:x:y" } }, captions: ".tmp/film-captions",
+//   (crop removes the emulator's toolbar pills, or isolates the Glasses view; then scales to 1920×1080)
 //              segments: [{ src, from: "mark+0.5", to: "mark+3", caption: "caption-id" | null, label: bool }] }
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -19,11 +20,12 @@ const FPS = 30;
 
 // 1. Each source: constant 30 fps 1920×1080 video and its audio on the same clock.
 const src = {};
-for (const [name, rel] of Object.entries(plan.sources)) {
+for (const [name, spec] of Object.entries(plan.sources)) {
+  const { dir: rel, crop } = typeof spec === 'string' ? { dir: spec, crop: null } : spec;
   const dir = path.resolve(base, rel);
   const marks = JSON.parse(fs.readFileSync(path.join(dir, 'marks.json'), 'utf8'));
   const video = path.join(work, `${name}.mp4`);
-  ff(['-f', 'concat', '-safe', '0', '-i', path.join(dir, 'frames', 'frames.txt'), '-vf', `fps=${FPS},scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=0x0f0e0d,format=yuv420p`, '-c:v', 'libx264', '-crf', '17', '-preset', 'medium', video]);
+  ff(['-f', 'concat', '-safe', '0', '-i', path.join(dir, 'frames', 'frames.txt'), '-vf', `fps=${FPS},${crop ? `crop=${crop},` : ''}scale=1920:1080:force_original_aspect_ratio=decrease:flags=lanczos,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=0x0f0e0d,format=yuv420p`, '-c:v', 'libx264', '-crf', '17', '-preset', 'medium', video]);
   const dur = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', video]).toString());
   const audio = path.join(work, `${name}.wav`);
   const webm = path.join(dir, 'audio.webm');
@@ -79,6 +81,6 @@ plan.segments.forEach((seg, i) => {
 // 3. Join, normalise loudness of the app's own sound.
 const list = path.join(work, 'parts.txt');
 fs.writeFileSync(list, parts.map((p) => `file '${p}'`).join('\n'));
-ff(['-f', 'concat', '-safe', '0', '-i', list, '-c:v', 'copy', '-af', 'loudnorm=I=-20:TP=-2:LRA=11', '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', outFile]);
+ff(['-f', 'concat', '-safe', '0', '-i', list, '-c:v', 'copy', '-af', 'loudnorm=I=-20:TP=-2:LRA=11', '-ar', '48000', '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', outFile]);
 fs.writeFileSync(outFile.replace(/\.mp4$/, '.shots.json'), JSON.stringify({ total, shots }, null, 2));
 console.log(`${outFile}: ${total.toFixed(2)} s, ${parts.length} shots`);

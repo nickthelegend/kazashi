@@ -183,6 +183,8 @@ export async function filmPart(ctx, part) {
       await h.sleep(4000);
       mark('end');
     } else if (part === 3) {
+      // Let the act's creatures finish their run before the theatre opens.
+      await h.waitFor('stage clear', async () => (await h.components('Creature')).length === 0, 15000).catch(() => null);
       await palmUp();
       await press('Menu_theatre');
       await h.waitFor('theatre', async () => (await h.component('Puzzle')).mode === 'theatre', 3000);
