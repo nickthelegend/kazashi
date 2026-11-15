@@ -4,9 +4,10 @@
 Immersive Web SDK (WebXR).
 
 A paper lantern sits on your real desk. Raise your hand over it and its shadow falls on your real wall. Shape a
-dog, hold it until the ring fills, and the shadow inks into a living dog: it peels off the wall, grows legs, trots
-to the end of the wall and leaps the corner. Two hands make a heron that flies up the wall onto the ceiling.
-Collect the cast, then stage a 20-second play and keep the take.
+dog, hold it until the ring fills, and the shadow inks black, then turns into a dog: head, ears, tail and jointed
+legs. It trots along a brush line it paints on your wall and leaps the corner. Two hands make a heron that flies up
+the wall onto the ceiling. Collect the cast, stage a 20-second play, and Muse (Meta's model) writes narration for
+your take, which plays as paper captions on the wall.
 
 Meta VR Start 2026 · Track: Entertainment · Division: New Experience · Award target: Boldest Original Concept.
 Spec: `grokbot/specs/meta-vr/kazashi.md`.
@@ -15,6 +16,26 @@ Spec: `grokbot/specs/meta-vr/kazashi.md`.
 
 Verified clips (IWER emulator, real app output, emulated hands; full decode + SHA-256 in [clips.json](e2e-results/clips.json)): `grokbot/videos/kazashi/kazashi-whoa.mp4` (22 s),
 `kazashi-theatre.mp4` (26 s), `kazashi-shoji.mp4` (21 s).
+
+## Nov 15 pass: real animals, readable paper, narration
+
+- **Every creature is an animal now.** 25 procedural profile bodies (`packages/core/src/creatures.ts`) on small bone
+  rigs: a dog with ears, snout, jaw and a wagging tail; a giraffe with ossicones; a heron with an S-neck and trailing
+  legs; a crab with pincers and six jointed legs. The shadow inks as itself first, then dissolves while the animal
+  bleeds in. Walkers stride on a dry-brush ground line, and the planted foot is held to it (tested: slip < 20 % of the
+  distance walked). The eye is a hole cut through the head, as in a paper puppet.
+- **Readable at headset distance.** The kamishibai card is sized by your distance to it, so its hint keeps a cap
+  height of at least 18 mm per metre. It also shows the animal the shadow becomes. The cast slides are 12 × 16 cm and
+  show the animal. Every wrist-menu tab has a word under its pictogram.
+- **Muse narration** (optional, `packages/proxy`). After a take, the app sends a staging summary (who was on stage,
+  when, which way they went) to a small Vercel function. That function holds the Meta Model API key and asks
+  `muse-spark-1.3` for 3–4 timed lines. Replays show them as a paper caption strip on the wall (captions only:
+  Kazashi uses no browser speech). Without the proxy the app says "AI narration unavailable" with the reason, and everything else
+  works.
+- **Film:** `grokbot/videos/kazashi/kazashi-film.mp4`, 2:44 at 1920×1080 with the app's own sound. It is real emulator
+  output with caption overlays; the shot list is in `kazashi-film.md`.
+- All five emulator suites pass again (Nov 15), with 0 console errors: [TESTING.md](TESTING.md).
+- Judge's notes, before and after: [docs/JUDGE-NOV15.md](docs/JUDGE-NOV15.md).
 
 ## Completion pass (Oct 25, 2026)
 
@@ -55,6 +76,7 @@ packages/core      pure TypeScript, no renderer: shadow rasteriser + IoU matcher
                    room reading (unlabelled planes), takes, daily seed, creature mesh + rig data, the cast
 packages/app       the IWSDK app (systems, procedural lantern, shaders, synthesised audio) + emulator e2e
 packages/landing   one-page site in the brand (kamishibai stage), silhouettes drawn from the cast data
+packages/proxy     the narration server: one Vercel function holding MODEL_API_KEY (not deployed here)
 e2e-results/       the latest emulator e2e results (JSON) and the glasses field-of-view screenshot
 ```
 
@@ -83,7 +105,8 @@ e2e-results/       the latest emulator e2e results (JSON) and the glasses field-
 Requirements: Node ≥ 20.19 (tested on 26), npm.
 
 ```bash
-cd packages/core && npm install && npm test        # 83 unit tests
+cd packages/core && npm install && npm test        # 138 unit tests
+cd ../proxy && npm test                             # 6 proxy tests (the live one needs MODEL_API_KEY)
 cd ../app && npm install && ../../../../tools/heavy-slot.sh acquire kazashi && npm run dev             # IWSDK dev server + emulator (https://localhost:8093)
 cd ../landing && npm install && ../../../../tools/heavy-slot.sh acquire kazashi && npm run dev         # landing page (http://localhost:8094)
 ```

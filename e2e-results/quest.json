@@ -1,7 +1,19 @@
 {
+  "recordedAt": "2026-11-15T13:57:16.506Z",
+  "profile": "metaQuest3",
   "steps": {
     "enter": {
       "ok": true,
+      "device": "Meta Quest 3",
+      "features": [
+        "local-floor",
+        "bounded-floor",
+        "hand-tracking",
+        "anchors",
+        "plane-detection",
+        "viewer",
+        "local"
+      ],
       "wall": {
         "id": "plane-46",
         "kind": "wall",
@@ -22,88 +34,93 @@
         "placed": true,
         "onDesk": true
       },
-      "readyMs": 1075,
-      "ms": 1259
+      "readyMs": 1061,
+      "ms": 1253
     },
     "act1": {
       "ok": true,
       "inked": [
         {
           "id": "tori",
-          "ms": 2403
+          "ms": 2407
         },
         {
           "id": "inu",
-          "ms": 2518
+          "ms": 2391
         },
         {
           "id": "usagi",
-          "ms": 2521
+          "ms": 2609
         },
         {
           "id": "hebi",
-          "ms": 1997
+          "ms": 2010
         },
         {
           "id": "kirin",
-          "ms": 2077
+          "ms": 1983
         }
       ],
-      "seconds": 32.76,
+      "seconds": 32.634,
       "handActions": 5,
-      "ms": 31501
+      "ms": 31381
     },
     "lantern-move": {
       "ok": true,
-      "before": 0.6940813660621643,
-      "after": 0.6100059747695923,
+      "before": 0.6941210031509399,
+      "after": 0.6099998354911804,
       "wallDistance": [
         1.6049998998641968,
-        1.4102282524108887
+        1.4102280139923096
       ],
-      "moved": 0.1948218360188275,
+      "moved": 0.19482207438655622,
       "puzzle": "sagi",
-      "ms": 6010
+      "ms": 6014
     },
     "hint-poke": {
       "ok": true,
       "before": false,
       "after": true,
-      "ms": 3617
+      "ms": 2249
     },
     "palm-up-menu": {
       "ok": true,
-      "ms": 37
+      "ms": 41
     },
     "theatre": {
       "ok": true,
       "theatre": {
         "recording": false,
-        "elapsed": 6.850399971008301,
+        "elapsed": 6.850900173187256,
         "takes": 1,
-        "lastTakeId": "take-mvln8oop",
+        "lastTakeId": "take-mwhwghy7",
         "onStage": 1,
-        "replaying": false
+        "replaying": false,
+        "castPage": 0,
+        "castPages": 1,
+        "narration": "writing",
+        "narrationError": "",
+        "captionLine": -1
       },
-      "ms": 14696
+      "ms": 15627
     },
     "reload-restores-take": {
       "ok": true,
       "takes": 1,
-      "lastTakeId": "take-mvln8oop",
-      "ms": 1679
+      "lastTakeId": "take-mwhwghy7",
+      "ms": 1681
     }
   },
   "handActions": 12,
   "errors": [],
   "log": [
-    "00:10:40.029 enter: PASS",
-    "00:11:11.530 act1: PASS",
-    "00:11:17.540 lantern-move: PASS",
-    "00:11:21.157 hint-poke: PASS",
-    "00:11:21.194 palm-up-menu: PASS",
-    "00:11:35.890 theatre: PASS",
-    "00:11:37.569 reload-restores-take: PASS"
+    "13:57:19.272 enter: PASS",
+    "13:57:50.653 act1: PASS",
+    "13:57:56.667 lantern-move: PASS",
+    "13:57:58.916 hint-poke: PASS",
+    "13:57:58.957 palm-up-menu: PASS",
+    "13:58:14.584 theatre: PASS",
+    "13:58:16.265 reload-restores-take: PASS"
   ],
   "pass": true
 }

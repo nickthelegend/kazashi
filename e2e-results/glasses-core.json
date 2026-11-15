@@ -1,0 +1,128 @@
+{
+  "recordedAt": "2026-11-15T13:59:03.638Z",
+  "profile": "metaVRGlasses",
+  "steps": {
+    "enter": {
+      "ok": true,
+      "device": "Meta VR Glasses",
+      "features": [
+        "local-floor",
+        "bounded-floor",
+        "hand-tracking",
+        "anchors",
+        "plane-detection",
+        "gaze-tracking",
+        "eye-tracking",
+        "viewer",
+        "local"
+      ],
+      "wall": {
+        "id": "plane-46",
+        "kind": "wall",
+        "origin": [
+          1.1102230246251565e-16,
+          1.3500000238418575,
+          -3.4000000953674316
+        ],
+        "normal": [
+          0,
+          2.028159500344629e-7,
+          0.9999999999999796
+        ],
+        "halfU": 2.502000093460083,
+        "halfV": 1.3519998378506144
+      },
+      "lantern": {
+        "placed": true,
+        "onDesk": true
+      },
+      "readyMs": 1039,
+      "ms": 1250
+    },
+    "act1": {
+      "ok": true,
+      "inked": [
+        {
+          "id": "tori",
+          "ms": 2404
+        },
+        {
+          "id": "inu",
+          "ms": 2526
+        },
+        {
+          "id": "usagi",
+          "ms": 2505
+        },
+        {
+          "id": "hebi",
+          "ms": 1985
+        },
+        {
+          "id": "kirin",
+          "ms": 2079
+        }
+      ],
+      "seconds": 32.782,
+      "handActions": 5,
+      "ms": 31532
+    },
+    "lantern-move": {
+      "ok": true,
+      "before": 0.6939246654510498,
+      "after": 0.6100199222564697,
+      "wallDistance": [
+        1.6049998998641968,
+        1.4102282524108887
+      ],
+      "moved": 0.1948218360188275,
+      "puzzle": "sagi",
+      "ms": 6015
+    },
+    "hint-gaze": {
+      "ok": true,
+      "before": false,
+      "after": true,
+      "ms": 667
+    },
+    "palm-up-menu": {
+      "ok": true,
+      "ms": 43
+    },
+    "theatre": {
+      "ok": true,
+      "theatre": {
+        "recording": false,
+        "elapsed": 6.851099967956543,
+        "takes": 1,
+        "lastTakeId": "take-mwhwiqlt",
+        "onStage": 1,
+        "replaying": false,
+        "castPage": 0,
+        "castPages": 1,
+        "narration": "writing",
+        "narrationError": "",
+        "captionLine": -1
+      },
+      "ms": 14475
+    },
+    "reload-restores-take": {
+      "ok": true,
+      "takes": 1,
+      "lastTakeId": "take-mwhwiqlt",
+      "ms": 1717
+    }
+  },
+  "handActions": 12,
+  "errors": [],
+  "log": [
+    "13:59:06.398 enter: PASS",
+    "13:59:37.930 act1: PASS",
+    "13:59:43.945 lantern-move: PASS",
+    "13:59:44.612 hint-gaze: PASS",
+    "13:59:44.655 palm-up-menu: PASS",
+    "13:59:59.130 theatre: PASS",
+    "14:00:00.847 reload-restores-take: PASS"
+  ],
+  "pass": true
+}

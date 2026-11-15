@@ -3,8 +3,7 @@
 One Vercel serverless function, `POST /api/narrate`. After you record a take in the theatre, the app sends a
 **staging summary** (which creatures were on stage, when they entered and left, how far and which way they moved). This
 function checks it, writes the prompt on the server and asks **Muse** (`muse-spark-1.3`, Meta Model API) for 3–4 timed
-narration lines. The theatre shows them as paper captions on the wall when the take replays, and speaks them where the
-browser has `speechSynthesis`.
+narration lines. The theatre shows them as paper captions on the wall when the take replays (captions only, no speech).
 
 Kazashi works fully without this server. If it is not configured or fails, the app says **"AI narration unavailable"**
 with the reason and the theatre carries on.

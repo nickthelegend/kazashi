@@ -1,41 +1,61 @@
 # Testing
 
-The historical emulator numbers below come from runs on Oct 24, 2026 (MacBook, Node 26.5, IWSDK 1.1.0-rc.2, IWER via the IWSDK
+The Nov 15 section is current. The historical emulator numbers further down come from runs on Oct 24, 2026 (MacBook, Node 26.5, IWSDK 1.1.0-rc.2, IWER via the IWSDK
 managed headless Chromium). Raw results: [`e2e-results/`](e2e-results). No mocks: the e2e drives IWER's emulated
 hands and headset through the app's real systems; the only page hook (`window.__kazashi`) is read-only.
 
-## Current verification: Oct 25, 2026
+## Current verification: Nov 15, 2026
 
-- **83/83 core unit tests pass** across seven files. Added coverage ensures every chapter has reachable one-hand
-  targets and every collected creature is accessible through cast-book paging.
-- All three package typechecks pass in this worktree. Both production builds passed in the earlier completion
-  pass; they were not rerun for this emulator verification.
-- In the earlier completion pass, all three existing MP4s fully decoded without errors. The whoa clip is 22.13 s
-  and byte-identical to the landing copy; theatre is 26.33 s and shoji 21.07 s. Sizes, streams and SHA-256:
-  [clips.json](e2e-results/clips.json).
-- **Fresh emulator runs blocked before browser launch.** Both root `npm run test:e2e` attempts on Oct 25 at
-  13:03:51 UTC and 13:04:11 UTC passed typechecks, acquired the heavy slot and exited nonzero during Quest runtime
-  startup with `RuntimeOwnerError: Cannot establish this process birth identity`. This sandbox denies `ps`, which
-  IWSDK needs for safe runtime ownership; no environment permitting it is available in this session.
-  **quest, perf, wallless, glasses and glasses-wallless did not run.** [Latest run](e2e-results/latest-run.json)
-  records the second failure, runtime log and error-free cleanup. The config is restored, runtime status reports
-  no running/starting session or browser, and no slot remains owned by Kazashi (another project subsequently
-  acquired the shared slot). No new frame-time or console-error claims are made; all Oct 24 emulator measurements
-  below remain historical.
-- The runner's heavy-slot lookup now uses the normal relative path when present, otherwise
-  `/Volumes/Extreme SSD/Projects/grokbot/tools/heavy-slot.sh`. The fallback was needed and exercised in this deeper
-  Loom worktree. The runner alone acquires/releases the slot; do not acquire it before `npm run test:e2e`.
-- The current Glasses suite now reuses the complete cold-load act-one, lantern, theatre and persistence loop,
-  uses gaze + pinch for buttons, checks gaze disconnection fallback and both pinch hands, and checks the card's
-  corners and ring perimeter rather than only centres. It and the new cast-book interaction require a fresh run.
-- `perf.mjs` explicitly fails unless it captures 600 frames, uses all 25 poses, has CPU p95 ≤ 4 ms, ≤ 60 draw calls,
-  ≤ 100k triangles, and zero console errors. The old perf JSON is historical evidence, not a current gate pass.
+Fresh runs in this session, on the current code (IWSDK 1.1.0-rc.2, IWER in the managed headless Chromium, desktop Mac).
+Raw results are in `packages/app/.tmp/e2e/*.json` and `.tmp/look/look-*.json`; the summary is below.
 
-Run `npm run typecheck && npm test && npm run test:e2e && npm run build` from the repo root in an environment that
-permits local runtime/process inspection. The e2e runner acquires the heavy slot before launching, uses both
-profiles in one held slot, stops the managed runtime between profiles, restores the config and releases the slot
-in cleanup. It refuses to replace an already running session. `npm run test:clips` verifies existing recordings.
-Do not deploy as part of validation.
+- **138/138 core unit tests pass** (nine files). This includes 48 new body-plan tests and 7 narration tests.
+- **6/6 proxy tests pass** (`packages/proxy`). Five run without a key or network. The live test called the real Meta
+  Model API (`muse-spark-1.3`) and got 4 timed lines in 11.2 s.
+- **All five emulator suites pass, 0 console errors.** Quest 3 profile: `quest` 7/7 steps, `perf` 1/1, `wallless` 4/4.
+  Meta VR Glasses profile: `glasses` 8/8, `glasses-wallless` 4/4. The root `npm run test:e2e` runner acquires the shared
+  slot itself, so these were run one by one with `iwsdk browser run` inside a slot this session already held. Each
+  script stays under the managed runner's 110 s lease.
+- The Quest suites ran on the build just before the final commit, which only changes the card's size factor (0.72 → 0.75 m per metre). The Glasses suites ran on the final code.
+- Typecheck (all packages) and both production builds pass.
+- **Muse narration live in the emulator.** The look pass and the film's theatre part recorded a take and sent its
+  staging summary to the local proxy (`packages/proxy/dev-server.mjs`, same handler as the Vercel function), and Muse
+  returned lines in 9.3 s. The replay showed them as the wall caption (`Theatre.captionLine` 0..3). The lines are
+  stored with the take.
+- No browser speech: Kazashi never calls `speechSynthesis` (Nick's rule: spoken voice is Chatterbox only). Muse's
+  dynamic lines are captions only.
+
+### UI legibility (cap height per metre of viewing distance; gate ≥ 18 mm/m)
+
+Cap ratios were measured in the emulator's Chromium: Anonymous Pro 0.637 em, Bricolage Grotesque 0.66 em. Sizes and
+eye distances come from the `inspect()` test hook.
+
+| Element | Before (Oct) | Now |
+|---|---:|---:|
+| Kamishibai card hint (52 px on 1280 px; sized by the distance from the eyes to the card itself) | 7.0 | **17.9 measured** at 0.72 m per metre (1.61 m wide, 2.33 m away). The final commit uses 0.75 (≈ 18.6 by the same geometry, not re-measured) |
+| Narration caption (74 px on 1600 px; 1 m per metre of distance, ≤ 3.4 m; measured 2.51 m wide at 2.45 m) | n/a | 31 |
+| Cast slide name (44 px on a 300 px, 12 cm slide, ~0.55 m) | 9.6 | 21 |
+| Wrist-menu caption (36 px on a 160 px, 6.4 cm tab, measured 0.47 m away) | most tabs had no words | 20 |
+| Glasses card hint (0.56 m at 0.65 m) | 9.2 | 22 |
+| Toast (52 px Bricolage on a 1024 px, 0.6 m strip, 0.7 m) | 21 | 29 |
+
+### Emulator gates now (Nov 15)
+
+| Gate | Spec | Measured |
+|---|---|---|
+| Hands-only, cold load → act 1 complete | record | **5 hand actions, 32.9 s** (each card inks 2.0–2.6 s after the hand moves) |
+| Lantern pinch-grab rescales the shadow | changes | lantern carried 0.195 m: wall distance 1.605 → 1.410 m, shadow 0.694 → 0.610 m |
+| Poke hint / palm-up menu | works | hint false → true; menu open 46 ms after palm-up |
+| Theatre | slide → wall, curtain, take saved, restored after reload | 1 on stage, take saved (6.8 s), same take id after reload |
+| Wall-less room | shoji within 5 s, pinch, puzzle completes | 0 walls; offered at 5.08 s; placed by one pinch; bird inked in 1.1 s |
+| Glasses | gaze + pinch, FoV fit | all 8 steps pass, including card corners and ring perimeter inside 37° / +25° / −43° |
+| CPU frame time p95 | ≤ 4 ms | **1.3 ms** (p50 0.9 ms) over 600 frames |
+| Draw calls | ≤ 60 | **max 60** (p50 60): at the gate. Before: 46. The extra calls are the blot, the brush line and the bigger card |
+| Triangles | ≤ 100k | **max 45.3k** |
+| Console errors | 0 | 0 in every run |
+
+The quest suite reports `narration: "writing"` in its theatre step because the live proxy call was still in flight.
+The suite does not wait for it.
 
 ## Counts
 
@@ -48,11 +68,15 @@ Do not deploy as part of validation.
 | Room reading (unlabelled planes) | `packages/core/test/room.test.ts` | 6 | pass |
 | The cast: reachability, distinctness, structure, one-hand chapters, report | `packages/core/test/bestiary.test.ts` | 53 | pass |
 | Cast-book paging, wraparound and empty collection | `packages/core/test/cast.test.ts` | 3 | pass |
-| **Unit total** | `cd packages/core && npm test` | **83** | **83 pass** |
-| Historical e2e Quest 3 hands, sunlit_living_room | `packages/app/e2e/quest.mjs` | 7 steps | 7 pass, 0 console errors |
-| Historical e2e wall-less custom room (engawa) | `packages/app/e2e/wallless.mjs` | 4 steps | 4 pass, 0 console errors |
-| Historical e2e Meta VR Glasses (gaze + hands, FoV) | `packages/app/e2e/glasses.mjs` | 6 steps | 6 pass, 0 console errors |
-| Historical perf: 600-frame pose sweep | `packages/app/e2e/perf.mjs` | 1 | within budget |
+| Creature bodies: structure, jointed legs, ground contact, foot slip | `packages/core/test/body.test.ts` | 48 | pass |
+| Narration: staging summary, line checks, take round trip | `packages/core/test/narration.test.ts` | 7 | pass |
+| **Unit total** | `cd packages/core && npm test` | **138** | **138 pass** |
+| Proxy: validation, limits, error paths, live Muse call | `packages/proxy/test/narrate.test.mjs` | 6 | 6 pass (live run with key) |
+| e2e Quest 3 hands, sunlit_living_room (Nov 15) | `packages/app/e2e/quest.mjs` | 7 steps | 7 pass, 0 console errors |
+| e2e perf: 600-frame pose sweep (Nov 15) | `packages/app/e2e/perf.mjs` | 1 | pass |
+| e2e wall-less custom room, engawa (Nov 15) | `packages/app/e2e/wallless.mjs` | 4 steps | 4 pass, 0 console errors |
+| e2e Meta VR Glasses, gaze + hands, FoV (Nov 15) | `packages/app/e2e/glasses.mjs` | 8 steps | 8 pass, 0 console errors |
+| e2e Glasses wall-less (Nov 15) | `packages/app/e2e/glasses-wallless.mjs` | 4 steps | 4 pass, 0 console errors |
 
 ## Historical emulator gates (Oct 24) vs measured
 

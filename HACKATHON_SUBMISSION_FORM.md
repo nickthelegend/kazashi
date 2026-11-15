@@ -12,7 +12,16 @@ owns, edits and submits this; Nick is a non-Representative member.
 | Platform | Immersive Web SDK (WebXR), submitted as a public URL (GitHub Pages from the Representative's repo) |
 | Special award target | Boldest Original Concept |
 | Target launch date | TBD by the Representative |
-| Video | Under 3:00, public on YouTube/Vimeo, IWER footage allowed. Lead with `kazashi-whoa.mp4`, then theatre and shoji clips |
+| Video | `grokbot/videos/kazashi/kazashi-film.mp4` (under 3:00, 1920×1080, IWER footage, the app's own sound; shot list in `kazashi-film.md`). Upload public to YouTube or Vimeo |
+
+## Nov 15 update
+
+- Every creature is now a real animal (25 procedural profile bodies with jointed legs and a walk that keeps its feet on
+  the ground). The card, slides and menu meet a cap-height bar of ≥ 18 mm per metre of viewing distance.
+- **Muse (Meta Model API)** writes 3–4 lines of narration for your take. It runs through `packages/proxy`, a Vercel
+  function that holds the key, allows one model and one route, and rate-limits. Replays show the lines as paper
+  captions. Without it, the app says "AI narration unavailable" and works fully (the "take it away" test).
+- 138 core + 6 proxy tests and all five emulator suites pass (Nov 15). See TESTING.md and docs/JUDGE-NOV15.md.
 
 ## Build handoff (Oct 25)
 
@@ -38,6 +47,8 @@ answers whatever you make with the nearest of ten more creatures, and a daily si
 brings you back. In the theatre you pinch glass slides of your cast and project them onto the wall, then part your
 hands like a curtain and close them to record a 20-second play; takes replay through the same shadows and creatures.
 
+**Narration.** After a take, Muse (`muse-spark-1.3`) writes three or four lines about what actually happened on stage (who entered, which way they went), and the replay shows them as paper captions on the wall.
+
 **How we built it.** IWSDK on WebXR. The shadow is analytic: 25 joints per hand become tapered capsules and a palm
 polygon projected through the lantern onto the wall plane, rasterised into 64 × 64 bits at 15 Hz and scored by IoU
 after normalising position and size, with ±10° of roll. The same geometry casts the lantern's real-time shadow, so the
@@ -46,7 +57,7 @@ orientation, height and size: a desk for the lantern, a wall for the play, the c
 wall: one pinch stands a shoji screen. Every effect is drawn on planes; passthrough is never read or altered. The 25
 silhouettes were authored by playing 1,212 hand recipes in the IWER emulator and choosing a set whose shadows are
 mutually distinct, then running each one through the same rasteriser as live hands. Audio is synthesised (koto-like
-plucks, paper rustle, ink bleed). Art direction is washi and sumi.
+plucks, paper rustle, ink bleed). Each creature is a procedural profile animal (head, ears or beak, tail, jointed legs) posed on the CPU; the walk cycle is driven by distance so the planted foot holds to a brush line it paints on your wall. Art direction is washi and sumi.
 
 **Accessibility and comfort.** Seated, within two feet. Tolerance slider, one-hand mode, high-contrast silhouettes,
 pictograms and a ghost hand instead of text. Meta VR Glasses get a layout inside their narrower view with gaze + pinch.

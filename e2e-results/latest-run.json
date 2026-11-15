@@ -1,12 +1,43 @@
 {
-  "startedAt": "2026-10-25T13:04:11.228Z",
-  "pass": false,
-  "suites": {},
-  "error": "{\n  \"ok\": false,\n  \"error\": {\n    \"code\": \"dev_up_exit\",\n    \"message\": \"Dev server exited before registering a runtime session\",\n    \"details\": {\n      \"workspaceRoot\": \"/Volumes/Extreme SSD/Projects/grokbot/projects/.loom-worktrees/kazashi-84220639107b/omvntzkx7/t3/packages/app\",\n      \"logPath\": \"/Volumes/Extreme SSD/Projects/grokbot/projects/.loom-worktrees/kazashi-84220639107b/omvntzkx7/t3/packages/app/.iwsdk/runtime/logs/dev-1792933451387.log\",\n      \"exitCode\": 1,\n      \"signal\": null,\n      \"scriptName\": \"dev:runtime\"\n    }\n  }\n}\n",
-  "runtimeLog": "\n> app@0.1.0 dev:runtime\n> vite\n\n\n🥽 IWSDK Dev Summary (Development):\n  - Device: metaQuest3\n  - Runtime injected: 1470.5KB\n  - Activation mode: localhost\n  - SEM environment: sunlit_living_room\n  - AI: agent mode (WebSocket at /__iwer_mcp)\n  - Note: Runtime only activates on localhost/local networks\n\n\n🥽 IWSDK Dev Summary (Development):\n  - Device: metaQuest3\n  - Runtime injected: 1470.5KB\n  - Activation mode: localhost\n  - SEM environment: sunlit_living_room\n  - AI: agent mode (WebSocket at /__iwer_mcp)\n  - Note: Runtime only activates on localhost/local networks\n\nerror when starting dev server:\nRuntimeOwnerError: Cannot establish this process birth identity, so runtime ownership cannot be acquired safely. Retry startup; on Windows, verify PowerShell is available.\n    at acquireRuntimeOwner (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/.loom-worktrees/kazashi-84220639107b/omvntzkx7/t3/packages/app/node_modules/@iwsdk/vite-plugin-dev/dist/index.js:4797:15)\n    at acquireOwner (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/.loom-worktrees/kazashi-84220639107b/omvntzkx7/t3/packages/app/node_modules/@iwsdk/vite-plugin-dev/dist/index.js:59938:81)\n    at Http2SecureServer.<anonymous> (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/.loom-worktrees/kazashi-84220639107b/omvntzkx7/t3/packages/app/node_modules/@iwsdk/vite-plugin-dev/dist/index.js:61487:26)\n    at httpServer.listen (file:///Volumes/Extreme%20SSD/Projects/grokbot/projects/.loom-worktrees/kazashi-84220639107b/omvntzkx7/t3/packages/app/node_modules/vite/dist/node/chunks/config.js:25899:11)\n",
-  "cleanup": {
-    "attempted": true,
-    "errors": []
+  "startedAt": "2026-11-15T13:57:16.506Z",
+  "finishedAt": "2026-11-15T14:00:13.049Z",
+  "pass": true,
+  "how": "Nov 15: each suite run with `iwsdk browser run e2e/<suite>.mjs` inside a heavy slot this session already held (scripts/run-e2e.mjs acquires the slot itself, so it cannot run inside a held slot). Quest 3 profile: quest, perf, wallless. Meta VR Glasses profile after a clean runtime restart: glasses (its glasses-core part), glasses-wallless.",
+  "suites": {
+    "quest": {
+      "pass": true,
+      "recordedAt": "2026-11-15T13:57:16.506Z",
+      "errors": []
+    },
+    "glasses-core": {
+      "pass": true,
+      "recordedAt": "2026-11-15T13:59:03.638Z",
+      "errors": []
+    },
+    "perf": {
+      "pass": true,
+      "recordedAt": "2026-11-15T13:58:27.421Z",
+      "errors": []
+    },
+    "glasses-wallless": {
+      "pass": true,
+      "recordedAt": "2026-11-15T14:00:13.049Z",
+      "errors": []
+    },
+    "glasses": {
+      "pass": true,
+      "recordedAt": "2026-11-15T14:00:00.848Z",
+      "errors": []
+    },
+    "wallless": {
+      "pass": true,
+      "recordedAt": "2026-11-15T13:58:27.751Z",
+      "errors": []
+    }
   },
-  "finishedAt": "2026-10-25T13:04:12.551Z"
+  "cleanup": {
+    "runtimeStopped": true,
+    "configRestored": true,
+    "slotReleased": true
+  }
 }

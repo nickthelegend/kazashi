@@ -1,5 +1,11 @@
 {
+  "recordedAt": "2026-11-15T14:00:00.848Z",
   "steps": {
+    "hands-only-core": {
+      "ok": true,
+      "seconds": 32.782,
+      "handActions": 5
+    },
     "profile": {
       "ok": true,
       "device": "Meta VR Glasses",
@@ -18,7 +24,7 @@
     },
     "glasses-layout-auto": {
       "ok": true,
-      "ms": 10
+      "ms": 13
     },
     "gaze-pinch-next": {
       "ok": true,
@@ -31,7 +37,7 @@
       "ok": true,
       "target": "Menu_contrast",
       "hovered": 1,
-      "ms": 4
+      "ms": 2
     },
     "complete-puzzle": {
       "ok": true,
@@ -41,32 +47,136 @@
       "ok": true,
       "res": {
         "ring": {
-          "h": 4.1632254064485466,
-          "v": 8.78851851449493,
+          "h": 4.163224045427383,
+          "v": 8.788494791886617,
           "inside": true
         },
         "card": {
           "h": 0,
-          "v": -18.409089607992726,
+          "v": -18.694950608890245,
+          "inside": true
+        },
+        "card-corner-0": {
+          "h": -25.56537549788021,
+          "v": -31.900543368267297,
+          "inside": true
+        },
+        "card-corner-1": {
+          "h": -22.19531853853605,
+          "v": -5.489357849513203,
+          "inside": true
+        },
+        "card-corner-2": {
+          "h": 25.56537549788021,
+          "v": -31.900543368267297,
+          "inside": true
+        },
+        "card-corner-3": {
+          "h": 22.19531853853605,
+          "v": -5.489357849513203,
+          "inside": true
+        },
+        "ring-edge-0": {
+          "h": 17.117415678344145,
+          "v": 8.83308376324569,
+          "inside": true
+        },
+        "ring-edge-1": {
+          "h": 16.17740483281213,
+          "v": 13.780162240280783,
+          "inside": true
+        },
+        "ring-edge-2": {
+          "h": 13.452350827399753,
+          "v": 17.819146424200177,
+          "inside": true
+        },
+        "ring-edge-3": {
+          "h": 9.259039359450263,
+          "v": 20.421980271634943,
+          "inside": true
+        },
+        "ring-edge-4": {
+          "h": 4.184607726370494,
+          "v": 21.31608120664152,
+          "inside": true
+        },
+        "ring-edge-5": {
+          "h": -0.9562726328209985,
+          "v": 20.421980271634943,
+          "inside": true
+        },
+        "ring-edge-6": {
+          "h": -5.305767438898191,
+          "v": 17.819146424200177,
+          "inside": true
+        },
+        "ring-edge-7": {
+          "h": -8.181274813874445,
+          "v": 13.780162240280783,
+          "inside": true
+        },
+        "ring-edge-8": {
+          "h": -9.182000428534565,
+          "v": 8.83308376324569,
+          "inside": true
+        },
+        "ring-edge-9": {
+          "h": -8.181275108035756,
+          "v": 3.7499457335811623,
+          "inside": true
+        },
+        "ring-edge-10": {
+          "h": -5.305767794195431,
+          "v": -0.6092924164104737,
+          "inside": true
+        },
+        "ring-edge-11": {
+          "h": -0.9562727169529072,
+          "v": -3.521224552698638,
+          "inside": true
+        },
+        "ring-edge-12": {
+          "h": 4.1846081235195545,
+          "v": -4.5402230224608395,
+          "inside": true
+        },
+        "ring-edge-13": {
+          "h": 9.259040160091672,
+          "v": -3.521224552698638,
+          "inside": true
+        },
+        "ring-edge-14": {
+          "h": 13.452351700467744,
+          "v": -0.6092924164104737,
+          "inside": true
+        },
+        "ring-edge-15": {
+          "h": 16.17740539161776,
+          "v": 3.749945733581156,
           "inside": true
         },
         "Glasses_hint": {
-          "h": -4.812540039364073,
-          "v": -26.620827089225838,
+          "h": -8.056967259003597,
+          "v": -33.30017585640642,
           "inside": true
         },
         "Glasses_retry": {
           "h": 0,
-          "v": -26.620827089225838,
+          "v": -33.30017585640642,
           "inside": true
         },
         "Glasses_next": {
-          "h": 4.812540039364073,
-          "v": -26.620827089225838,
+          "h": 8.056967259003597,
+          "v": -33.30017585640642,
           "inside": true
         }
       },
       "shot": "/Volumes/Extreme SSD/Projects/grokbot/projects/kazashi/packages/app/.tmp/glasses-fov.png"
+    },
+    "gaze-disconnect-hand-ray": {
+      "ok": true,
+      "ms": 3
     }
   },
   "menuGaze": {

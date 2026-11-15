@@ -1,14 +1,24 @@
 {
+  "recordedAt": "2026-11-15T13:58:27.421Z",
   "result": {
     "frames": 600,
-    "cpuP50": 1.2000000178813934,
-    "cpuP95": 1.800000011920929,
-    "ecsP95": 1.199999988079071,
-    "renderP95": 0.7000000178813934,
-    "callsMax": 46,
-    "callsP50": 44,
-    "trianglesMax": 43106
+    "cpuP50": 1.2000000029802322,
+    "cpuP95": 1.6000000089406967,
+    "ecsP95": 0.9000000059604645,
+    "renderP95": 0.7000000029802322,
+    "callsMax": 60,
+    "callsP50": 60,
+    "trianglesMax": 45336
   },
   "posesUsed": 25,
-  "errors": []
+  "gates": {
+    "frames": true,
+    "poses": true,
+    "cpu": true,
+    "calls": true,
+    "triangles": true,
+    "console": true
+  },
+  "errors": [],
+  "pass": true
 }
