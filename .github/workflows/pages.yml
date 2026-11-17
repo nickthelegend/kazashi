@@ -42,7 +42,7 @@ jobs:
         env:
           NODE_ENV: production
           VITE_KAZASHI_PROXY_URL: ${{ vars.KAZASHI_PROXY_URL }}
-        run: npm ci && npm run typecheck && npx vite build --base "${BASE}app/"
+        run: npm ci --include=dev && npm run typecheck && npx vite build --base "${BASE}app/"
       - name: Build the landing at the site root
         working-directory: packages/landing
         run: npm ci && npx vite build --base "${BASE}"
