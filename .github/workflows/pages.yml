@@ -25,6 +25,8 @@ jobs:
     env:
       # the lockfiles were made with legacy-peer-deps (as on the dev Mac); npm ci must match
       npm_config_legacy_peer_deps: "true"
+      # onnxruntime-node (a dev tool dependency) tries to fetch CUDA binaries on Linux; the 1.21.0 asset is gone
+      npm_config_onnxruntime_node_install_cuda: skip
       BASE: /${{ github.event.repository.name }}/
     steps:
       - uses: actions/checkout@v4
