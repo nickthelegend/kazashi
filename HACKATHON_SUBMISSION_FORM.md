@@ -1,7 +1,7 @@
 # Devpost submission draft: Kazashi
 
 Meta VR Start Developer Competition 2026. Fields follow the Devpost form (RULES.md §10). The team's Representative
-owns, edits and submits this; Nick is a non-Representative member.
+owns, edits and submits this. Nov 18: Kazashi is our one entry and Nick submits it as the Representative.
 
 | Field | Draft |
 |---|---|
@@ -9,7 +9,10 @@ owns, edits and submits this; Nick is a non-Representative member.
 | Tagline (≤ 140) | Hold your hands to a paper lantern: their shadow on your real wall becomes a creature, then performs your shadow play. |
 | Track | Entertainment (interactive storytelling, shadow theatre) |
 | Division | New Experience (repo created Oct 24, 2026, inside the window) |
-| Platform | Immersive Web SDK (WebXR), submitted as a public URL (GitHub Pages from the Representative's repo) |
+| Platform | Immersive Web SDK (WebXR), submitted as a public URL |
+| App URL | https://nickthelegend.github.io/kazashi/app/ (open in the Meta Quest Browser) |
+| Landing | https://nickthelegend.github.io/kazashi/ |
+| Repo | https://github.com/nickthelegend/kazashi |
 | Special award target | Boldest Original Concept |
 | Target launch date | TBD by the Representative |
 | Video | `grokbot/videos/kazashi/kazashi-film.mp4` (under 3:00, 1920×1080, IWER footage, the app's own sound; shot list in `kazashi-film.md`). Upload public to YouTube or Vimeo |
@@ -19,7 +22,7 @@ owns, edits and submits this; Nick is a non-Representative member.
 - Every creature is now a real animal (25 procedural profile bodies with jointed legs and a walk that keeps its feet on
   the ground). The card, slides and menu meet a cap-height bar of ≥ 18 mm per metre of viewing distance.
 - **Muse (Meta Model API)** writes 3–4 lines of narration for your take. It runs through `packages/proxy`, a Vercel
-  function that holds the key, allows one model and one route, and rate-limits. Replays show the lines as paper
+  function (live since Nov 17 at https://kazashi-proxy.vercel.app) that holds the key, allows one model and one route, and rate-limits. Replays show the lines as paper
   captions. Without it, the app says "AI narration unavailable" and works fully (the "take it away" test).
 - 138 core + 6 proxy tests and all five emulator suites pass (Nov 15). See TESTING.md and docs/JUDGE-NOV15.md.
 
