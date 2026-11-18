@@ -19,10 +19,16 @@ import { RoomSystem } from './room-system.js';
 import { TheatreSystem } from './theatre-system.js';
 import { ToastSystem } from './toast-system.js';
 
+import { DEFAULT_TOLERANCE } from '@kazashi/core/match';
 async function main(): Promise<void> {
   const status = document.getElementById('status')!;
   const enter = document.getElementById('enter') as HTMLButtonElement;
   if (app.progress.settings) Object.assign(app.settings, app.progress.settings);
+  if ((app.progress.tuning ?? 1) < 2) {
+    // Saves from before Nov 18 kept the old strict default, which real tracked hands rarely reach.
+    app.settings.tolerance = Math.max(app.settings.tolerance, DEFAULT_TOLERANCE);
+    app.progress.tuning = 2;
+  }
   app.targets = buildTargets();
   await loadFonts();
 

@@ -11,6 +11,8 @@ export interface Progress {
   daily: Record<string, string>;
   onboarded: boolean;
   settings?: { tolerance: number; oneHand: boolean; highContrast: boolean; glasses: boolean };
+  /** 2 = tolerance retuned for real hands (Nov 18). */
+  tuning?: number;
 }
 
 const KEY = 'kazashi.progress.v1';

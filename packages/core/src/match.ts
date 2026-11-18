@@ -22,9 +22,12 @@ export const DEFAULT_MATCH: MatchOptions = {
 };
 
 /** Tolerance slider: 0 = strict (0.88), 1 = relaxed (0.66). Default 0.36 → 0.80. */
+/** Default slider position (threshold 0.676). Real tracked hands need more slack than authored poses. */
+export const DEFAULT_TOLERANCE = 0.68;
+
 export function thresholdForTolerance(tolerance: number): number {
   const t = Math.min(1, Math.max(0, tolerance));
-  return Math.round((0.88 - 0.22 * t) * 1000) / 1000;
+  return Math.round((0.88 - 0.3 * t) * 1000) / 1000;
 }
 
 export class MatchTracker {

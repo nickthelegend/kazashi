@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MatchTracker, thresholdForTolerance } from '../src/match.js';
+import { MatchTracker, thresholdForTolerance, DEFAULT_TOLERANCE } from '../src/match.js';
 
 const run = (tr: MatchTracker, samples: (number | null)[], dt = 1 / 15, t0 = 0) => {
   let t = t0;
@@ -49,7 +49,8 @@ describe('MatchTracker', () => {
 
   it('maps the tolerance slider to thresholds', () => {
     expect(thresholdForTolerance(0)).toBe(0.88);
-    expect(thresholdForTolerance(1)).toBe(0.66);
-    expect(thresholdForTolerance(0.36)).toBeCloseTo(0.8, 2);
+    expect(thresholdForTolerance(1)).toBe(0.58);
+    // the default: real tracked hands on a Quest rarely beat 0.75 IoU against an authored pose
+    expect(thresholdForTolerance(DEFAULT_TOLERANCE)).toBeCloseTo(0.676, 3);
   });
 });

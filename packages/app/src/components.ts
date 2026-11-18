@@ -80,7 +80,7 @@ export const Theatre = createComponent('Theatre', {
 /** The palm-up wrist menu (one entity). */
 export const WristMenu = createComponent('WristMenu', {
   open: { type: Types.Boolean, default: false },
-  tolerance: { type: Types.Float32, default: 0.36 },
+  tolerance: { type: Types.Float32, default: 0.68 },
   oneHand: { type: Types.Boolean, default: false },
   highContrast: { type: Types.Boolean, default: false },
   glasses: { type: Types.Boolean, default: false },

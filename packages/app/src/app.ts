@@ -5,6 +5,7 @@
  */
 import { BESTIARY, type CreatureDef } from '@kazashi/core/bestiary';
 import { type LightFrame, makeLightFrame, type Vec3 } from '@kazashi/core/lightframe';
+import { DEFAULT_TOLERANCE } from '@kazashi/core/match';
 import type { Surface } from '@kazashi/core/room';
 import { SilhouetteScorer, type TargetSilhouette } from '@kazashi/core/silhouette';
 import type { Object3D } from '@iwsdk/core';
@@ -58,7 +59,7 @@ export const app = {
   /** Lantern → wall distance along the wall normal. */
   wallDistance: 0,
   lightReady: false,
-  settings: { tolerance: 0.36, oneHand: false, highContrast: false, glasses: false } as Settings,
+  settings: { tolerance: DEFAULT_TOLERANCE, oneHand: false, highContrast: false, glasses: false } as Settings,
   progress: loadProgress() as Progress,
   /** Replay overrides live hands while a take plays. */
   replayHands: null as (Float32Array | null)[] | null,

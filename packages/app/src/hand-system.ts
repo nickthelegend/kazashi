@@ -38,6 +38,9 @@ export class HandSystem extends createSystem({ scale: { required: [ShadowScale] 
   /** Joint smoothing (time constant 50 ms) against held-pose jitter. */
   private readonly smooth = [new Float32Array(75), new Float32Array(75)];
   private readonly wasTracked = [false, false];
+  /** Seconds with tracked hands but no hand in the lantern's light. */
+  private unlitFor = 0;
+  private toastCooldown = 0;
 
   init(): void {
     this.scene.add(this.proxy.root);
@@ -90,6 +93,14 @@ export class HandSystem extends createSystem({ scale: { required: [ShadowScale] 
         for (let i = 2; i < 75; i += 3) if (-lj[i] < MIN_DEPTH) inFront = false;
         if (inFront) this.list.push(lj);
       }
+    }
+    // Tracked hands that cast nothing are almost always behind or beside the lantern: say so.
+    const anyTracked = app.hands.hands.left.tracked || app.hands.hands.right.tracked;
+    this.unlitFor = app.lightReady && anyTracked && this.list.length === 0 && !replay ? this.unlitFor + 1 / SCORE_HZ : 0;
+    this.toastCooldown -= 1 / SCORE_HZ;
+    if (this.unlitFor > 2 && this.toastCooldown <= 0) {
+      this.toastCooldown = 10;
+      app.events.emit('toast', 'Hold your hand out past the lantern, toward the wall');
     }
     const ok = app.scorer.update(this.list);
     shadow.valid = ok;

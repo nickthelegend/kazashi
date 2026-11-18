@@ -35,6 +35,11 @@ import type { RoomSystem } from './room-system.js';
 
 /** Where the hand is expected, in the light frame (matches the authored poses). */
 export const STAGE_POINT: [number, number, number] = [0.05, 0.1, -0.3];
+/**
+ * How far ahead of the eyes the lantern lands. Hands must be between the lantern and the wall to cast a shadow,
+ * and on a real headset people hold their hands 35-55 cm out, so the lantern sits close (it was 36-42 cm).
+ */
+const LANTERN_REACH = 0.2;
 const TAB_ACTIONS: Record<(typeof TAB_NAMES)[number], { action: string; glyph: Glyph }> = {
   Tab_Hint: { action: 'hint', glyph: 'hint' },
   Tab_Retry: { action: 'retry', glyph: 'retry' },
@@ -163,11 +168,11 @@ export class LanternSystem extends createSystem({
     this.fwd.y = 0;
     if (this.fwd.lengthSq() < 1e-4) this.fwd.set(0, 0, -1);
     this.fwd.normalize();
-    const spot = pickLanternSpot(app.surfaces, [this.head.x, this.head.y, this.head.z], [this.fwd.x, this.fwd.y, this.fwd.z], 0.36);
+    const spot = pickLanternSpot(app.surfaces, [this.head.x, this.head.y, this.head.z], [this.fwd.x, this.fwd.y, this.fwd.z], LANTERN_REACH);
     if (spot) {
       root.position.set(spot.point[0], spot.point[1], spot.point[2]);
     } else {
-      root.position.set(this.head.x + this.fwd.x * 0.42, this.head.y - 0.55, this.head.z + this.fwd.z * 0.42);
+      root.position.set(this.head.x + this.fwd.x * LANTERN_REACH, this.head.y - 0.42, this.head.z + this.fwd.z * LANTERN_REACH);
     }
     root.rotation.set(0, Math.atan2(-this.fwd.x, -this.fwd.z) + Math.PI, 0);
     this.entity!.setValue(Lantern, 'placed', true);
